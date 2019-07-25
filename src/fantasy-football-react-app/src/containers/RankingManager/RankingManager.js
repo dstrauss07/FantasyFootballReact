@@ -18,7 +18,6 @@ class RankingManager extends Component {
         isLoading: true
     }
 
-
     componentDidMount() {
         console.log("component will mount called")
         axios.get('https://localhost:44385/api/PlayerRanking')
@@ -31,7 +30,6 @@ class RankingManager extends Component {
             })
     }
 
-
     scoringChangeHandler(scoretype){
        this.setState({ scoringType: scoringTypes[scoretype] })
     }
@@ -39,7 +37,14 @@ class RankingManager extends Component {
         this.setState({ positionFilter: positionFilters[posfiltertype] })
      }
 
-
+     moveUpClickedHandler()
+     {
+         alert("Up!")
+     }
+     moveDownClickedHandler()
+     {
+         alert("Down!")
+     }
 
     render() {
 
@@ -66,10 +71,14 @@ class RankingManager extends Component {
                     <button onClick={() => this.posChangeHandler(4)}>TE</button>
                     <button onClick={() => this.posChangeHandler(5)}>DST</button>
                     <button onClick={() => this.posChangeHandler(6)}>K</button>
+                    <main>
                     <Players
                         playersToRank={this.state.playerRankings}
                         playerScoringType={this.state.scoringType}
-                        playerPositionFilter={this.state.positionFilter} />
+                        playerPositionFilter={this.state.positionFilter}
+                        moveUpClicked={this.moveUpClickedHandler} 
+                        moveDownClicked = {this.moveDownClickedHandler}/>
+                    </main>
                 </Aux>
             )
         }

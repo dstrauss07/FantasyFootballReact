@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Aux from '../hoc/Aux';
-import axios from 'axios';
-
 import RankingManager from './RankingManager/RankingManager';
 
 const fantasyModes = ["Ranking", "Draft", "Auction"];

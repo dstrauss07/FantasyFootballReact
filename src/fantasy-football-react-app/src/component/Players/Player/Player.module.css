@@ -1,0 +1,54 @@
+.playerDiv 
+{
+    display:grid;
+    grid-template-columns: 15% 15% 15% 7% 7%;
+    justify-content: center;
+    margin: .5em auto;
+}
+
+
+.qbPlayer 
+{
+    color: blue;
+}
+
+.rbPlayer 
+{
+    color: green;
+}
+
+.wrPlayer 
+{
+    color: purple;
+}
+
+.tePlayer 
+{
+    color: darkgoldenrod;
+}
+
+.dstPlayer 
+{
+    color: orangered;
+}
+
+.kPlayer 
+{
+    color: red;
+}
+
+.upButton
+{
+    background-color: green;
+    color: white;
+}
+.downButton
+{
+    background-color: red;
+    color: white;
+}
+
+.hideButton
+{
+    visibility: hidden;
+}

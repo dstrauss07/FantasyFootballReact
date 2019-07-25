@@ -1,52 +1,87 @@
 import React from 'react';
 import Player from './Player/Player'
-import player from './Player/Player';
 
 const players = (props) => {
 
-    var allPlayers = [];
+    const inheritedPlayers = props.playersToRank;
+    let allPlayers = [];
+    let playerToAdd;
+    let playerCount;
+
+    if(props.playerPositionFilter === "ALL")
+    {
+        playerCount = inheritedPlayers.length;
+    }
+
+    else
+    {
+        var counter = 0;
+        inheritedPlayers.forEach(function (player){
+            console.log(counter);
+            if (player.playerToRank.playerPos === props.playerPositionFilter)
+            {
+                counter++;
+            }
+        })
+        playerCount = counter;
+    }
+     
   
-    for (var i = 0; i < props.playersToRank.length; i++) {
+    for (var i = 0; i < inheritedPlayers.length; i++) {
         if (props.playerScoringType === "standard") {
-            var playerToAdd = 
+            playerToAdd = 
                 <Player
-                    playerName={props.playersToRank[i].playerToRank.playerName}
-                    playerPos={props.playersToRank[i].playerToRank.playerPos}
-                    playerRank={props.playersToRank[i].playerRanking.playerRank}
-                    playerPosRank={props.playersToRank[i].playerRanking.posRank}
+                    playerName={inheritedPlayers[i].playerToRank.playerName}
+                    playerPos={inheritedPlayers[i].playerToRank.playerPos}
+                    playerRank={inheritedPlayers[i].playerRanking.playerRank}
+                    playerPosRank={inheritedPlayers[i].playerRanking.posRank}
+                    scoringType = {props.playerScoringType}
+                    positionFilter = {props.playerPositionFilter}
+                    playerCount = {playerCount}
+                    moveUpClicked = {props.moveUpClicked}
+                    moveDownClicked = {props.moveDownClicked}
+
                 />
         
         }
         if (props.playerScoringType === "ppr") {
-            var playerToAdd =  <Player
-                    playerName={props.playersToRank[i].playerToRank.playerName}
-                    playerPos={props.playersToRank[i].playerToRank.playerPos}
-                    playerRank={props.playersToRank[i].playerRanking.pprRank}
-                    playerPosRank={props.playersToRank[i].playerRanking.pprPosRank}
+            playerToAdd =  <Player
+                    playerName={inheritedPlayers[i].playerToRank.playerName}
+                    playerPos={inheritedPlayers[i].playerToRank.playerPos}
+                    playerRank={inheritedPlayers[i].playerRanking.pprRank}
+                    playerPosRank={inheritedPlayers[i].playerRanking.pprPosRank}
+                    scoringType = {props.playerScoringType}
+                    positionFilter = {props.playerPositionFilter}
+                    playerCount = {playerCount}
+                    moveUpClicked = {props.moveUpClicked}
+                    moveDownClicked = {props.moveDownClicked}
                 />
         }
         if (props.playerScoringType === "dynasty") {
-            var playerToAdd = <Player
-                    playerName={props.playersToRank[i].playerToRank.playerName}
-                    playerPos={props.playersToRank[i].playerToRank.playerPos}
-                    playerRank={props.playersToRank[i].playerRanking.dynastyRank}
-                    playerPosRank={props.playersToRank[i].playerRanking.dynastyPosRank}
+            playerToAdd = <Player
+                    playerName={inheritedPlayers[i].playerToRank.playerName}
+                    playerPos={inheritedPlayers[i].playerToRank.playerPos}
+                    playerRank={inheritedPlayers[i].playerRanking.dynastyRank}
+                    playerPosRank={inheritedPlayers[i].playerRanking.dynastyPosRank}
+                    scoringType = {props.playerScoringType}
+                    positionFilter = {props.playerPositionFilter}
+                    playerCount = {playerCount}
+                    moveUpClicked = {props.moveUpClicked}
+                    moveDownClicked = {props.moveDownClicked}
                 />
         }
-        if (props.playersToRank[i].playerToRank.playerPos == props.playerPositionFilter || props.playerPositionFilter == "ALL") {
+        if (inheritedPlayers[i].playerToRank.playerPos === props.playerPositionFilter || props.playerPositionFilter === "ALL") {
             allPlayers.push(playerToAdd);
         }
     }
 
-
+    console.log(allPlayers);
 
        allPlayers.sort((a, b) =>
            a.props.playerRank - b.props.playerRank);
 
-           console.log(allPlayers[0].props.playerName);
-
-        return allPlayers;
-         
+           return allPlayers;
+        
 
 }
 

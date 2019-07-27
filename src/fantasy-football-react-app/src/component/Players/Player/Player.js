@@ -72,13 +72,15 @@ const player = (props) =>{
 
 
 
+
+
     return(
         <div className={Classes.playerDiv}>
             <div className={playerClass}>{props.playerName}</div>
             <div className={playerClass}>{props.playerPos} {props.playerPosRank}</div>
             <div className={playerClass}>{props.playerRank}</div>
-            <button className={upButton} onClick={props.moveUpClicked} >Move Up</button>
-            <button className={downButton} onClick={props.moveDownClicked}>Move Down</button>
+            <button className={upButton} onClick={() => props.movePlayerClicked(props.playerId, -1)} >Move Up</button>
+            <button className={downButton} onClick={() => props.movePlayerClicked(props.playerId, 1)}>Move Down</button>
         </div>
     )
 }

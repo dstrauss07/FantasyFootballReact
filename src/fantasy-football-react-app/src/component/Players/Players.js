@@ -31,6 +31,8 @@ const players = (props) => {
         if (props.playerScoringType === "standard") {
             playerToAdd = 
                 <Player
+                    key ={inheritedPlayers[i].playerToRank.playerId}
+                    playerId ={inheritedPlayers[i].playerToRank.playerId}
                     playerName={inheritedPlayers[i].playerToRank.playerName}
                     playerPos={inheritedPlayers[i].playerToRank.playerPos}
                     playerRank={inheritedPlayers[i].playerRanking.playerRank}
@@ -38,14 +40,14 @@ const players = (props) => {
                     scoringType = {props.playerScoringType}
                     positionFilter = {props.playerPositionFilter}
                     playerCount = {playerCount}
-                    moveUpClicked = {props.moveUpClicked}
-                    moveDownClicked = {props.moveDownClicked}
-
+                    movePlayerClicked = {props.movePlayerClicked}
                 />
         
         }
         if (props.playerScoringType === "ppr") {
             playerToAdd =  <Player
+                    key={inheritedPlayers[i].playerToRank.playerId}
+                    playerId ={inheritedPlayers[i].playerToRank.playerId}
                     playerName={inheritedPlayers[i].playerToRank.playerName}
                     playerPos={inheritedPlayers[i].playerToRank.playerPos}
                     playerRank={inheritedPlayers[i].playerRanking.pprRank}
@@ -53,12 +55,13 @@ const players = (props) => {
                     scoringType = {props.playerScoringType}
                     positionFilter = {props.playerPositionFilter}
                     playerCount = {playerCount}
-                    moveUpClicked = {props.moveUpClicked}
-                    moveDownClicked = {props.moveDownClicked}
+                    movePlayerClicked = {props.movePlayerClicked}
                 />
         }
         if (props.playerScoringType === "dynasty") {
             playerToAdd = <Player
+                    key ={inheritedPlayers[i].playerToRank.playerId}
+                    playerId ={inheritedPlayers[i].playerToRank.playerId}
                     playerName={inheritedPlayers[i].playerToRank.playerName}
                     playerPos={inheritedPlayers[i].playerToRank.playerPos}
                     playerRank={inheritedPlayers[i].playerRanking.dynastyRank}
@@ -66,8 +69,7 @@ const players = (props) => {
                     scoringType = {props.playerScoringType}
                     positionFilter = {props.playerPositionFilter}
                     playerCount = {playerCount}
-                    moveUpClicked = {props.moveUpClicked}
-                    moveDownClicked = {props.moveDownClicked}
+                    movePlayerClicked = {props.movePlayerClicked}
                 />
         }
         if (inheritedPlayers[i].playerToRank.playerPos === props.playerPositionFilter || props.playerPositionFilter === "ALL") {
@@ -75,7 +77,7 @@ const players = (props) => {
         }
     }
 
-    console.log(allPlayers);
+    //console.log(allPlayers);
 
        allPlayers.sort((a, b) =>
            a.props.playerRank - b.props.playerRank);

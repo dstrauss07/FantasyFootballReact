@@ -5,6 +5,8 @@ import axios from 'axios';
 import { debuggerStatement } from '@babel/types';
 
 
+const rankUri = 'https://localhost:44385/api/PlayerRanking/'
+
 const scoringTypes = ["standard", "ppr", "dynasty"];
 const positionFilters = ["ALL", "QB", "RB", "WR", "TE", "DST", "K"]
 
@@ -17,13 +19,14 @@ class RankingManager extends Component {
             scoringType: scoringTypes[0],
             positionFilter: positionFilters[0],
             playerRankings: null,
-            isLoading: true
+            isLoading: true,
+            profileId: 2
         };
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         console.log("component will mount called")
-        axios.get('https://localhost:44385/api/PlayerRanking')
+        axios.get(rankUri + this.state.profileId)
             .then(response => {
                 console.log("axios players calls: " + JSON.stringify(response));
                 this.setState({
@@ -32,6 +35,28 @@ class RankingManager extends Component {
                 })
             })
     }
+
+    saveRankingsHandler = () =>{
+            let playerRankingsToUpdate= [];
+            let currentPlayerRanking;
+            let playerRank;
+
+            for(playerRank in this.state.playerRankings)
+            {
+                currentPlayerRanking = this.state.playerRankings[playerRank];
+                playerRankingsToUpdate.push(currentPlayerRanking);
+            }
+
+           
+            axios.patch(rankUri, playerRankingsToUpdate)
+                .then(response=>{
+                    console.log(response.data);
+                })
+                .catch(err =>{
+                    console.log(err);
+                });
+    }
+
 
     scoringChangeHandler = (scoretype) => {
         this.setState({ scoringType: scoringTypes[scoretype] })
@@ -139,12 +164,6 @@ class RankingManager extends Component {
 
 
 
-
-    moveDownClickedHandler = (playerId) => {
-        const playerToChange = this.state.playerRankings.filter(player => player.playerToRank.playerId === playerId);
-        console.log(playerToChange);
-    }
-
     render() {
 
         if (this.state.isLoading) {
@@ -158,6 +177,7 @@ class RankingManager extends Component {
             return (
                 <Aux>
                     <p>{this.props.mode} Manager</p>
+                    <button onClick={() => this.saveRankingsHandler()}>Save Rankings!</button>
                     <p>{this.state.scoringType}</p>
                     <button onClick={() => this.scoringChangeHandler(0)}>Standard</button>
                     <button onClick={() => this.scoringChangeHandler(1)}>PPR</button>

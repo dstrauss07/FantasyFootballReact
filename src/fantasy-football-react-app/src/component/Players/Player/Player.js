@@ -1,11 +1,11 @@
 import React from 'react';
 import Classes from './Player.module.css'
 
-const player = (props) =>{
+const player = (props) => {
     var playerClass;
     var upButton;
     var downButton;
-    switch(props.playerPos){
+    switch (props.playerPos) {
         case 'QB':
             playerClass = Classes.qbPlayer;
             break;
@@ -25,47 +25,37 @@ const player = (props) =>{
             playerClass = Classes.kPlayer;
             break;
         default:
-            playerClass= Classes.qbPlayer;
+            playerClass = Classes.qbPlayer;
     }
 
 
-    if(props.positionFilter === "ALL")
-    {
-        if(props.playerRank === 1)
-        {
+    if (props.positionFilter === "ALL") {
+        if (props.playerRank === 1) {
             upButton = Classes.hideButton
         }
-        else
-        {
+        else {
             upButton = Classes.upButton
         }
 
-        if(props.playerRank < props.playerCount)
-        {
+        if (props.playerRank < props.playerCount) {
             downButton = Classes.downButton
         }
-        else
-        {
+        else {
             downButton = Classes.hideButton
         }
     }
 
-    else
-    {
-        if(props.playerPosRank === 1)
-        {
+    else {
+        if (props.playerPosRank === 1) {
             upButton = Classes.hideButton
         }
-        else
-        {
+        else {
             upButton = Classes.upButton
         }
-        if(props.playerPosRank < props.playerCount)
-        {
+        if (props.playerPosRank < props.playerCount) {
             downButton = Classes.downButton
         }
-        else
-        {
+        else {
             downButton = Classes.hideButton
         }
     }
@@ -74,13 +64,15 @@ const player = (props) =>{
 
 
 
-    return(
-        <div className={Classes.playerDiv}>
-            <div className={playerClass}>{props.playerName}</div>
-            <div className={playerClass}>{props.playerPos} {props.playerPosRank}</div>
-            <div className={playerClass}>{props.playerRank}</div>
-            <button className={upButton} onClick={() => props.movePlayerClicked(props.playerId, -1)} >Move Up</button>
-            <button className={downButton} onClick={() => props.movePlayerClicked(props.playerId, 1)}>Move Down</button>
+    return (
+        <div className={Classes.playerContainer}>
+            <div className={Classes.playerDiv}>
+                <button className={upButton} onClick={() => props.movePlayerClicked(props.playerId, -1)} >&#x2191;</button>
+                <div className={[playerClass,Classes.playerName].join(' ')}>{props.playerName}</div>
+                <div className={[playerClass, Classes.playerPos].join(' ')}>{props.playerPos} {props.playerPosRank}</div>
+                <div className={[playerClass, Classes.playerRank].join(' ')}>{props.playerRank}</div>
+                <button className={downButton} onClick={() => props.movePlayerClicked(props.playerId, 1)}>&#x2193;</button>
+            </div>
         </div>
     )
 }

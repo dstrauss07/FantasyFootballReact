@@ -1,0 +1,28 @@
+main{
+
+    max-width:800px;
+    margin:auto;
+}
+.playerHeader
+{
+    display:grid;
+    grid-template-columns: 5% 40% 30% 10% 5%;
+    justify-content: center;
+    background-color: #ff9e9e;
+    font-weight:bold;
+}
+
+.divider
+{
+    margin: 0;
+}
+
+.center{
+    justify-self:center;
+}
+
+.playerRankingArea
+{
+    background-color: #cdf5ff;
+}
+

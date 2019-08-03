@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Players from '../../component/Players/Players';
 import axios from 'axios';
+import Classes from './RankingManager.module.css';
+import RankingController from './RankingController/RankingController';
 import { debuggerStatement } from '@babel/types';
 
 
@@ -20,7 +22,8 @@ class RankingManager extends Component {
             positionFilter: positionFilters[0],
             playerRankings: null,
             isLoading: true,
-            profileId: 2
+            isChanged:false,
+            profileId: 2,
         };
     }
 
@@ -50,11 +53,12 @@ class RankingManager extends Component {
            
             axios.patch(rankUri, playerRankingsToUpdate)
                 .then(response=>{
-                    console.log(response.data);
+                   
                 })
                 .catch(err =>{
                     console.log(err);
                 });
+                this.setState({isChanged:false});
     }
 
 
@@ -156,9 +160,7 @@ class RankingManager extends Component {
                     console.log("something went wrong!");
             }
         }
-        console.log(playerToChange);
-        console.log(otherPlayerToChange);
-        this.setState({playerToChange,otherPlayerToChange})
+         this.setState({playerToChange,otherPlayerToChange,isChanged:true})
 
     }
 
@@ -176,26 +178,30 @@ class RankingManager extends Component {
             console.log("players To Rank! " + JSON.stringify(this.state.playerRankings));
             return (
                 <Aux>
-                    <p>{this.props.mode} Manager</p>
-                    <button onClick={() => this.saveRankingsHandler()}>Save Rankings!</button>
-                    <p>{this.state.scoringType}</p>
-                    <button onClick={() => this.scoringChangeHandler(0)}>Standard</button>
-                    <button onClick={() => this.scoringChangeHandler(1)}>PPR</button>
-                    <button onClick={() => this.scoringChangeHandler(2)}>Dynasty</button>
-                    <p>{this.state.positionFilter}</p>
-                    <button onClick={() => this.posChangeHandler(0)}>All</button>
-                    <button onClick={() => this.posChangeHandler(1)}>QB</button>
-                    <button onClick={() => this.posChangeHandler(2)}>RB</button>
-                    <button onClick={() => this.posChangeHandler(3)}>WR</button>
-                    <button onClick={() => this.posChangeHandler(4)}>TE</button>
-                    <button onClick={() => this.posChangeHandler(5)}>DST</button>
-                    <button onClick={() => this.posChangeHandler(6)}>K</button>
+                      
+                    <RankingController 
+                        scoringType = {this.state.scoringType}
+                        positionFilter= {this.state.positionFilter}
+                        saveRankingsHandler={this.saveRankingsHandler}
+                        scoringChangeHandler={this.scoringChangeHandler}
+                        positionChangeHandler={this.posChangeHandler}
+                        isChanged ={this.state.isChanged}/>
                     <main>
+                        <div className={Classes.playerHeader}>
+                            <div></div>
+                            <div className={Classes.center}>Player</div>
+                            <div className={Classes.center}>Pos/Rank</div>
+                            <div className={Classes.center}>Rank</div>
+                            <div></div>
+                        </div>
+                        <hr className={Classes.divider}></hr>
+                        <div className={Classes.playerRankingArea}>
                         <Players
                             playersToRank={this.state.playerRankings}
                             playerScoringType={this.state.scoringType}
                             playerPositionFilter={this.state.positionFilter}
                             movePlayerClicked={this.movePlayerClickedHandler} />
+                            </div>
                     </main>
                 </Aux>
             )

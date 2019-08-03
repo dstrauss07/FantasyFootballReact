@@ -1,9 +1,19 @@
-.playerDiv 
+
+.playerContainer :hover, .playerContainer :hover *
 {
-    display:grid;
-    grid-template-columns: 15% 15% 15% 7% 7%;
-    justify-content: center;
-    margin: .5em auto;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.playerContainer
+{
+    margin:0;
+}
+
+button :active
+{
+    color:red;
 }
 
 
@@ -41,14 +51,46 @@
 {
     background-color: green;
     color: white;
+    align-self: end;
+    max-width: 3rem;
 }
 .downButton
 {
     background-color: red;
     color: white;
+    align-self: start;
+    max-width: 3rem;
 }
 
 .hideButton
 {
     visibility: hidden;
+}
+
+
+
+.playerName,.playerPos, .playerRank
+{
+ justify-self: center;   
+}
+
+.playerDiv 
+{
+    display:grid;
+    grid-template-columns: 5% 40% 30% 10% 5%;
+    justify-content: center;
+    padding: .45rem auto;
+    margin:.25rem auto;
+}
+
+@media (max-width: 799px)
+{
+
+}
+
+
+@media (min-width: 800px)
+{
+
+
 }

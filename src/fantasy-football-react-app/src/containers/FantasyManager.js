@@ -9,6 +9,9 @@ const fantasyModes = ["Ranking", "Draft", "Auction", "Login"];
 
 
 class FantasyManager extends Component {
+    
+    
+    
     state = {
         mode: fantasyModes[0],
         loginId: null,
@@ -19,12 +22,17 @@ class FantasyManager extends Component {
         this.setState({ mode: fantasyModes[modeSetNumber] })
     }
 
-
-
+    SetLoginId = (currentLogin) =>
+        this.setState({loginId: currentLogin});
     render() {
-
+       
+        const loggedInUser = this.state.loginId;
         const currentMode = this.state.mode;
-
+        if(loggedInUser != null)
+        {
+            console.log(loggedInUser.userEmail + " is logged in");
+        }
+   
 
         if (currentMode === fantasyModes[0]) {
             return (
@@ -32,6 +40,7 @@ class FantasyManager extends Component {
                     <ControlMenu
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
+                        currentUser = {this.loginId}
                     />
                     <RankingManager 
                     loggedInUser = {this.state.loginId} />
@@ -44,6 +53,7 @@ class FantasyManager extends Component {
                     <ControlMenu
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
+                        currentUser = {this.loginId}
                     />
                     <p>Draft Mode</p>
                 </Aux>
@@ -55,6 +65,7 @@ class FantasyManager extends Component {
                     <ControlMenu
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
+                        currentUser = {this.loginId}
                     />
                     <p>Auction Mode</p>
                 </Aux>
@@ -66,8 +77,10 @@ class FantasyManager extends Component {
                     <ControlMenu
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
+                        currentUser = {this.loginId}
                     />
-                    <LoginManager />
+                    <LoginManager 
+                        clickLogin ={this.SetLoginId}/>
                 </Aux>
             )
         }

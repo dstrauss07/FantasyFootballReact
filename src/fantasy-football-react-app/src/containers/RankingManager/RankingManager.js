@@ -28,10 +28,8 @@ class RankingManager extends Component {
     }
 
     componentDidMount = () => {
-        console.log("component will mount called")
-        axios.get(rankUri + this.state.profileId)
+         axios.get(rankUri + this.state.profileId)
             .then(response => {
-                console.log("axios players calls: " + JSON.stringify(response));
                 this.setState({
                     playerRankings: response.data,
                     isLoading: false
@@ -76,7 +74,6 @@ class RankingManager extends Component {
         let allPlayersInPos;
         let otherPlayerToChange;
         let otherPlayersRanks;
-        console.log(playerToChange);
         switch (this.state.scoringType) {
             case "standard":
                 initialRanks = [playerToChange[0].playerRanking.playerRank, playerToChange[0].playerRanking.posRank];
@@ -175,7 +172,6 @@ class RankingManager extends Component {
         }
 
         if (!this.state.isLoading) {
-            console.log("players To Rank! " + JSON.stringify(this.state.playerRankings));
             return (
                 <Aux>
                       

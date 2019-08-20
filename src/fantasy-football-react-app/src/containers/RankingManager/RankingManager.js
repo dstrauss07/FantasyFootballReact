@@ -23,18 +23,36 @@ class RankingManager extends Component {
             playerRankings: null,
             isLoading: true,
             isChanged:false,
-            profileId: 2,
+            currentUser: this.props.loggedInUser,
+            defaultId : 2
         };
     }
 
+
+    
+
     componentDidMount = () => {
-         axios.get(rankUri + this.state.profileId)
+        console.log(this.state.currentUser);
+        if(this.state.currentUser!=null)
+        {
+            axios.get(rankUri + this.state.currentUser.testUserProfileId)
             .then(response => {
                 this.setState({
                     playerRankings: response.data,
                     isLoading: false
                 })
             })
+        }
+        else
+        {
+            axios.get(rankUri + this.state.defaultId)
+            .then(response => {
+                this.setState({
+                    playerRankings: response.data,
+                    isLoading: false
+                })
+            })
+        }
     }
 
     saveRankingsHandler = () =>{

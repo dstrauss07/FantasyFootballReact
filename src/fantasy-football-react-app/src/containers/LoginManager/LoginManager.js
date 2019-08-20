@@ -19,7 +19,8 @@ class LoginManager extends Component {
             UserId: "",
             UserName: "",
             UserEmail: "",
-            UserPassword: ""
+            UserPassword: "",
+            UserPasswordConfirm: ""
         }
     }
 
@@ -30,39 +31,82 @@ class LoginManager extends Component {
         axios.get(loginUri + this.state.UserEmail)
             .then(response => {
                 let data = response.data;
-            if(response.data != "")
-            {
-                if(response.data.userPassword == this.state.UserPassword)
-                {
-                    this.setState({
-                        UserId: data.testUserProfileId,
-                        UserName: data.name,
-                        loggedIn: true
-                    })
-                    this.props.clickLogin(data);
+                if (response.data != "") {
+                    if (response.data.userPassword == this.state.UserPassword) {
+                        this.setState({
+                            UserId: data.testUserProfileId,
+                            UserName: data.name,
+                        })
+                        this.props.clickLogin(data);
+                        this.props.loggedInHandler();
+                        this.props.changeMode(0);
+                    }
+                    else {
+                        alert("invalid Password");
+                    }
                 }
-                else
-                {
-                    alert("invalid Password");
+                else {
+                    alert("email not found");
+                    this.setState({ loginMode: "register" })
                 }
-            }
-            else
-            {
-                alert("email not found");
-            }
 
-                })
-
+            })
     }
-    
+
+    UserRegisterHandler = event => {
+        event.preventDefault();
+        if (this.state.UserPassword == this.state.UserPasswordConfirm) {
+            const data = { name: this.state.UserName, email: this.state.UserEmail, password: this.state.UserPassword }
+            console.log(data);
+            axios.post(loginUri, data)
+                .then(response => {
+                    let data = response.data;
+                    console.log(data)
+                    if (response.data != "") {
+                        if (response.data.userPassword == this.state.UserPassword) {
+                            this.setState({
+                                UserId: data.testUserProfileId,
+                                UserName: data.name,
+                            })
+                            this.props.clickLogin(data);
+                            this.props.loggedInHandler();
+                            this.props.changeMode(0);
+                        }
+                        else {
+                            alert("User Already Exists and You entered wrong Password");
+                        }
+                    }
+                    else {
+                        alert("something went wrong!");
+                        this.setState({ loginMode: "register" })
+                    }
+                })
+        }
+        else {
+            alert("passwords don't match");
+        }
+    }
+
 
     handleEmailChange = (e) => {
-        this.setState({UserEmail: e.target.value});
-     }
-     
-     handlePasswordChange =(e) => {
-        this.setState({UserPassword: e.target.value});
-     }
+        this.setState({ UserEmail: e.target.value });
+    }
+
+    handlePasswordChange = (e) => {
+        this.setState({ UserPassword: e.target.value });
+    }
+
+    handleUserNameChange = (e) => {
+        this.setState({ UserName: e.target.value })
+    }
+
+    handlePasswordConfirmChange = (e) => {
+        this.setState({ UserPasswordConfirm: e.target.value });
+    }
+
+
+
+
 
 
     render() {
@@ -78,15 +122,15 @@ class LoginManager extends Component {
                         onChange={this.handleEmailChange}
                         required />
                     <label htmlFor="UserPassword">Password: </label>
-                    <input type="text" 
-                    id="UserPassword" 
-                    name="UserPassword" 
-                    value={this.state.UserPassword} 
-                    onChange={this.handlePasswordChange} />
-                    <button onClick={(e)=> {this.UserLoginHandler(e)}}>Login</button>
+                    <input type="text"
+                        id="UserPassword"
+                        name="UserPassword"
+                        value={this.state.UserPassword}
+                        onChange={this.handlePasswordChange} />
+                    <button onClick={(e) => { this.UserLoginHandler(e) }}>Login</button>
                 </form>
             </div>
-}
+        }
 
 
         if (this.state.loginMode == "register") {
@@ -95,18 +139,38 @@ class LoginManager extends Component {
                     <h3>Register!</h3>
                     <form>
                         <label>Name:
-                    <input type="text" name="name" />
+                    <input type="text"
+                                id="UserName"
+                                name="UserName"
+                                value={this.state.UserName}
+                                onChange={this.handleUserNameChange}
+                                required />
                         </label>
                         <label>Email Address:
-                    <input type="text" name="emailAddress" />
+                    <input type="email"
+                                id="UserEmail"
+                                value={this.state.UserEmail}
+                                onChange={this.handleEmailChange}
+                                name="emailAddress"
+                                required />
                         </label>
                         <label>Password:
-                    <input type="text" name="password" />
+                    <input type="password" name="password"
+                                id="UserPassword"
+                                name="UserPassword"
+                                value={this.state.UserPassword}
+                                onChange={this.handlePasswordChange}
+                                required />
                         </label>
                         <label>Confirm Password:
-                    <input type="text" name="confirmpassword" />
+                    <input type="password"
+                                id="confirmpassword"
+                                name="confirmpassword"
+                                value={this.state.UserPasswordConfirm}
+                                onChange={this.handlePasswordConfirmChange}
+                                required />
                         </label>
-                        <input type="submit" value="Submit" />
+                        <button onClick={(e) => { this.UserRegisterHandler(e) }}> Register</button>
 
                     </form>
                 </div>

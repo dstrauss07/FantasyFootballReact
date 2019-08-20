@@ -9,13 +9,14 @@ const fantasyModes = ["Ranking", "Draft", "Auction", "Login"];
 
 
 class FantasyManager extends Component {
-    
-    
-    
+
+
+
     state = {
         mode: fantasyModes[0],
         loginId: null,
-        playerRankings: null
+        playerRankings: null,
+        loggedIn: false
     }
 
     CurrentModeChangeHandler = (modeSetNumber) => {
@@ -23,16 +24,24 @@ class FantasyManager extends Component {
     }
 
     SetLoginId = (currentLogin) =>
-        this.setState({loginId: currentLogin});
-    render() {
-       
-        const loggedInUser = this.state.loginId;
-        const currentMode = this.state.mode;
-        if(loggedInUser != null)
-        {
-            console.log(loggedInUser.userEmail + " is logged in");
+        this.setState({ loginId: currentLogin });
+
+    HandleLoggedInToggler = () => {
+        if (this.state.loggedIn) {
+            console.log('loggin out');
+            this.setState({ loggedIn: false, 
+                loginId: null })
         }
-   
+        else {
+            this.setState({ loggedIn: true })
+        }
+
+    }
+    render() {
+
+        const currentMode = this.state.mode;
+
+
 
         if (currentMode === fantasyModes[0]) {
             return (
@@ -40,10 +49,11 @@ class FantasyManager extends Component {
                     <ControlMenu
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
-                        currentUser = {this.loginId}
+                        currentUser={this.state.loginId}
+                        loggedInHandler = {this.HandleLoggedInToggler}
                     />
-                    <RankingManager 
-                    loggedInUser = {this.state.loginId} />
+                    <RankingManager
+                        loggedInUser={this.state.loginId} />
                 </Aux>
             )
         }
@@ -53,7 +63,8 @@ class FantasyManager extends Component {
                     <ControlMenu
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
-                        currentUser = {this.loginId}
+                        currentUser={this.state.loginId}
+                        loggedInHandler = {this.HandleLoggedInToggler}
                     />
                     <p>Draft Mode</p>
                 </Aux>
@@ -65,7 +76,8 @@ class FantasyManager extends Component {
                     <ControlMenu
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
-                        currentUser = {this.loginId}
+                        currentUser={this.state.loginId}
+                        loggedInHandler = {this.HandleLoggedInToggler}
                     />
                     <p>Auction Mode</p>
                 </Aux>
@@ -77,10 +89,13 @@ class FantasyManager extends Component {
                     <ControlMenu
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
-                        currentUser = {this.loginId}
+                        currentUser={this.state.loginId}
+                        loggedInHandler = {this.HandleLoggedInToggler}
                     />
-                    <LoginManager 
-                        clickLogin ={this.SetLoginId}/>
+                    <LoginManager
+                        clickLogin={this.SetLoginId} 
+                        loggedInHandler = {this.HandleLoggedInToggler}
+                        changeMode = {this.CurrentModeChangeHandler}/>
                 </Aux>
             )
         }

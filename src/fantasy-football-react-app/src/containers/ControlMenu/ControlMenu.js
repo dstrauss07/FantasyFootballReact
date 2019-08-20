@@ -1,24 +1,41 @@
 import React from 'react';
 import Aux from '../../hoc/Aux';
+import Classes from './ControlMenu.module.css';
 
 const ControlMenu = (props) => {
 
-    let loginScript = "Here I am rock me like a hurricane";
+    let loginClass, logoutClass;
+    let userName, userId;
 
     if(props.currentUser != null)
     {
-        console.log("loggin in");
-        loginScript = "hello " + props.currentUser.name;
+        console.log("logged in");
+        loginClass = Classes.hide;
+        logoutClass = Classes.show;
+        userName=  props.currentUser.name;
     }
+    else
+    {
+        loginClass = Classes.show;
+        logoutClass = Classes.hide;
+    }
+
+
+
     return (
-    
+   
         <Aux>
+            <div className={loginClass}>
+                <button onClick={()=>props.clickOptions(3)}>Login</button>
+            </div>
+            <div className={logoutClass}>
+                <h3>Hello {userName}</h3>
+                <button onClick={()=>props.loggedInHandler()}>Logout</button>
+            </div>
             <div>
-                <div>{loginScript} </div>
                 <button onClick={()=>props.clickOptions(0)}>Rankings</button>
                 <button onClick={()=>props.clickOptions(1)}>Draft</button>
                 <button onClick={()=>props.clickOptions(2)}>Auction</button>
-                <button onClick={()=>props.clickOptions(3)}>Login</button>
             </div>
         </Aux>
     );

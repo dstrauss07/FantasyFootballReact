@@ -6,54 +6,32 @@ import Classes from './RankingManager.module.css';
 import RankingController from './RankingController/RankingController';
 import { debuggerStatement } from '@babel/types';
 
-
-const rankUri = 'https://localhost:44385/api/PlayerRanking/'
-
 const scoringTypes = ["standard", "ppr", "dynasty"];
 const positionFilters = ["ALL", "QB", "RB", "WR", "TE", "DST", "K"]
-
+const rankUri = 'https://localhost:44385/api/PlayerRanking/'
 
 class RankingManager extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
+    state = {
             scoringType: scoringTypes[0],
             positionFilter: positionFilters[0],
-            playerRankings: null,
-            isLoading: true,
+            playerRankings: this.props.playerRankings,
+            isLoading: this.props.isLoading,
             isChanged:false,
             currentUser: this.props.loggedInUser,
-            defaultId : 2
         };
-    }
+   
 
 
-    
+        componentWillReceiveProps(nextProps) {
+            this.setState({ 
+                playerRankings: nextProps.playerRankings,
+                currentUser:nextProps.loggedInUser,
+                isLoading: nextProps.isLoading
+             });  
 
-    componentDidMount = () => {
-        console.log(this.state.currentUser);
-        if(this.state.currentUser!=null)
-        {
-            axios.get(rankUri + this.state.currentUser.testUserProfileId)
-            .then(response => {
-                this.setState({
-                    playerRankings: response.data,
-                    isLoading: false
-                })
-            })
-        }
-        else
-        {
-            axios.get(rankUri + this.state.defaultId)
-            .then(response => {
-                this.setState({
-                    playerRankings: response.data,
-                    isLoading: false
-                })
-            })
-        }
-    }
+             console.log(this.state.playerRankings);
+          }
 
     saveRankingsHandler = () =>{
             let playerRankingsToUpdate= [];

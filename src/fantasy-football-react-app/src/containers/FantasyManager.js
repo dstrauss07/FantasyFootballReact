@@ -3,10 +3,11 @@ import Aux from '../hoc/Aux';
 import ControlMenu from './ControlMenu/ControlMenu';
 import RankingManager from './RankingManager/RankingManager';
 import LoginManager from './LoginManager/LoginManager';
+import axios from 'axios';
 
 
 const fantasyModes = ["Ranking", "Draft", "Auction", "Login"];
-
+const rankUri = 'https://localhost:44385/api/PlayerRanking/';
 
 class FantasyManager extends Component {
 
@@ -16,8 +17,47 @@ class FantasyManager extends Component {
         mode: fantasyModes[0],
         loginId: null,
         playerRankings: null,
-        loggedIn: false
+        loggedIn: false,
+        isLoading: true,
+        defaultId : 2
     }
+
+
+    componentDidMount = () => {
+        console.log("component did Mount");
+        this.pullRankingsFromApi();
+
+    }
+
+    pullRankingsFromApi = () =>
+    {
+        console.log("calling Ranking Pull");
+        if(this.state.loginId!=null)
+        {
+            console.log(this.state.loginId);
+
+            axios.get(rankUri + this.state.loginId.testUserProfileId)
+            .then(response => {
+                this.setState({
+                    playerRankings: response.data,
+                    isLoading: false
+                })
+            })
+
+            console.log(this.state.playerRankings);
+        }
+        else
+        {
+            axios.get(rankUri + this.state.defaultId)
+            .then(response => {
+                this.setState({
+                    playerRankings: response.data,
+                    isLoading: false
+                })
+            })
+        }
+    }
+
 
     CurrentModeChangeHandler = (modeSetNumber) => {
         this.setState({ mode: fantasyModes[modeSetNumber] })
@@ -34,7 +74,7 @@ class FantasyManager extends Component {
         }
         else {
             this.setState({ loggedIn: true })
-        }
+            this.pullRankingsFromApi()}
 
     }
     render() {
@@ -53,7 +93,10 @@ class FantasyManager extends Component {
                         loggedInHandler = {this.HandleLoggedInToggler}
                     />
                     <RankingManager
-                        loggedInUser={this.state.loginId} />
+                        loggedInUser={this.state.loginId} 
+                        playerRankings={this.state.playerRankings}
+                        loggedIn = {this.state.loggedIn}
+                        isLoading={this.state.isLoading}/>
                 </Aux>
             )
         }

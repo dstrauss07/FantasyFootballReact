@@ -5,7 +5,7 @@ import Classes from './ControlMenu.module.css';
 const ControlMenu = (props) => {
 
     let loginClass, logoutClass;
-    let userName, userId;
+    let userName;
 
     if(props.currentUser != null)
     {

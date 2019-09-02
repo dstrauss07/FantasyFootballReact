@@ -3,6 +3,8 @@ import Aux from '../hoc/Aux';
 import ControlMenu from './ControlMenu/ControlMenu';
 import RankingManager from './RankingManager/RankingManager';
 import LoginManager from './LoginManager/LoginManager';
+import DraftManager from './DraftManager/DraftManager';
+import AuctionManager from './AuctionManager/AuctionManager';
 import axios from 'axios';
 
 
@@ -19,7 +21,7 @@ class FantasyManager extends Component {
         playerRankings: null,
         loggedIn: false,
         isLoading: true,
-        defaultId : 2
+        defaultId: 2
     }
 
 
@@ -29,32 +31,29 @@ class FantasyManager extends Component {
 
     }
 
-    pullRankingsFromApi = () =>
-    {
+    pullRankingsFromApi = () => {
         console.log("calling Ranking Pull");
-        if(this.state.loginId!=null)
-        {
+        if (this.state.loginId != null) {
             console.log(this.state.loginId);
 
             axios.get(rankUri + this.state.loginId.testUserProfileId)
-            .then(response => {
-                this.setState({
-                    playerRankings: response.data,
-                    isLoading: false
+                .then(response => {
+                    this.setState({
+                        playerRankings: response.data,
+                        isLoading: false
+                    })
                 })
-            })
 
             console.log(this.state.playerRankings);
         }
-        else
-        {
+        else {
             axios.get(rankUri + this.state.defaultId)
-            .then(response => {
-                this.setState({
-                    playerRankings: response.data,
-                    isLoading: false
+                .then(response => {
+                    this.setState({
+                        playerRankings: response.data,
+                        isLoading: false
+                    })
                 })
-            })
         }
     }
 
@@ -69,12 +68,15 @@ class FantasyManager extends Component {
     HandleLoggedInToggler = () => {
         if (this.state.loggedIn) {
             console.log('loggin out');
-            this.setState({ loggedIn: false, 
-                loginId: null })
+            this.setState({
+                loggedIn: false,
+                loginId: null
+            })
         }
         else {
             this.setState({ loggedIn: true })
-            this.pullRankingsFromApi()}
+            this.pullRankingsFromApi()
+        }
 
     }
     render() {
@@ -90,13 +92,13 @@ class FantasyManager extends Component {
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
                         currentUser={this.state.loginId}
-                        loggedInHandler = {this.HandleLoggedInToggler}
+                        loggedInHandler={this.HandleLoggedInToggler}
                     />
                     <RankingManager
-                        loggedInUser={this.state.loginId} 
+                        loggedInUser={this.state.loginId}
                         playerRankings={this.state.playerRankings}
-                        loggedIn = {this.state.loggedIn}
-                        isLoading={this.state.isLoading}/>
+                        loggedIn={this.state.loggedIn}
+                        isLoading={this.state.isLoading} />
                 </Aux>
             )
         }
@@ -107,9 +109,13 @@ class FantasyManager extends Component {
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
                         currentUser={this.state.loginId}
-                        loggedInHandler = {this.HandleLoggedInToggler}
+                        loggedInHandler={this.HandleLoggedInToggler}
                     />
-                    <p>Draft Mode</p>
+                    <DraftManager
+                        loggedInUser={this.state.loginId}
+                        playerRankings={this.state.playerRankings}
+                        loggedIn={this.state.loggedIn}
+                    />
                 </Aux>
             )
         }
@@ -120,9 +126,13 @@ class FantasyManager extends Component {
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
                         currentUser={this.state.loginId}
-                        loggedInHandler = {this.HandleLoggedInToggler}
+                        loggedInHandler={this.HandleLoggedInToggler}
                     />
-                    <p>Auction Mode</p>
+                    <AuctionManager
+                        loggedInUser={this.state.loginId}
+                        playerRankings={this.state.playerRankings}
+                        loggedIn={this.state.loggedIn}
+                    />
                 </Aux>
             )
         }
@@ -133,12 +143,12 @@ class FantasyManager extends Component {
                         currentMode={currentMode}
                         clickOptions={this.CurrentModeChangeHandler}
                         currentUser={this.state.loginId}
-                        loggedInHandler = {this.HandleLoggedInToggler}
+                        loggedInHandler={this.HandleLoggedInToggler}
                     />
                     <LoginManager
-                        clickLogin={this.SetLoginId} 
-                        loggedInHandler = {this.HandleLoggedInToggler}
-                        changeMode = {this.CurrentModeChangeHandler}/>
+                        clickLogin={this.SetLoginId}
+                        loggedInHandler={this.HandleLoggedInToggler}
+                        changeMode={this.CurrentModeChangeHandler} />
                 </Aux>
             )
         }

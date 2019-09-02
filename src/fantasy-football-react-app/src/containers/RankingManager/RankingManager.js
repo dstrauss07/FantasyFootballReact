@@ -84,7 +84,6 @@ class RankingManager extends Component {
                 initialRanks = [playerToChange[0].playerRanking.playerRank, playerToChange[0].playerRanking.posRank];
                 break;
         }
-        console.log(initialRanks);
 
         if (this.state.positionFilter === "ALL") {
             switch (this.state.scoringType) {
@@ -154,7 +153,6 @@ class RankingManager extends Component {
             }
         }
          this.setState({playerToChange,otherPlayerToChange,isChanged:true})
-
     }
 
 

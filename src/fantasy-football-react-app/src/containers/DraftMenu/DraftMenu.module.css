@@ -1,0 +1,54 @@
+.blue
+{
+    color:blue;
+}
+
+.formGroup
+{
+    display:grid;
+    display: inline-block;
+    padding: .5rem;
+    margin: 0 .5rem;
+    max-width: 150px;
+}
+
+.formBox
+{
+    display:grid;
+    display: inline-block;
+    grid-auto-columns: auto;
+    background-color:gray
+
+}
+
+.submitButton
+{
+    margin: auto;
+    display:grid;
+    align-items: center;
+    color:white;
+    background-color:forestgreen;
+}
+
+input, label {
+    display:grid;
+}
+
+input
+{
+    background-color:#bae7f8;
+      text-align:center;
+    
+}
+
+.show
+{
+    display: inherit;
+}
+
+.hide
+{
+    display: none;
+
+}
+

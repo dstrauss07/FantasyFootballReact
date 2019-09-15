@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import DraftMenu from '../DraftMenu/DraftMenu';
+import DraftBanner from '../DraftBanner/DraftBanner';
 
 const leagueTypes = ["standard","ppr","dynasty"]
 
@@ -34,7 +35,8 @@ class AuctionManager extends Component
         currentUser: this.props.loggedInUser,
         currentLeagueSettings: defaultAuctionSettings,
         currentAuctionSession: auctionSession,
-        nominatedPlayer: null
+        nominatedPlayer: null,
+        settingsOpen: true
     };
 
     UpdateLeagueSettingsHandler = (props) =>
@@ -54,8 +56,22 @@ class AuctionManager extends Component
         })
 
         }
+    }
 
-
+    ToggleSettingsPanel = (props) =>
+    {
+        console.log(props)    
+        if(props)
+        {
+            this.setState({settingsOpen : false})
+        }
+        else
+        {
+            
+                this.setState({settingsOpen : true})
+        }
+      
+        console.log(this.state.settingsOpen)
     }
 
 
@@ -65,22 +81,15 @@ class AuctionManager extends Component
 
         return(
             <Aux>
-            
-            <h3>Starting Budget = {this.state.currentLeagueSettings.startingBudget}</h3>
-            <h3>leagueSize = {this.state.currentLeagueSettings.leagueSize}</h3>
-            <h3>totalStartingQb = {this.state.currentLeagueSettings.totalStartingQb}</h3>
-            <h3>totalStartingRb = {this.state.currentLeagueSettings.totalStartingRb}</h3>
-            <h3>totalStartingWr = {this.state.currentLeagueSettings.totalStartingWr}</h3>
-            <h3>totalStartingTe = {this.state.currentLeagueSettings.totalStartingTe}</h3>
-            <h3>totalStartingFlex = {this.state.currentLeagueSettings.totalStartingFlex}</h3>
-            <h3>totalStartingSFlex:= {this.state.currentLeagueSettings.totalStartingSFlex}</h3>
-            <h3>totalStartingD: = {this.state.currentLeagueSettings.totalStartingD}</h3>
-            <h3>totalStartingK: {this.state.currentLeagueSettings.totalStartingK}</h3>
-            <h3>totalPlayer:= {this.state.currentLeagueSettings.totalPlayer}</h3>
+            <DraftBanner 
+            currentLeagueSettings={this.state.currentLeagueSettings}
+            settingsOpen = {this.state.settingsOpen}/>
 
             <DraftMenu
             leagueType={"Auction"}
             leagueSettings={this.state.currentLeagueSettings}
+            settingsOpen = {this.state.settingsOpen}
+            toggleSettings = {this.ToggleSettingsPanel}
             clicked = {this.UpdateLeagueSettingsHandler}
             />
             <div>Auction Manager!</div>

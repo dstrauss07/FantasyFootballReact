@@ -1,0 +1,17 @@
+.draftBanner{
+color:blue;
+display: grid;
+background-color: yellow;
+display: inline-flex;
+}
+
+.draftBanner div
+{
+    padding: 0 1rem;
+}
+
+.draftDiv{
+    display:grid inline-block;
+    max-width: 150px;
+
+}

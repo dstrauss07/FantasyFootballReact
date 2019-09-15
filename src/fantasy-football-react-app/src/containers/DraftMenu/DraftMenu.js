@@ -123,8 +123,8 @@ class DraftMenu extends Component {
 
 
     UpdateSettings = (e) => {
-        e.preventDefault();
-
+        e.preventDefault(); 
+     
         this.props.clicked(this.state.leagueSettings);
     }
     render() {
@@ -136,6 +136,7 @@ class DraftMenu extends Component {
                     <input type="int"
                         id="startingBudget"
                         name="startingBudget"
+                        defaultValue={this.state.leagueSettings.startingBudget}
                         value={this.state.leagueSettings.startingBudget}
                         onChange={this.HandleUpdateStartingBudgetChange}
                     />
@@ -144,6 +145,7 @@ class DraftMenu extends Component {
                         id="leagueSize"
                         name="leagueSize"
                         value={this.state.leagueSettings.leagueSize}
+                       defaultValue={this.state.leagueSettings.leagueSize}
                         onChange={this.HandleUpdateLeagueSizeChange}
                     />
                     <label>QB: </label>
@@ -162,9 +164,9 @@ class DraftMenu extends Component {
                     />
                     <label>WR: </label>
                     <input type="int"
-                        id="totalStartingRb"
-                        name="totalStartingRb"
-                        value={this.state.leagueSettings.totalStartingRb}
+                        id="totalStartingWr"
+                        name="totalStartingWr"
+                        value={this.state.leagueSettings.totalStartingWr}
                         onChange={this.HandleUpdateStartingWrChange}
                     />
                     <label>TE: </label>

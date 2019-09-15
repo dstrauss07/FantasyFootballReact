@@ -39,9 +39,23 @@ class AuctionManager extends Component
 
     UpdateLeagueSettingsHandler = (props) =>
     {
-        this.setState({
-            currentLeagueSettings : props
+       console.log(props);
+        var updatedLeagueSettings = this.state.currentLeagueSettings;
+        console.log("starting legue settings " + updatedLeagueSettings);
+        for(var key in updatedLeagueSettings)
+        {
+            if(props[key] != null)
+            {
+                updatedLeagueSettings[key] = props[key];
+            }
+
+             this.setState({
+            currentLeagueSettings : updatedLeagueSettings
         })
+
+        }
+
+
     }
 
 
@@ -51,7 +65,19 @@ class AuctionManager extends Component
 
         return(
             <Aux>
+            
             <h3>Starting Budget = {this.state.currentLeagueSettings.startingBudget}</h3>
+            <h3>leagueSize = {this.state.currentLeagueSettings.leagueSize}</h3>
+            <h3>totalStartingQb = {this.state.currentLeagueSettings.totalStartingQb}</h3>
+            <h3>totalStartingRb = {this.state.currentLeagueSettings.totalStartingRb}</h3>
+            <h3>totalStartingWr = {this.state.currentLeagueSettings.totalStartingWr}</h3>
+            <h3>totalStartingTe = {this.state.currentLeagueSettings.totalStartingTe}</h3>
+            <h3>totalStartingFlex = {this.state.currentLeagueSettings.totalStartingFlex}</h3>
+            <h3>totalStartingSFlex:= {this.state.currentLeagueSettings.totalStartingSFlex}</h3>
+            <h3>totalStartingD: = {this.state.currentLeagueSettings.totalStartingD}</h3>
+            <h3>totalStartingK: {this.state.currentLeagueSettings.totalStartingK}</h3>
+            <h3>totalPlayer:= {this.state.currentLeagueSettings.totalPlayer}</h3>
+
             <DraftMenu
             leagueType={"Auction"}
             leagueSettings={this.state.currentLeagueSettings}

@@ -13,5 +13,24 @@ display: inline-flex;
 .draftDiv{
     display:grid inline-block;
     max-width: 150px;
-
 }
+
+p
+{
+    width: 35px;
+    height: 5px;
+    background-color: black;
+    margin: 6px 0;
+}
+
+.show
+{
+    display: inline-block;
+}
+
+.hide
+
+{
+    display:none;
+}
+

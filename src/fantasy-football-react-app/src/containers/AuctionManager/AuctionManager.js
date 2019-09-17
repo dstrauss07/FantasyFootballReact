@@ -3,7 +3,7 @@ import Aux from '../../hoc/Aux';
 import DraftMenu from '../DraftMenu/DraftMenu';
 import DraftBanner from '../DraftBanner/DraftBanner';
 
-const leagueTypes = ["standard","ppr","dynasty"]
+const leagueTypes = ["standard", "ppr", "dynasty"]
 
 let defaultAuctionSettings = {
     startingBudget: 200,
@@ -21,13 +21,12 @@ let defaultAuctionSettings = {
 }
 
 let auctionSession = {
-    selectedPlayers : [],
-    moneySpent : 0,
-    auctionComplete : false
+    selectedPlayers: [],
+    moneySpent: 0,
+    auctionComplete: false
 }
 
-class AuctionManager extends Component
-{
+class AuctionManager extends Component {
 
     state = {
         playerRankings: this.props.playerRankings,
@@ -39,63 +38,52 @@ class AuctionManager extends Component
         settingsOpen: true
     };
 
-    UpdateLeagueSettingsHandler = (props) =>
-    {
-       console.log(props);
+    UpdateLeagueSettingsHandler = (props) => {
+        console.log(props);
         var updatedLeagueSettings = this.state.currentLeagueSettings;
         console.log("starting legue settings " + updatedLeagueSettings);
-        for(var key in updatedLeagueSettings)
-        {
-            if(props[key] != null)
-            {
+        for (var key in updatedLeagueSettings) {
+            if (props[key] != null) {
                 updatedLeagueSettings[key] = props[key];
             }
 
-             this.setState({
-            currentLeagueSettings : updatedLeagueSettings
-        })
+            this.setState({
+                currentLeagueSettings: updatedLeagueSettings
+            })
 
         }
     }
 
-    ToggleSettingsPanel = (props) =>
-    {
-        console.log(props)    
-        if(props)
-        {
-            this.setState({settingsOpen : false})
+    ToggleSettingsPanel = () => {
+        if (this.state.settingsOpen) {
+            this.setState({ settingsOpen: false })
         }
-        else
-        {
-            
-                this.setState({settingsOpen : true})
+        else {
+            this.setState({ settingsOpen: true })
         }
-      
-        console.log(this.state.settingsOpen)
     }
 
 
-    render()
-    {
-        console.log(this.state.playerRankings);
+    render() {
 
-        return(
+        return (
             <Aux>
-            <DraftBanner 
-            currentLeagueSettings={this.state.currentLeagueSettings}
-            settingsOpen = {this.state.settingsOpen}/>
+                <DraftBanner
+                    currentLeagueSettings={this.state.currentLeagueSettings}
+                    settingsOpen={this.state.settingsOpen} 
+                    toggleSettings={this.ToggleSettingsPanel}/>
 
-            <DraftMenu
-            leagueType={"Auction"}
-            leagueSettings={this.state.currentLeagueSettings}
-            settingsOpen = {this.state.settingsOpen}
-            toggleSettings = {this.ToggleSettingsPanel}
-            clicked = {this.UpdateLeagueSettingsHandler}
-            />
-            <div>Auction Manager!</div>
+                <DraftMenu
+                    leagueType={"Auction"}
+                    leagueSettings={this.state.currentLeagueSettings}
+                    settingsOpen={this.state.settingsOpen}
+                    toggleSettings={this.ToggleSettingsPanel}
+                    clicked={this.UpdateLeagueSettingsHandler}
+                />
+                <div>Auction Manager!</div>
             </Aux>
         )
     }
-} 
+}
 
 export default AuctionManager;

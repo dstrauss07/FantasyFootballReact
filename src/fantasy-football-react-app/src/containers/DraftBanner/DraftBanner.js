@@ -7,22 +7,42 @@ import Classes from './DraftBanner.module.css';
 
 const DraftBanner = (props) => {
 
+    let scoreButton;
 
+    if (props.settingsOpen)
+    {
+        scoreButton = Classes.hide
+    }
+    else
+    {
+        scoreButton = Classes.show
+    }
+
+   const openSettings = (e) =>{
+        e.preventDefault();
+        props.toggleSettings();
+    }
 
     return (
         <Aux>
             <div className={Classes.draftBanner}>
-                <div>Budget <br/> {props.currentLeagueSettings.startingBudget}</div>
-                <div >Size <br/> {props.currentLeagueSettings.leagueSize}</div>
-                <div >Qb <br/> {props.currentLeagueSettings.totalStartingQb}</div>
-                <div >Rb <br/> {props.currentLeagueSettings.totalStartingRb}</div>
-                <div >Wr <br/> {props.currentLeagueSettings.totalStartingWr}</div>
-                <div >Te<br/> {props.currentLeagueSettings.totalStartingTe}</div>
-                <div >Flex <br/> {props.currentLeagueSettings.totalStartingFlex}</div>
-                <div >SFlex <br/> {props.currentLeagueSettings.totalStartingSFlex}</div>
-                <div >DST <br/> {props.currentLeagueSettings.totalStartingD}</div>
-                <div >K <br/> {props.currentLeagueSettings.totalStartingK}</div>
-                <div>Players <br/> {props.currentLeagueSettings.totalPlayer}</div>
+                <div>Budget <br /> {props.currentLeagueSettings.startingBudget}</div>
+                <div >Size <br /> {props.currentLeagueSettings.leagueSize}</div>
+                <div >Qb <br /> {props.currentLeagueSettings.totalStartingQb}</div>
+                <div >Rb <br /> {props.currentLeagueSettings.totalStartingRb}</div>
+                <div >Wr <br /> {props.currentLeagueSettings.totalStartingWr}</div>
+                <div >Te<br /> {props.currentLeagueSettings.totalStartingTe}</div>
+                <div >Flex <br /> {props.currentLeagueSettings.totalStartingFlex}</div>
+                <div >SFlex <br /> {props.currentLeagueSettings.totalStartingSFlex}</div>
+                <div >DST <br /> {props.currentLeagueSettings.totalStartingD}</div>
+                <div >K <br /> {props.currentLeagueSettings.totalStartingK}</div>
+                <div>Players <br />  {props.currentLeagueSettings.totalPlayer}</div>
+                <div>Scoring<br /> {props.currentLeagueSettings.leagueType}</div>
+                <div className={scoreButton} onClick ={openSettings}>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                </div>
             </div>
         </Aux>
 

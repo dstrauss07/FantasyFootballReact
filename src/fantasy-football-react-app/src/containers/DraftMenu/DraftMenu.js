@@ -12,16 +12,15 @@ class DraftMenu extends Component {
             leagueSettings: props.leagueSettings,
             settingsOpen: props.settingsOpen,
             leagueType : props.leagueType
-
         }
     }
+    
 
     HandleUpdateStartingBudgetChange = (e) => {
         this.setState({
             leagueSettings:
             {
-                startingBudget: e.target.value
-                
+                startingBudget: e.target.value           
             }
         })
     }
@@ -136,31 +135,22 @@ class DraftMenu extends Component {
 
     closeSettings = (e) =>{
         e.preventDefault();
-
-        if(this.state.settingsOpen)
-        {
-            this.setState({settingsOpen:false})
-        }
-        else
-        {
-            this.setState({settingsOpen:true})
-        }
-      
-        this.props.toggleSettings(this.state.settingsOpen)
+        // this.setState({settingsOpen:false})
+        this.props.toggleSettings();
     }
 
 
     render() {
-        let formToReturn;
-        let blue = Classes.blue, 
+        let formToReturn,
+        blue = Classes.blue, 
         formGroup = Classes.formGroup, 
         formBox = Classes.formBox, 
         submitButton= Classes.submitButton, 
-        closingButton= Classes.closingButton,
-        panelShown = Classes.show   ;
+        closingButton= Classes.closingButton;
 
-        
-        if(this.state.settingsOpen)
+        let panelShown;
+
+        if(this.props.settingsOpen)
         {
             panelShown = Classes.show 
         }
@@ -168,7 +158,7 @@ class DraftMenu extends Component {
         {
             panelShown = Classes.hide 
         }
-
+    
 
         if (this.props.leagueType == "Auction") {
             formToReturn =

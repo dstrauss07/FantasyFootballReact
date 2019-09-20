@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux';
-import DraftMenu from '../DraftMenu/DraftMenu';
-import DraftBanner from '../DraftBanner/DraftBanner';
+import Aux from '../../../hoc/Aux';
+import DraftMenu from '../../DraftMenu/DraftMenu';
+import DraftBanner from '../../DraftMenu/DraftBanner/DraftBanner';
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
 
-let defaultAuctionSettings = {
-    startingBudget: 200,
+let defaultDraftSettings = {
     leagueSize: 12,
     totalStartingQb: 1,
     totalStartingRb: 2,
@@ -20,23 +19,21 @@ let defaultAuctionSettings = {
     leagueType: leagueTypes[0]
 }
 
-let auctionSession = {
+let draftSession = {
     selectedPlayers: [],
-    moneySpent: 0,
     auctionComplete: false
 }
 
-class AuctionManager extends Component {
-
+class DraftManager extends Component {
     state = {
         playerRankings: this.props.playerRankings,
         isLoading: this.props.isLoading,
         currentUser: this.props.loggedInUser,
-        currentLeagueSettings: defaultAuctionSettings,
-        currentAuctionSession: auctionSession,
-        nominatedPlayer: null,
+        currentLeagueSettings: defaultDraftSettings,
+        currentDraftSession: draftSession,
         settingsOpen: true
     };
+
 
     UpdateLeagueSettingsHandler = (props) => {
         console.log(props);
@@ -63,15 +60,14 @@ class AuctionManager extends Component {
         }
     }
 
-
     render() {
-
         return (
+
             <Aux>
                 <DraftBanner
                     currentLeagueSettings={this.state.currentLeagueSettings}
-                    settingsOpen={this.state.settingsOpen} 
-                    toggleSettings={this.ToggleSettingsPanel}/>
+                    settingsOpen={this.state.settingsOpen}
+                    toggleSettings={this.ToggleSettingsPanel} />
 
                 <DraftMenu
                     leagueType={"Auction"}
@@ -80,10 +76,12 @@ class AuctionManager extends Component {
                     toggleSettings={this.ToggleSettingsPanel}
                     clicked={this.UpdateLeagueSettingsHandler}
                 />
-                <div>Auction Manager!</div>
+                <div>
+                    Draft Manager!</div>
             </Aux>
+
         )
     }
 }
 
-export default AuctionManager;
+export default DraftManager;

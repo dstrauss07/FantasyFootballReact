@@ -30,6 +30,12 @@
     background-color:forestgreen;
 }
 
+.closingButtonDiv
+{
+text-align: right;
+padding: 0.2rem 0.2rem 0 0;
+}
+
 input, label {
     display:grid;
 }

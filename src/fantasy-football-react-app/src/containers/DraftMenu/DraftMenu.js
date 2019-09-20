@@ -146,7 +146,8 @@ class DraftMenu extends Component {
         formGroup = Classes.formGroup, 
         formBox = Classes.formBox, 
         submitButton= Classes.submitButton, 
-        closingButton= Classes.closingButton;
+        closingButton= Classes.closingButton,
+        budgetShown = Classes.show ;
 
         let panelShown;
 
@@ -158,13 +159,22 @@ class DraftMenu extends Component {
         {
             panelShown = Classes.hide 
         }
+
+        if(this.props.leagueSettings.startingBudget == null)
+        {
+            budgetShown = Classes.hide;
+        }
     
 
         if (this.props.leagueType == "Auction") {
             formToReturn =
                 <form className={panelShown}>
                     <div className={formBox}>
-                        <div className={formGroup}>
+                        <div className={Classes.closingButtonDiv}>
+                    <button className={closingButton} onClick={(e) => { this.closeSettings(e) }}>XClose</button>
+                    </div>
+               
+                        <div className={[formGroup, budgetShown].join(' ')}>
                             <label className={blue}>Starting Budget:  </label>
                             <input
                                 type="int"
@@ -299,9 +309,8 @@ class DraftMenu extends Component {
                                 <option value="dynasty">Dynasty</option>
                             </select>
                         </div>
+                        <button className={submitButton} onClick={(e) => { this.UpdateSettings(e) }}>Submit Changes</button>
                     </div>
-                    <button className={submitButton} onClick={(e) => { this.UpdateSettings(e) }}>Submit Changes</button>
-                    <button className={closingButton} onClick={(e) => { this.closeSettings(e) }}>X</button>
                 </form>
         }
 

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux';
-import DraftMenu from '../DraftMenu/DraftMenu';
-import aux from '../../hoc/Aux';
+import Aux from '../../../hoc/Aux';
+import DraftMenu from '../DraftMenu';
 import Classes from './DraftBanner.module.css';
 
 
 const DraftBanner = (props) => {
 
-    let scoreButton;
+    let scoreButton,
+    budgetShow = Classes.show;
 
     if (props.settingsOpen)
     {
@@ -18,6 +18,12 @@ const DraftBanner = (props) => {
         scoreButton = Classes.show
     }
 
+    if(props.currentLeagueSettings.startingBudget == null)
+    {
+        budgetShow= Classes.hide;
+    }
+    
+
    const openSettings = (e) =>{
         e.preventDefault();
         props.toggleSettings();
@@ -26,7 +32,7 @@ const DraftBanner = (props) => {
     return (
         <Aux>
             <div className={Classes.draftBanner}>
-                <div>Budget <br /> {props.currentLeagueSettings.startingBudget}</div>
+                <div className={budgetShow}>Budget <br /> {props.currentLeagueSettings.startingBudget}</div>
                 <div >Size <br /> {props.currentLeagueSettings.leagueSize}</div>
                 <div >Qb <br /> {props.currentLeagueSettings.totalStartingQb}</div>
                 <div >Rb <br /> {props.currentLeagueSettings.totalStartingRb}</div>

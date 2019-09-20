@@ -3,8 +3,8 @@ import Aux from '../hoc/Aux';
 import ControlMenu from './ControlMenu/ControlMenu';
 import RankingManager from './RankingManager/RankingManager';
 import LoginManager from './LoginManager/LoginManager';
-import DraftManager from './DraftManager/DraftManager';
-import AuctionManager from './AuctionManager/AuctionManager';
+import DraftManager from './DraftModes/DraftManager/DraftManager';
+import AuctionManager from './DraftModes/AuctionManager/AuctionManager';
 import axios from 'axios';
 
 

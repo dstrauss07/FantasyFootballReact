@@ -54,7 +54,7 @@ const DraftedPlayers = (props) => {
         }
     }
 
-    let qbDiv,rbDiv,wrDiv,teDiv,dstDiv,kDiv;
+    let qbDiv,rbDiv,wrDiv,teDiv,dstDiv,kDiv, revertDiv;
 
     if(playerTypes.qbPlayers.length == 0)
     {
@@ -110,10 +110,19 @@ const DraftedPlayers = (props) => {
         kDiv = playerTypes.kPlayers.map(kplayer => <div>{kplayer.playerToRank.playerName}</div>)
     }
    
-
+    if(props.draftSession.selectedPlayers.length > 0)
+    {
+       revertDiv= <div><button 
+       onClick={props.revertPick}>Revert Pick</button></div>
+    }
+    else
+    {
+        revertDiv = <div></div>
+    }
 
     return (
         <Aux>
+            {revertDiv}
            <h3>QBs</h3>
             {qbDiv}
             <h3>RBs</h3>

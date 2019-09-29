@@ -10,9 +10,6 @@ const CheatSheetPlayers = (props) => {
     let selectedPlayers = props.selectedPlayers;
     let selected = false;
 
-    console.log(selectedPlayers);
-    console.log(inheritedPlayers);
-
     if(props.playerPositionFilter === "ALL")
     {
         playerCount = inheritedPlayers.length;

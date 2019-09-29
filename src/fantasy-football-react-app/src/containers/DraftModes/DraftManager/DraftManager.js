@@ -87,39 +87,54 @@ class DraftManager extends Component {
         }
     }
 
+    RevertPick = () => {
+        var currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
+        var i = currentDraftedGroup.length -1;
+        var previousDraftedGroup = currentDraftedGroup.splice(0,i);
+        console.log(previousDraftedGroup);
+        this.setState({
+            currentDraftSession: {
+                selectedPlayers: previousDraftedGroup,
+                draftComplete: false
+            }
+        })
+    }
 
 
 
-render() {
-    return (
 
-        <Aux>
-            <DraftBanner
-                currentLeagueSettings={this.state.currentLeagueSettings}
-                settingsOpen={this.state.settingsOpen}
-                toggleSettings={this.ToggleSettingsPanel} />
+    render() {
 
-            <DraftMenu
-                leagueType={"Auction"}
-                leagueSettings={this.state.currentLeagueSettings}
-                settingsOpen={this.state.settingsOpen}
-                toggleSettings={this.ToggleSettingsPanel}
-                clicked={this.UpdateLeagueSettingsHandler}
-            />
-            <DraftedPlayers
-                leagueSettings={this.state.currentLeagueSettings}
-                draftSession={this.state.currentDraftSession}
-            />
-            <CheatSheet
-                currentRankings={this.state.playerRankings}
-                scoringType={this.state.currentLeagueSettings.leagueType}
-                draftType="Snake"
-                draftSession={this.state.currentDraftSession}
-                playerClicked={this.PlayerSelected} />
-        </Aux>
+        return (
 
-    )
-}
+            <Aux>
+                <DraftBanner
+                    currentLeagueSettings={this.state.currentLeagueSettings}
+                    settingsOpen={this.state.settingsOpen}
+                    toggleSettings={this.ToggleSettingsPanel} />
+            
+                <DraftMenu
+                    leagueType={"Auction"}
+                    leagueSettings={this.state.currentLeagueSettings}
+                    settingsOpen={this.state.settingsOpen}
+                    toggleSettings={this.ToggleSettingsPanel}
+                    clicked={this.UpdateLeagueSettingsHandler}
+                />
+                <DraftedPlayers
+                    leagueSettings={this.state.currentLeagueSettings}
+                    draftSession={this.state.currentDraftSession}
+                    revertPick = {this.RevertPick}
+                />
+                <CheatSheet
+                    currentRankings={this.state.playerRankings}
+                    scoringType={this.state.currentLeagueSettings.leagueType}
+                    draftType="Snake"
+                    draftSession={this.state.currentDraftSession}
+                    playerClicked={this.PlayerSelected} />
+            </Aux>
+
+        )
+    }
 }
 
 export default DraftManager;

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../../hoc/Aux';
 import DraftMenu from '../../DraftMenu/DraftMenu';
 import DraftBanner from '../../DraftMenu/DraftBanner/DraftBanner';
+import CheatSheet from '../../DraftMenu/CheatSheet/CheatSheet';
+import DraftedPlayers from '../../DraftMenu/DraftedPlayers/DraftedPlayers';
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
 
@@ -16,23 +18,27 @@ let defaultDraftSettings = {
     totalStartingD: 1,
     totalStartingK: 1,
     totalPlayer: 16,
+    yourPickNum: null,
     leagueType: leagueTypes[0]
 }
 
 let draftSession = {
     selectedPlayers: [],
-    auctionComplete: false
+    draftComplete: false
 }
 
 class DraftManager extends Component {
+
     state = {
         playerRankings: this.props.playerRankings,
         isLoading: this.props.isLoading,
         currentUser: this.props.loggedInUser,
         currentLeagueSettings: defaultDraftSettings,
         currentDraftSession: draftSession,
-        settingsOpen: true
+        settingsOpen: true,
+        sessionStarted: false
     };
+
 
 
     UpdateLeagueSettingsHandler = (props) => {
@@ -60,28 +66,60 @@ class DraftManager extends Component {
         }
     }
 
-    render() {
-        return (
-
-            <Aux>
-                <DraftBanner
-                    currentLeagueSettings={this.state.currentLeagueSettings}
-                    settingsOpen={this.state.settingsOpen}
-                    toggleSettings={this.ToggleSettingsPanel} />
-
-                <DraftMenu
-                    leagueType={"Auction"}
-                    leagueSettings={this.state.currentLeagueSettings}
-                    settingsOpen={this.state.settingsOpen}
-                    toggleSettings={this.ToggleSettingsPanel}
-                    clicked={this.UpdateLeagueSettingsHandler}
-                />
-                <div>
-                    Draft Manager!</div>
-            </Aux>
-
-        )
+    PlayerSelected = (event) => {
+        var currentListOfPlayers = this.state.currentDraftSession.selectedPlayers;
+        currentListOfPlayers.push(event);
+        if (currentListOfPlayers.length < this.state.currentLeagueSettings.totalPlayer) {
+            this.setState({
+                currentDraftSession: {
+                    selectedPlayers: currentListOfPlayers,
+                    draftComplete: false
+                }
+            })
+        }
+        else {
+            this.setState({
+                currentDraftSession: {
+                    selectedPlayers: currentListOfPlayers,
+                    draftComplete: true
+                }
+            })
+        }
     }
+
+
+
+
+render() {
+    return (
+
+        <Aux>
+            <DraftBanner
+                currentLeagueSettings={this.state.currentLeagueSettings}
+                settingsOpen={this.state.settingsOpen}
+                toggleSettings={this.ToggleSettingsPanel} />
+
+            <DraftMenu
+                leagueType={"Auction"}
+                leagueSettings={this.state.currentLeagueSettings}
+                settingsOpen={this.state.settingsOpen}
+                toggleSettings={this.ToggleSettingsPanel}
+                clicked={this.UpdateLeagueSettingsHandler}
+            />
+            <DraftedPlayers
+                leagueSettings={this.state.currentLeagueSettings}
+                draftSession={this.state.currentDraftSession}
+            />
+            <CheatSheet
+                currentRankings={this.state.playerRankings}
+                scoringType={this.state.currentLeagueSettings.leagueType}
+                draftType="Snake"
+                draftSession={this.state.currentDraftSession}
+                playerClicked={this.PlayerSelected} />
+        </Aux>
+
+    )
+}
 }
 
 export default DraftManager;

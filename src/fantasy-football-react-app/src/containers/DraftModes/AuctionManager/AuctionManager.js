@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Aux from '../../../hoc/Aux';
 import DraftMenu from '../../DraftMenu/DraftMenu';
 import DraftBanner from '../../DraftMenu/DraftBanner/DraftBanner';
+import CheatSheet from '../../DraftMenu/CheatSheet/CheatSheet';
+import DraftedPlayers from '../../DraftMenu/DraftedPlayers/DraftedPlayers';
+
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
 
@@ -25,6 +28,7 @@ let auctionSession = {
     moneySpent: 0,
     auctionComplete: false
 }
+
 
 class AuctionManager extends Component {
 
@@ -80,7 +84,13 @@ class AuctionManager extends Component {
                     toggleSettings={this.ToggleSettingsPanel}
                     clicked={this.UpdateLeagueSettingsHandler}
                 />
-                <div>Auction Manager!</div>
+         <DraftedPlayers
+         leagueSettings={this.state.currentLeagueSettings} 
+                />
+                <CheatSheet 
+                  currentRankings = {this.state.playerRankings} 
+                  scoringType = {this.state.currentLeagueSettings.leagueType}
+                  draftType = "Auction"/>
             </Aux>
         )
     }

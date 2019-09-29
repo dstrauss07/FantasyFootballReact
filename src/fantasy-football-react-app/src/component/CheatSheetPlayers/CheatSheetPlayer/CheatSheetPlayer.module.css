@@ -1,0 +1,105 @@
+
+.playerContainer :hover, .playerContainer :hover *
+{
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.playerContainer
+{
+    margin:0;
+}
+
+button :active
+{
+    color:red;
+}
+
+
+.qbPlayer 
+{
+    color: blue;
+}
+
+.rbPlayer 
+{
+    color: green;
+}
+
+.wrPlayer 
+{
+    color: purple;
+}
+
+.tePlayer 
+{
+    color: darkgoldenrod;
+}
+
+.dstPlayer 
+{
+    color: orangered;
+}
+
+.kPlayer 
+{
+    color: red;
+}
+
+.upButton
+{
+    background-color: green;
+    color: white;
+    align-self: end;
+    max-width: 3rem;
+}
+.downButton
+{
+    background-color: red;
+    color: white;
+    align-self: start;
+    max-width: 3rem;
+}
+
+.hideButton
+{
+    visibility: hidden;
+}
+
+.selected
+{
+    text-decoration: line-through;
+}
+
+.notSelected
+{
+    text-decoration:none;
+}
+
+.playerName,.playerPos, .playerRank
+{
+ justify-self: start;   
+}
+
+.playerDiv 
+{
+    display:grid;
+    grid-template-columns: 60% 25% 15% ;
+    justify-content: center;
+    font-size: .85rem;
+    padding: .05rem auto;
+    margin:.05rem 0.5rem;
+}
+
+@media (max-width: 799px)
+{
+
+}
+
+
+@media (min-width: 800px)
+{
+
+
+}

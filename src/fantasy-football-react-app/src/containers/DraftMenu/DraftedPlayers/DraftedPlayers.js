@@ -6,10 +6,6 @@ import Classes from './DraftedPlayers.module.css';
 const DraftedPlayers = (props) => {
 
 
-
-    console.log("startingQbs: " + props.leagueSettings.totalStartingQb);
-
-    console.log(JSON.stringify(props.draftSession));
     let draftedPlayers;
     if(props.draftSession != null)
     {
@@ -24,6 +20,28 @@ const DraftedPlayers = (props) => {
         tePlayers:[],
         dstPlayers:[],
         kPlayers:[]
+    }
+
+    const myDraftPos = props.leagueSettings.draftSlot;
+
+    let allTeams = [];
+
+    for(let i=0; i<props.leagueSettings.leagueSize; i++)
+    {
+        allTeams[i] = [];
+    }
+
+
+    for(let i=0;i<draftedPlayers.length;i++)
+    {
+        if(i%props.leagueSettings.leagueSize ==0)
+        {
+            allTeams[i].push(draftedPlayers[i]);
+        }
+        else
+        {
+            allTeams[props.leagueSettings.leagueSize - i +1].push(draftedPlayers[i]);
+        }
     }
 
 

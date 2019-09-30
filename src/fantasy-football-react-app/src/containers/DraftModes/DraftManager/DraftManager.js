@@ -9,6 +9,7 @@ const leagueTypes = ["standard", "ppr", "dynasty"]
 
 let defaultDraftSettings = {
     leagueSize: 12,
+    draftSlot: 1,
     totalStartingQb: 1,
     totalStartingRb: 2,
     totalStartingWr: 3,
@@ -26,6 +27,8 @@ let draftSession = {
     selectedPlayers: [],
     draftComplete: false
 }
+
+let pickNum = 1;
 
 class DraftManager extends Component {
 

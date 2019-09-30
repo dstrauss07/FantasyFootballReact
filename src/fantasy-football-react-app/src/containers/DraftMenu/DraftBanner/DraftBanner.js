@@ -7,7 +7,8 @@ import Classes from './DraftBanner.module.css';
 const DraftBanner = (props) => {
 
     let scoreButton,
-    budgetShow = Classes.show;
+    budgetShow = Classes.show,
+    draftSlotShow = Classes.show;
 
     if (props.settingsOpen)
     {
@@ -22,6 +23,11 @@ const DraftBanner = (props) => {
     {
         budgetShow= Classes.hide;
     }
+
+    if(props.currentLeagueSettings.draftSlot == null)
+    {
+        draftSlotShow= Classes.hide;
+    }
     
 
    const openSettings = (e) =>{
@@ -33,6 +39,7 @@ const DraftBanner = (props) => {
         <Aux>
             <div className={Classes.draftBanner}>
                 <div className={budgetShow}>Budget <br /> {props.currentLeagueSettings.startingBudget}</div>
+                <div className={draftSlotShow}>Draft Slot <br /> {props.currentLeagueSettings.draftSlot}</div>
                 <div >Size <br /> {props.currentLeagueSettings.leagueSize}</div>
                 <div >Qb <br /> {props.currentLeagueSettings.totalStartingQb}</div>
                 <div >Rb <br /> {props.currentLeagueSettings.totalStartingRb}</div>

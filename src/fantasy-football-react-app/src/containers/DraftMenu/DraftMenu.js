@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Classes from './DraftMenu.module.css';
+import NumericInput from 'react-numeric-input';
 
 class DraftMenu extends Component {
 
@@ -13,8 +14,11 @@ class DraftMenu extends Component {
             settingsOpen: props.settingsOpen,
             leagueType : props.leagueType
         }
+
     }
-    
+
+
+
 
     HandleUpdateStartingBudgetChange = (e) => {
         this.setState({
@@ -24,6 +28,30 @@ class DraftMenu extends Component {
             }
         })
     }
+
+    HandleUpdateDraftSlotChange = (e) => {
+        let newDraftSlot = e.target.value;
+        // if(newDraftSlot > this.state.leagueSettings.leagueSize)
+        // {
+        //   newDraftSlot = this.state.leagueSettings.leagueSize
+        //   this.props.clicked(this.state.leagueSettings);
+        //     this.setState({
+        //         leagueSettings:
+        //         {
+        //             draftSlot: newDraftSlot         
+        //         }
+        //           });
+        //  }
+        // else
+             
+            this.setState({
+            leagueSettings:
+            {
+                draftSlot: newDraftSlot         
+            }
+        })
+  
+   }
 
     HandleUpdateLeagueSizeChange = (e) => {
         this.setState({
@@ -129,7 +157,12 @@ class DraftMenu extends Component {
 
     UpdateSettings = (e) => {
         e.preventDefault();
+        this.props.clicked(this.state.leagueSettings);
+        this.closeSettings(e)
+    }
 
+    UpdateSettingsAuto = () => {
+        
         this.props.clicked(this.state.leagueSettings);
     }
 
@@ -147,10 +180,10 @@ class DraftMenu extends Component {
         formBox = Classes.formBox, 
         submitButton= Classes.submitButton, 
         closingButton= Classes.closingButton,
-        budgetShown = Classes.show ;
-
+        budgetShown = Classes.show,
+        draftSlotShown = Classes.show ;
         let panelShown;
-
+  
         if(this.props.settingsOpen)
         {
             panelShown = Classes.show 
@@ -164,6 +197,14 @@ class DraftMenu extends Component {
         {
             budgetShown = Classes.hide;
         }
+
+        if(this.props.leagueSettings.draftSlot == null)
+        {
+            draftSlotShown = Classes.hide;
+        }
+
+
+
     
 
         if (this.props.leagueType == "Auction") {
@@ -185,9 +226,23 @@ class DraftMenu extends Component {
                                 onChange={this.HandleUpdateStartingBudgetChange}
                             />
                         </div>
+                        <div className={[formGroup, draftSlotShown].join(' ')}>
+                            <label className={blue}>Draft Slot:  </label>
+                            <input
+                                type="number"
+                                id="draftSlot"
+                                ref="draftSlot"
+                                name="draftSlot"
+                                min = {1}
+                                max = {this.props.leagueSettings.leagueSize}
+                                defaultValue={this.state.leagueSettings.draftSlot}
+                                value={this.state.leagueSettings.draftSlot}
+                                onChange={this.HandleUpdateDraftSlotChange}
+                            />
+                        </div>
                         <div className={formGroup}>
                             <label>League Size: </label>
-                            <input type="int"
+                            <input type="number"
                                 id="leagueSize"
                                 name="leagueSize"
                                 min="2"
@@ -199,7 +254,7 @@ class DraftMenu extends Component {
                         </div>
                         <div className={formGroup}>
                             <label>QB:  </label>
-                            <input type="int"
+                            <input type="number"
                                 id="totalStartingQb"
                                 name="totalStartingQb"
                                 min="0"
@@ -210,7 +265,7 @@ class DraftMenu extends Component {
                         </div>
                         <div className={formGroup}>
                             <label>RB:</label>
-                            <input type="int"
+                            <input type="number"
                                 id="totalStartingRb"
                                 name="totalStartingRb"
                                 min="0"
@@ -221,7 +276,7 @@ class DraftMenu extends Component {
                         </div>
                         <div className={formGroup}>
                             <label>WR:  </label>
-                            <input type="int"
+                            <input type="number"
                                 id="totalStartingWr"
                                 name="totalStartingWr"
                                 min="0"
@@ -232,7 +287,7 @@ class DraftMenu extends Component {
                         </div>
                         <div className={formGroup}>
                             <label>TE:</label>
-                            <input type="int"
+                            <input type="number"
                                 id="totalStartingTe"
                                 name="totalStartingTe"
                                 min="0"
@@ -243,7 +298,7 @@ class DraftMenu extends Component {
                         </div>
                         <div className={formGroup}>
                             <label>FLEX: </label>
-                            <input type="int"
+                            <input type="number"
                                 id="totalStartingFlex"
                                 name="totalStartingFlex"
                                 min="0"
@@ -254,7 +309,7 @@ class DraftMenu extends Component {
                         </div>
                         <div className={formGroup}>
                             <label>SFLEX: </label>
-                            <input type="int"
+                            <input type="number"
                                 id="totalStartingSFlex"
                                 name="totalStartingSFlex"
                                 min="0"
@@ -265,7 +320,7 @@ class DraftMenu extends Component {
                         </div>
                         <div className={formGroup}>
                             <label>DST: </label>
-                            <input type="int"
+                            <input type="number"
                                 id="totalStartingD"
                                 name="totalStartingD"
                                 min="0"
@@ -276,7 +331,7 @@ class DraftMenu extends Component {
                         </div>
                         <div className={formGroup}>
                             <label>K: </label>
-                            <input type="int"
+                            <input type="number"
                                 id="totalStartingK"
                                 name="totalStartingK"
                                 min="0"
@@ -287,7 +342,7 @@ class DraftMenu extends Component {
                         </div>
                         <div className={formGroup}>
                             <label>TOTAL PLAYERS  </label>
-                            <input type="int"
+                            <input type="number"
                                 id="totalPlayer"
                                 name="totalPlayer"
                                 min="1"

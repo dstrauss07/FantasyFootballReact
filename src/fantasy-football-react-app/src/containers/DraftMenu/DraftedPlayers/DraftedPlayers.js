@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Aux from '../../../hoc/Aux';
 import Classes from './DraftedPlayers.module.css';
+import { numberLiteralTypeAnnotation } from '@babel/types';
 
 const DraftedPlayers = (props) => {
 
@@ -23,24 +24,46 @@ const DraftedPlayers = (props) => {
     }
 
     const myDraftPos = props.leagueSettings.draftSlot;
+    let leagueSize= props.leagueSettings.leagueSize
+    
+    let allTeams = [
+        {
+            name: 'unknown',
+            draftedPlayers: []
+        }
+    ]
 
-    let allTeams = [];
-
-    for(let i=0; i<props.leagueSettings.leagueSize; i++)
+    for(let i=0; i<leagueSize; i++)
     {
-        allTeams[i] = [];
+        let playNum = i +1;
+        allTeams[i] = 
+        {
+            name: 'player' + playNum, draftedPlayer:[]
+        }
     }
 
 
     for(let i=0;i<draftedPlayers.length;i++)
     {
-        if(i%props.leagueSettings.leagueSize ==0)
-        {
-            allTeams[i].push(draftedPlayers[i]);
+        let iIncrement = parseInt(i/leagueSize);
+        iIncrement = Math.floor(iIncrement);
+        console.log(iIncrement);
+        if(iIncrement%2 == 0)
+        {            
+            allTeams[
+            i - (iIncrement*leagueSize)     
+            ].draftedPlayer.push(draftedPlayers[i])
+            console.log("even");
+            console.log(allTeams);
         }
-        else
+        else 
         {
-            allTeams[props.leagueSettings.leagueSize - i +1].push(draftedPlayers[i]);
+            console.log(iIncrement/leagueSize);
+            allTeams[
+            leagueSize- (i - (iIncrement*leagueSize)+1)
+           ].draftedPlayer.push(draftedPlayers[i])
+            console.log("odd")
+            console.log(allTeams);
         }
     }
 

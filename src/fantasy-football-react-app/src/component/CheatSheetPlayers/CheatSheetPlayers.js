@@ -31,12 +31,10 @@ const CheatSheetPlayers = (props) => {
     for (var i = 0; i < inheritedPlayers.length; i++) {
         if (selectedPlayers.includes(inheritedPlayers[i]) )
         {
-            console.log(inheritedPlayers[i].playerToRank.playerName + " found");
             selected = true;
         }
         else
         {
-            console.log(inheritedPlayers[i].playerToRank.playerName + " not found");
             selected = false;
         }
         if (props.playerScoringType === "standard") {

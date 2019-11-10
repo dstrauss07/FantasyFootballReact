@@ -19,16 +19,20 @@ let defaultDraftSettings = {
     totalStartingD: 1,
     totalStartingK: 1,
     totalPlayer: 16,
+    totalPlayers: 192,
     yourPickNum: null,
     leagueType: leagueTypes[0]
 }
 
 let draftSession = {
     selectedPlayers: [],
-    draftComplete: false
+    draftComplete: false,
+    currentPick: 1,
+    teamPicking: 1,
+    myTeam: null
 }
 
-let pickNum = 1;
+
 
 class DraftManager extends Component {
 
@@ -39,7 +43,7 @@ class DraftManager extends Component {
         currentLeagueSettings: defaultDraftSettings,
         currentDraftSession: draftSession,
         settingsOpen: true,
-        sessionStarted: false
+        sessionStarted: false,
     };
 
 
@@ -56,7 +60,6 @@ class DraftManager extends Component {
             this.setState({
                 currentLeagueSettings: updatedLeagueSettings
             })
-
         }
     }
 
@@ -72,15 +75,28 @@ class DraftManager extends Component {
     PlayerSelected = (event) => {
         var currentListOfPlayers = this.state.currentDraftSession.selectedPlayers;
         currentListOfPlayers.push(event);
-        if (currentListOfPlayers.length < this.state.currentLeagueSettings.totalPlayer) {
+
+        let nextPicker = this.FindWhoIsPicking();
+        if (currentListOfPlayers.length < this.state.currentLeagueSettings.totalPlayers) {
             this.setState({
                 currentDraftSession: {
                     selectedPlayers: currentListOfPlayers,
-                    draftComplete: false
-                }
+                    draftComplete: false,
+                    currentPick: this.state.currentDraftSession.currentPick + 1,
+                    teamPicking: nextPicker
+                },
+
             })
+
+
+            alert("pick #" + this.state.currentDraftSession.currentPick + " by Team #" + this.state.currentDraftSession.teamPicking);
+
+            if (this.state.currentDraftSession.teamPicking == this.state.currentLeagueSettings.draftSlot) {
+                alert("you picked!")
+            }
         }
         else {
+            console.log("draft completed");
             this.setState({
                 currentDraftSession: {
                     selectedPlayers: currentListOfPlayers,
@@ -90,10 +106,34 @@ class DraftManager extends Component {
         }
     }
 
+
+    FindWhoIsPicking = () => {
+        let nextTeamPicking = this.state.currentDraftSession.teamPicking;
+        let pickDividedByLeagueSize = parseInt(this.state.currentDraftSession.currentPick / this.state.currentLeagueSettings.leagueSize);
+        if (this.state.currentDraftSession.currentPick % this.state.currentLeagueSettings.leagueSize == 0) {
+            return nextTeamPicking;
+        }
+        else {
+            switch (pickDividedByLeagueSize % 2) {
+                case 0:
+                    nextTeamPicking++;
+                    break;
+                case 1:
+                    nextTeamPicking--;
+                    break;
+            }
+
+            return nextTeamPicking;
+        }
+    }
+
+
+
+
     RevertPick = () => {
         var currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
-        var i = currentDraftedGroup.length -1;
-        var previousDraftedGroup = currentDraftedGroup.splice(0,i);
+        var i = currentDraftedGroup.length - 1;
+        var previousDraftedGroup = currentDraftedGroup.splice(0, i);
         console.log(previousDraftedGroup);
         this.setState({
             currentDraftSession: {
@@ -115,7 +155,7 @@ class DraftManager extends Component {
                     currentLeagueSettings={this.state.currentLeagueSettings}
                     settingsOpen={this.state.settingsOpen}
                     toggleSettings={this.ToggleSettingsPanel} />
-            
+
                 <DraftMenu
                     leagueType={"Auction"}
                     leagueSettings={this.state.currentLeagueSettings}
@@ -126,7 +166,7 @@ class DraftManager extends Component {
                 <DraftedPlayers
                     leagueSettings={this.state.currentLeagueSettings}
                     draftSession={this.state.currentDraftSession}
-                    revertPick = {this.RevertPick}
+                    revertPick={this.RevertPick}
                 />
                 <CheatSheet
                     currentRankings={this.state.playerRankings}

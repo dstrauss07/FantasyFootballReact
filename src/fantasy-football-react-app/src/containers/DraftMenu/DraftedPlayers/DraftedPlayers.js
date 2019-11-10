@@ -8,24 +8,23 @@ const DraftedPlayers = (props) => {
 
 
     let draftedPlayers;
-    if(props.draftSession != null)
-    {
+    if (props.draftSession != null) {
         draftedPlayers = props.draftSession.selectedPlayers
     };
 
 
-    let playerTypes={
-        qbPlayers:[],
-        rbPlayers:[],
-        wrPlayers:[],
-        tePlayers:[],
-        dstPlayers:[],
-        kPlayers:[]
+    let playerTypes = {
+        qbPlayers: [],
+        rbPlayers: [],
+        wrPlayers: [],
+        tePlayers: [],
+        dstPlayers: [],
+        kPlayers: []
     }
 
     const myDraftPos = props.leagueSettings.draftSlot;
-    let leagueSize= props.leagueSettings.leagueSize
-    
+    let leagueSize = props.leagueSettings.leagueSize
+
     let allTeams = [
         {
             name: 'unknown',
@@ -33,36 +32,30 @@ const DraftedPlayers = (props) => {
         }
     ]
 
-    for(let i=0; i<leagueSize; i++)
-    {
-        let playNum = i +1;
-        allTeams[i] = 
-        {
-            name: 'player' + playNum, draftedPlayer:[]
-        }
+    for (let i = 0; i < leagueSize; i++) {
+        let playNum = i + 1;
+        allTeams[i] =
+            {
+                name: 'player' + playNum, draftedPlayer: []
+            }
     }
 
 
-    for(let i=0;i<draftedPlayers.length;i++)
-    {
-        let iIncrement = parseInt(i/leagueSize);
+    for (let i = 0; i < draftedPlayers.length; i++) {
+        let iIncrement = parseInt(i / leagueSize);
         iIncrement = Math.floor(iIncrement);
         console.log(iIncrement);
-        if(iIncrement%2 == 0)
-        {            
+        if (iIncrement % 2 == 0) {
             allTeams[
-            i - (iIncrement*leagueSize)     
+                i - (iIncrement * leagueSize)
             ].draftedPlayer.push(draftedPlayers[i])
-            console.log("even");
             console.log(allTeams);
         }
-        else 
-        {
-            console.log(iIncrement/leagueSize);
+        else {
+            console.log(iIncrement / leagueSize);
             allTeams[
-            leagueSize- (i - (iIncrement*leagueSize)+1)
-           ].draftedPlayer.push(draftedPlayers[i])
-            console.log("odd")
+                leagueSize - (i - (iIncrement * leagueSize) + 1)
+            ].draftedPlayer.push(draftedPlayers[i])
             console.log(allTeams);
         }
     }
@@ -95,76 +88,62 @@ const DraftedPlayers = (props) => {
         }
     }
 
-    let qbDiv,rbDiv,wrDiv,teDiv,dstDiv,kDiv, revertDiv;
+    let qbDiv, rbDiv, wrDiv, teDiv, dstDiv, kDiv, revertDiv;
 
-    if(playerTypes.qbPlayers.length == 0)
-    {
+    if (playerTypes.qbPlayers.length === 0) {
         qbDiv = <div>none selected</div>
     }
-    else
-    {
+    else {
         qbDiv = playerTypes.qbPlayers.map(qbplayer => <div>{qbplayer.playerToRank.playerName}</div>)
     }
 
-    if(playerTypes.rbPlayers.length == 0)
-    {
+    if (playerTypes.rbPlayers.length === 0) {
         rbDiv = <div>none selected</div>
     }
-    else
-    {
+    else {
         rbDiv = playerTypes.rbPlayers.map(rbplayer => <div>{rbplayer.playerToRank.playerName}</div>)
     }
 
-    if(playerTypes.wrPlayers.length == 0)
-    {
+    if (playerTypes.wrPlayers.length === 0) {
         wrDiv = <div>none selected</div>
     }
-    else
-    {
+    else {
         wrDiv = playerTypes.wrPlayers.map(wrplayer => <div>{wrplayer.playerToRank.playerName}</div>)
     }
 
-    if(playerTypes.tePlayers.length == 0)
-    {
+    if (playerTypes.tePlayers.length === 0) {
         teDiv = <div>none selected</div>
     }
-    else
-    {
+    else {
         teDiv = playerTypes.tePlayers.map(teplayer => <div>{teplayer.playerToRank.playerName}</div>)
     }
 
-    if(playerTypes.dstPlayers.length == 0)
-    {
+    if (playerTypes.dstPlayers.length === 0) {
         dstDiv = <div>none selected</div>
     }
-    else
-    {
+    else {
         dstDiv = playerTypes.dstPlayers.map(dstplayer => <div>{dstplayer.playerToRank.playerName}</div>)
     }
 
-    if(playerTypes.kPlayers.length == 0)
-    {
+    if (playerTypes.kPlayers.length === 0) {
         kDiv = <div>none selected</div>
     }
-    else
-    {
+    else {
         kDiv = playerTypes.kPlayers.map(kplayer => <div>{kplayer.playerToRank.playerName}</div>)
     }
-   
-    if(props.draftSession.selectedPlayers.length > 0)
-    {
-       revertDiv= <div><button 
-       onClick={props.revertPick}>Revert Pick</button></div>
+
+    if (props.draftSession.selectedPlayers.length > 0) {
+        revertDiv = <div><button
+            onClick={props.revertPick}>Revert Pick</button></div>
     }
-    else
-    {
+    else {
         revertDiv = <div></div>
     }
 
     return (
         <Aux>
             {revertDiv}
-           <h3>QBs</h3>
+            <h3>QBs</h3>
             {qbDiv}
             <h3>RBs</h3>
             {rbDiv}
@@ -176,8 +155,6 @@ const DraftedPlayers = (props) => {
             {dstDiv}
             <h3>K</h3>
             {kDiv}
-     
-
             <div>{props.leagueSettings.leagueType}</div>
         </Aux>
 

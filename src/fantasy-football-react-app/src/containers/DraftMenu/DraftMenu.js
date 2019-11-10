@@ -12,7 +12,7 @@ class DraftMenu extends Component {
         this.state = {
             leagueSettings: props.leagueSettings,
             settingsOpen: props.settingsOpen,
-            leagueType : props.leagueType
+            leagueType : props.leagueType,
         }
 
     }
@@ -31,18 +31,7 @@ class DraftMenu extends Component {
 
     HandleUpdateDraftSlotChange = (e) => {
         let newDraftSlot = e.target.value;
-        // if(newDraftSlot > this.state.leagueSettings.leagueSize)
-        // {
-        //   newDraftSlot = this.state.leagueSettings.leagueSize
-        //   this.props.clicked(this.state.leagueSettings);
-        //     this.setState({
-        //         leagueSettings:
-        //         {
-        //             draftSlot: newDraftSlot         
-        //         }
-        //           });
-        //  }
-        // else
+        
              
             this.setState({
             leagueSettings:
@@ -221,7 +210,6 @@ class DraftMenu extends Component {
                                 type="int"
                                 id="startingBudget"
                                 name="startingBudget"
-                                defaultValue={this.state.leagueSettings.startingBudget}
                                 value={this.state.leagueSettings.startingBudget}
                                 onChange={this.HandleUpdateStartingBudgetChange}
                             />
@@ -234,8 +222,7 @@ class DraftMenu extends Component {
                                 ref="draftSlot"
                                 name="draftSlot"
                                 min = {1}
-                                max = {this.props.leagueSettings.leagueSize}
-                                defaultValue={this.state.leagueSettings.draftSlot}
+                                max = {this.props.leagueSettings.leagueSize}        
                                 value={this.state.leagueSettings.draftSlot}
                                 onChange={this.HandleUpdateDraftSlotChange}
                             />
@@ -248,7 +235,6 @@ class DraftMenu extends Component {
                                 min="2"
                                 max="32"
                                 value={this.state.leagueSettings.leagueSize}
-                                defaultValue={this.state.leagueSettings.leagueSize}
                                 onChange={this.HandleUpdateLeagueSizeChange}
                             />
                         </div>

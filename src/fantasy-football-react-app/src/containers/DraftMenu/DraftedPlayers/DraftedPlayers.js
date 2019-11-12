@@ -61,26 +61,27 @@ const DraftedPlayers = (props) => {
     }
 
 
-    if (draftedPlayers != null) {
-        for (let i = 0; i < draftedPlayers.length; i++) {
-            switch (draftedPlayers[i].playerToRank.playerPos) {
+    if (allTeams != null) {
+
+        for (let i = 0; i < allTeams[myDraftPos-1].draftedPlayer.length; i++) {
+            switch (allTeams[myDraftPos-1].draftedPlayer[i].playerToRank.playerPos) {
                 case "QB":
-                    playerTypes.qbPlayers.push(draftedPlayers[i]);
+                    playerTypes.qbPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
                     break;
                 case "RB":
-                    playerTypes.rbPlayers.push(draftedPlayers[i]);
+                    playerTypes.rbPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
                     break;
                 case "WR":
-                    playerTypes.wrPlayers.push(draftedPlayers[i]);
+                    playerTypes.wrPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
                     break;
                 case "TE":
-                    playerTypes.tePlayers.push(draftedPlayers[i]);
+                    playerTypes.tePlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
                     break;
                 case "DST":
-                    playerTypes.dstPlayers.push(draftedPlayers[i]);
+                    playerTypes.dstPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
                     break;
                 case "K":
-                    playerTypes.kPlayers.push(draftedPlayers[i]);
+                    playerTypes.kPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
                     break;
                 default:
                     break;

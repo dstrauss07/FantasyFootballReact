@@ -20,7 +20,6 @@ let defaultDraftSettings = {
     totalStartingK: 1,
     totalPlayer: 16,
     totalPlayers: 192,
-    yourPickNum: null,
     leagueType: leagueTypes[0]
 }
 
@@ -28,9 +27,9 @@ let draftSession = {
     selectedPlayers: [],
     draftComplete: false,
     currentPick: 1,
-    teamPicking: 1,
-    myTeam: null
+    teamPicking: 1          
 }
+
 
 
 
@@ -46,7 +45,7 @@ class DraftManager extends Component {
         sessionStarted: false,
     };
 
-
+ 
 
     UpdateLeagueSettingsHandler = (props) => {
         console.log(props);
@@ -74,9 +73,9 @@ class DraftManager extends Component {
 
     PlayerSelected = (event) => {
         var currentListOfPlayers = this.state.currentDraftSession.selectedPlayers;
-        currentListOfPlayers.push(event);
-
         let nextPicker = this.FindWhoIsPicking();
+        currentListOfPlayers.push(event);
+         
         if (currentListOfPlayers.length < this.state.currentLeagueSettings.totalPlayers) {
             this.setState({
                 currentDraftSession: {
@@ -84,13 +83,9 @@ class DraftManager extends Component {
                     draftComplete: false,
                     currentPick: this.state.currentDraftSession.currentPick + 1,
                     teamPicking: nextPicker
-                },
-
-            })
-
-
-            alert("pick #" + this.state.currentDraftSession.currentPick + " by Team #" + this.state.currentDraftSession.teamPicking);
-
+                  }
+                 })
+                
             if (this.state.currentDraftSession.teamPicking == this.state.currentLeagueSettings.draftSlot) {
                 alert("you picked!")
             }
@@ -98,7 +93,7 @@ class DraftManager extends Component {
         else {
             console.log("draft completed");
             this.setState({
-                currentDraftSession: {
+                    currentDraftSession: {
                     selectedPlayers: currentListOfPlayers,
                     draftComplete: true
                 }
@@ -122,7 +117,6 @@ class DraftManager extends Component {
                     nextTeamPicking--;
                     break;
             }
-
             return nextTeamPicking;
         }
     }

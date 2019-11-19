@@ -43,6 +43,7 @@ class DraftManager extends Component {
         currentDraftSession: draftSession,
         settingsOpen: true,
         sessionStarted: false,
+        teamShown: defaultDraftSettings.draftSlot
     };
 
  
@@ -137,6 +138,11 @@ class DraftManager extends Component {
         })
     }
 
+    ChangeTeamShown = () =>{
+
+
+    }
+
 
 
 
@@ -161,6 +167,7 @@ class DraftManager extends Component {
                     leagueSettings={this.state.currentLeagueSettings}
                     draftSession={this.state.currentDraftSession}
                     revertPick={this.RevertPick}
+                    teamShown={this.state.teamShown}
                 />
                 <CheatSheet
                     currentRankings={this.state.playerRankings}

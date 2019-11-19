@@ -12,6 +12,7 @@ const DraftedPlayers = (props) => {
         draftedPlayers = props.draftSession.selectedPlayers
     };
 
+    let teamSlotShown = props.leagueSettings.draftSlot-1;
 
     let playerTypes = {
         qbPlayers: [],
@@ -44,44 +45,40 @@ const DraftedPlayers = (props) => {
     for (let i = 0; i < draftedPlayers.length; i++) {
         let iIncrement = parseInt(i / leagueSize);
         iIncrement = Math.floor(iIncrement);
-        console.log(iIncrement);
         if (iIncrement % 2 == 0) {
             allTeams[
                 i - (iIncrement * leagueSize)
             ].draftedPlayer.push(draftedPlayers[i])
-            console.log(allTeams);
         }
         else {
-            console.log(iIncrement / leagueSize);
             allTeams[
                 leagueSize - (i - (iIncrement * leagueSize) + 1)
             ].draftedPlayer.push(draftedPlayers[i])
-            console.log(allTeams);
         }
     }
 
 
-    if (allTeams != null) {
 
-        for (let i = 0; i < allTeams[myDraftPos-1].draftedPlayer.length; i++) {
-            switch (allTeams[myDraftPos-1].draftedPlayer[i].playerToRank.playerPos) {
+    if (allTeams[teamSlotShown].draftedPlayer.length > 0) {
+        for (let i = 0; i < allTeams[teamSlotShown].draftedPlayer.length; i++) {
+            switch (allTeams[teamSlotShown].draftedPlayer[i].playerToRank.playerPos){ 
                 case "QB":
-                    playerTypes.qbPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
+                    playerTypes.qbPlayers.push(allTeams[teamSlotShown].draftedPlayer[i]);
                     break;
                 case "RB":
-                    playerTypes.rbPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
+                    playerTypes.rbPlayers.push(allTeams[teamSlotShown].draftedPlayer[i]);
                     break;
                 case "WR":
-                    playerTypes.wrPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
+                    playerTypes.wrPlayers.push(allTeams[teamSlotShown].draftedPlayer[i]);
                     break;
                 case "TE":
-                    playerTypes.tePlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
+                    playerTypes.tePlayers.push(allTeams[teamSlotShown].draftedPlayer[i]);
                     break;
                 case "DST":
-                    playerTypes.dstPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
+                    playerTypes.dstPlayers.push(allTeams[teamSlotShown].draftedPlayer[i]);
                     break;
                 case "K":
-                    playerTypes.kPlayers.push(allTeams[myDraftPos-1].draftedPlayer[i]);
+                    playerTypes.kPlayers.push(allTeams[teamSlotShown].draftedPlayer[i]);
                     break;
                 default:
                     break;
@@ -141,9 +138,31 @@ const DraftedPlayers = (props) => {
         revertDiv = <div></div>
     }
 
+    let teamTogglerDiv = document.createElement('select');
+
+
+    // if(props.leagueSettings.leagueSize> 0)
+    // {   
+    // for(var i=1; i<=props.leagueSettings.leagueSize; i++)
+    //     {
+    //         let newOption = document.createElement('option');
+    //         newOption.appendChild(document.createTextNode(i));
+    //         teamTogglerDiv.innerHTML +=newOption;
+    //     }
+    // }
+    
+
+
+
     return (
         <Aux>
             {revertDiv}
+            <form>
+            <div>
+                <label>TEAM #</label>
+                {teamTogglerDiv}
+            </div>
+            </form>
             <h3>QBs</h3>
             {qbDiv}
             <h3>RBs</h3>

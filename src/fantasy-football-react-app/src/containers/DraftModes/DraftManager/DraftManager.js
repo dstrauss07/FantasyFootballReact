@@ -3,7 +3,7 @@ import Aux from '../../../hoc/Aux';
 import DraftMenu from '../../DraftMenu/DraftMenu';
 import DraftBanner from '../../DraftMenu/DraftBanner/DraftBanner';
 import CheatSheet from '../../DraftMenu/CheatSheet/CheatSheet';
-import DraftedPlayers from '../../DraftMenu/DraftedPlayers/DraftedPlayers';
+import MyDraftedPlayers from '../../DraftMenu/DraftedPlayers/MyDraftedPlayers';
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
 
@@ -138,12 +138,13 @@ class DraftManager extends Component {
         })
     }
 
-    ChangeTeamShown = () =>{
-
+    OnDropdownSelected = (e) =>{
+        console.log("THE VAL", e.target.value);
+        this.setState({
+            teamShown : e.target.value
+        });
 
     }
-
-
 
 
     render() {
@@ -163,11 +164,12 @@ class DraftManager extends Component {
                     toggleSettings={this.ToggleSettingsPanel}
                     clicked={this.UpdateLeagueSettingsHandler}
                 />
-                <DraftedPlayers
+                <MyDraftedPlayers
                     leagueSettings={this.state.currentLeagueSettings}
                     draftSession={this.state.currentDraftSession}
                     revertPick={this.RevertPick}
                     teamShown={this.state.teamShown}
+                    onDropdownSelected = {this.OnDropdownSelected}
                 />
                 <CheatSheet
                     currentRankings={this.state.playerRankings}

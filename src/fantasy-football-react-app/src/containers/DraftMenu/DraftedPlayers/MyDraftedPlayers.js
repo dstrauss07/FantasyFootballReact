@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Aux from '../../../hoc/Aux';
-import Classes from './DraftedPlayers.module.css';
+import Classes from './MyDraftedPlayers.module.css';
 import { numberLiteralTypeAnnotation } from '@babel/types';
 
-const DraftedPlayers = (props) => {
+const MyDraftedPlayers = (props) => {
 
 
     let draftedPlayers;
@@ -12,7 +12,7 @@ const DraftedPlayers = (props) => {
         draftedPlayers = props.draftSession.selectedPlayers
     };
 
-    let teamSlotShown = props.leagueSettings.draftSlot-1;
+    let teamSlotShown = props.teamShown -1;
 
     let playerTypes = {
         qbPlayers: [],
@@ -22,8 +22,6 @@ const DraftedPlayers = (props) => {
         dstPlayers: [],
         kPlayers: []
     }
-
-    const myDraftPos = props.leagueSettings.draftSlot;
     let leagueSize = props.leagueSettings.leagueSize
 
     let allTeams = [
@@ -138,29 +136,30 @@ const DraftedPlayers = (props) => {
         revertDiv = <div></div>
     }
 
-    let teamTogglerDiv = document.createElement('select');
 
+    let CreateSelectItems =() => {
+        let teamTogglerOptions = [];         
+        for (let i=1; i<=props.leagueSettings.leagueSize; i++) {             
+            teamTogglerOptions.push(<option key={i} value={i}>Team {i}</option>);   
+        }
+        return teamTogglerOptions;
+    }  
+   
 
-    // if(props.leagueSettings.leagueSize> 0)
-    // {   
-    // for(var i=1; i<=props.leagueSettings.leagueSize; i++)
-    //     {
-    //         let newOption = document.createElement('option');
-    //         newOption.appendChild(document.createTextNode(i));
-    //         teamTogglerDiv.innerHTML +=newOption;
-    //     }
-    // }
     
 
 
 
     return (
         <Aux>
+            {}
             {revertDiv}
             <form>
             <div>
-                <label>TEAM #</label>
-                {teamTogglerDiv}
+            <select onChange={props.onDropdownSelected}>
+            {CreateSelectItems()}
+            </select>
+          
             </div>
             </form>
             <h3>QBs</h3>
@@ -180,4 +179,4 @@ const DraftedPlayers = (props) => {
 
     )
 }
-export default DraftedPlayers;
+export default MyDraftedPlayers;

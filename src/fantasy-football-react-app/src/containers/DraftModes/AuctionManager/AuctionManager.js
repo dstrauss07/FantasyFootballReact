@@ -3,7 +3,7 @@ import Aux from '../../../hoc/Aux';
 import DraftMenu from '../../DraftMenu/DraftMenu';
 import DraftBanner from '../../DraftMenu/DraftBanner/DraftBanner';
 import CheatSheet from '../../DraftMenu/CheatSheet/CheatSheet';
-import DraftedPlayers from '../../DraftMenu/DraftedPlayers/DraftedPlayers';
+import MyDraftedPlayers from '../../DraftMenu/DraftedPlayers/MyDraftedPlayers';
 
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
@@ -84,7 +84,7 @@ class AuctionManager extends Component {
                     toggleSettings={this.ToggleSettingsPanel}
                     clicked={this.UpdateLeagueSettingsHandler}
                 />
-         <DraftedPlayers
+         <MyDraftedPlayers
          leagueSettings={this.state.currentLeagueSettings} 
                 />
                 <CheatSheet 

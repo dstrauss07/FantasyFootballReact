@@ -4,6 +4,7 @@ import DraftMenu from '../../DraftMenu/DraftMenu';
 import DraftBanner from '../../DraftMenu/DraftBanner/DraftBanner';
 import CheatSheet from '../../DraftMenu/CheatSheet/CheatSheet';
 import MyDraftedPlayers from '../../DraftMenu/DraftedPlayers/MyDraftedPlayers';
+import AllDraftedPlayers from '../../DraftMenu/DraftedPlayers/AllDraftedPlayers';
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
 
@@ -27,7 +28,7 @@ let draftSession = {
     selectedPlayers: [],
     draftComplete: false,
     currentPick: 1,
-    teamPicking: 1          
+    teamPicking: 1
 }
 
 
@@ -46,7 +47,7 @@ class DraftManager extends Component {
         teamShown: defaultDraftSettings.draftSlot
     };
 
- 
+
 
     UpdateLeagueSettingsHandler = (props) => {
         console.log(props);
@@ -76,7 +77,7 @@ class DraftManager extends Component {
         var currentListOfPlayers = this.state.currentDraftSession.selectedPlayers;
         let nextPicker = this.FindWhoIsPicking();
         currentListOfPlayers.push(event);
-         
+
         if (currentListOfPlayers.length < this.state.currentLeagueSettings.totalPlayers) {
             this.setState({
                 currentDraftSession: {
@@ -84,9 +85,9 @@ class DraftManager extends Component {
                     draftComplete: false,
                     currentPick: this.state.currentDraftSession.currentPick + 1,
                     teamPicking: nextPicker
-                  }
-                 })
-                
+                }
+            })
+
             if (this.state.currentDraftSession.teamPicking == this.state.currentLeagueSettings.draftSlot) {
                 alert("you picked!")
             }
@@ -94,7 +95,7 @@ class DraftManager extends Component {
         else {
             console.log("draft completed");
             this.setState({
-                    currentDraftSession: {
+                currentDraftSession: {
                     selectedPlayers: currentListOfPlayers,
                     draftComplete: true
                 }
@@ -138,10 +139,10 @@ class DraftManager extends Component {
         })
     }
 
-    OnDropdownSelected = (e) =>{
+    OnDropdownSelected = (e) => {
         console.log("THE VAL", e.target.value);
         this.setState({
-            teamShown : e.target.value
+            teamShown: e.target.value
         });
 
     }
@@ -169,7 +170,11 @@ class DraftManager extends Component {
                     draftSession={this.state.currentDraftSession}
                     revertPick={this.RevertPick}
                     teamShown={this.state.teamShown}
-                    onDropdownSelected = {this.OnDropdownSelected}
+                    onDropdownSelected={this.OnDropdownSelected}
+                />
+                <AllDraftedPlayers
+                    leagueSettings={this.state.currentLeagueSettings}
+                    draftSession={this.state.currentDraftSession}
                 />
                 <CheatSheet
                     currentRankings={this.state.playerRankings}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Classes from './DraftMenu.module.css';
-import NumericInput from 'react-numeric-input';
+// import NumericInput from 'react-numeric-input';
 
 class DraftMenu extends Component {
 
@@ -196,7 +196,7 @@ class DraftMenu extends Component {
 
     
 
-        if (this.props.leagueType == "Auction") {
+        if (this.props.leagueType === "Auction") {
             formToReturn =
                 <form className={panelShown}>
                     <div className={formBox}>
@@ -342,7 +342,6 @@ class DraftMenu extends Component {
                             <select id="leagueType"
                                 name="leagueType"
                                 value={this.state.leagueSettings.leagueType}
-                                onChange={this.HandleUpdateLeagueTypeChange}
                                 onChange={this.HandleUpdateLeagueTypeChange}>
 
                                 <option value="standard">Standard</option>

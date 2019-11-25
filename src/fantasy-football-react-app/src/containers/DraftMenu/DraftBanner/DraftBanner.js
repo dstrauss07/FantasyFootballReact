@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Aux from '../../../hoc/Aux';
-import DraftMenu from '../DraftMenu';
 import Classes from './DraftBanner.module.css';
 
 

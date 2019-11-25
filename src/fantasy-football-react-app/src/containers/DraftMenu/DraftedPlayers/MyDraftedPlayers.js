@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import Aux from '../../../hoc/Aux';
-import Classes from './MyDraftedPlayers.module.css';
-import { numberLiteralTypeAnnotation } from '@babel/types';
+// import Classes from './MyDraftedPlayers.module.css';
+// import { numberLiteralTypeAnnotation } from '@babel/types';
+// import ReactDOM from 'react-dom';
 
 const MyDraftedPlayers = (props) => {
 
@@ -43,7 +43,7 @@ const MyDraftedPlayers = (props) => {
     for (let i = 0; i < draftedPlayers.length; i++) {
         let iIncrement = parseInt(i / leagueSize);
         iIncrement = Math.floor(iIncrement);
-        if (iIncrement % 2 == 0) {
+        if (iIncrement % 2 === 0) {
             allTeams[
                 i - (iIncrement * leagueSize)
             ].draftedPlayer.push(draftedPlayers[i])
@@ -159,7 +159,6 @@ const MyDraftedPlayers = (props) => {
             <select onChange={props.onDropdownSelected}>
             {CreateSelectItems()}
             </select>
-          
             </div>
             </form>
             <h3>QBs</h3>

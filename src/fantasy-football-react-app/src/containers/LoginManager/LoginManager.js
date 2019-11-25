@@ -31,8 +31,8 @@ class LoginManager extends Component {
         axios.get(loginUri + this.state.UserEmail)
             .then(response => {
                 let data = response.data;
-                if (response.data != "") {
-                    if (response.data.userPassword == this.state.UserPassword) {
+                if (response.data !== "") {
+                    if (response.data.userPassword === this.state.UserPassword) {
                         this.setState({
                             UserId: data.testUserProfileId,
                             UserName: data.name,
@@ -55,15 +55,15 @@ class LoginManager extends Component {
 
     UserRegisterHandler = event => {
         event.preventDefault();
-        if (this.state.UserPassword == this.state.UserPasswordConfirm) {
+        if (this.state.UserPassword === this.state.UserPasswordConfirm) {
             const data = { name: this.state.UserName, email: this.state.UserEmail, password: this.state.UserPassword }
             console.log(data);
             axios.post(loginUri, data)
                 .then(response => {
                     let data = response.data;
                     console.log(data)
-                    if (response.data != "") {
-                        if (response.data.userPassword == this.state.UserPassword) {
+                    if (response.data !== "") {
+                        if (response.data.userPassword === this.state.UserPassword) {
                             this.setState({
                                 UserId: data.testUserProfileId,
                                 UserName: data.name,
@@ -110,7 +110,7 @@ class LoginManager extends Component {
 
 
     render() {
-        if (this.state.loginMode == "login") {
+        if (this.state.loginMode === "login") {
             loginReturnDiv = <div>
                 <h3>Login!</h3>
                 <form>
@@ -133,7 +133,7 @@ class LoginManager extends Component {
         }
 
 
-        if (this.state.loginMode == "register") {
+        if (this.state.loginMode === "register") {
             loginReturnDiv =
                 <div>
                     <h3>Register!</h3>
@@ -155,7 +155,7 @@ class LoginManager extends Component {
                                 required />
                         </label>
                         <label>Password:
-                    <input type="password" name="password"
+                    <input type="password"
                                 id="UserPassword"
                                 name="UserPassword"
                                 value={this.state.UserPassword}

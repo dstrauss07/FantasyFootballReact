@@ -1,5 +1,5 @@
 import React from 'react';
-import Aux from '../../../hoc/Aux';
+import Aux from '../../../hoc/ReactAux';
 import Classes from './RankingController.module.css'
 
 
@@ -17,6 +17,9 @@ const RankingController = (props) => {
         case "dynasty":
         dynastyClass= Classes.Active;
         break;
+        default:
+                standardClass = Classes.Active;
+                break;
     }
 
     switch(props.positionFilter){
@@ -41,6 +44,8 @@ const RankingController = (props) => {
         case "K":
         kClass= Classes.Active;
         break;
+        default:
+            break;
     }
 
     if(props.isChanged)

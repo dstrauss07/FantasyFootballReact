@@ -1,5 +1,5 @@
 import React from 'react';
-import Aux from '../../../hoc/Aux';
+import Aux from '../../../hoc/ReactAux';
 import classes from './AllDraftedPlayers.module.css';
 // import Classes from './AllDraftedPlayers.module.css';
 // import { numberLiteralTypeAnnotation } from '@babel/types';
@@ -57,11 +57,7 @@ const AllDraftedPlayers = (props) => {
         }
 
 
-        console.log("draft Number" + draftNum);
-        console.log("league size"  + leagueSize);
-        console.log("round pick" + roundPick);
-        let draftRound = parseInt((draftNum) / leagueSize) +1 ;
-        console.log("draft round" + draftRound);
+        let draftRound = parseInt((draftNum) / (leagueSize+1)) +1 ;  
         let evenOrOddRound = "odd";
         
 
@@ -83,7 +79,6 @@ const AllDraftedPlayers = (props) => {
                 break;
                 default:
                evenOrOddRound = "error";
-               console.log("error");
                 break;
             }
         if(evenOrOddRound === "odd")
@@ -101,7 +96,7 @@ const AllDraftedPlayers = (props) => {
 
             if(roundPick === 12)
             {
-                draftRound++;
+                console.log("pick # 12")
                 roundPick = 1;
                 if(evenOrOddRound === "odd")
                 {
@@ -117,7 +112,13 @@ const AllDraftedPlayers = (props) => {
                 roundPick++;
             }
 
+            if(roundPick === 1)
+            {
+                draftRound++;
+            }
+
             draftNum++;
+            console.log(evenOrOddRound)
         }
 
         allPlayerDiv =React.createElement(

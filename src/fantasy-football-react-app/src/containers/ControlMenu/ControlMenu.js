@@ -1,5 +1,5 @@
 import React from 'react';
-import Aux from '../../hoc/Aux';
+import Aux from '../../hoc/ReactAux';
 import Classes from './ControlMenu.module.css';
 
 const ControlMenu = (props) => {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux';
+import Aux from '../../hoc/ReactAux';
 import Players from '../../component/Players/Players';
 import axios from 'axios';
 import Classes from './RankingManager.module.css';
 import RankingController from './RankingController/RankingController';
-import { debuggerStatement } from '@babel/types';
+// import { debuggerStatement } from '@babel/types';
 
 const scoringTypes = ["standard", "ppr", "dynasty"];
 const positionFilters = ["ALL", "QB", "RB", "WR", "TE", "DST", "K"]
@@ -44,7 +44,7 @@ class RankingManager extends Component {
                 playerRankingsToUpdate.push(currentPlayerRanking);
             }
 
-           
+          
             axios.patch(rankUri, playerRankingsToUpdate)
                 .then(response=>{
                    

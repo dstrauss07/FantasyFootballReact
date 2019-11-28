@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Aux from '../hoc/Aux';
+import Aux from '../hoc/ReactAux';
 import ControlMenu from './ControlMenu/ControlMenu';
 import RankingManager from './RankingManager/RankingManager';
 import LoginManager from './LoginManager/LoginManager';

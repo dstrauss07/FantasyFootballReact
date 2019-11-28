@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Aux from '../../../hoc/Aux';
+import Aux from '../../../hoc/ReactAux';
 import DraftMenu from '../../DraftMenu/DraftMenu';
 import DraftBanner from '../../DraftMenu/DraftBanner/DraftBanner';
 import CheatSheet from '../../DraftMenu/CheatSheet/CheatSheet';
 import MyDraftedPlayers from '../../DraftMenu/DraftedPlayers/MyDraftedPlayers';
 import AllDraftedPlayers from '../../DraftMenu/DraftedPlayers/AllDraftedPlayers';
+import WhenNextPick from '../../DraftMenu/WhenNextPick/WhenNextPick';
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
 
@@ -88,7 +89,7 @@ class DraftManager extends Component {
                 }
             })
 
-            if (this.state.currentDraftSession.teamPicking == this.state.currentLeagueSettings.draftSlot) {
+            if (this.state.currentDraftSession.teamPicking === this.state.currentLeagueSettings.draftSlot) {
                 alert("you picked!")
             }
         }
@@ -107,7 +108,7 @@ class DraftManager extends Component {
     FindWhoIsPicking = () => {
         let nextTeamPicking = this.state.currentDraftSession.teamPicking;
         let pickDividedByLeagueSize = parseInt(this.state.currentDraftSession.currentPick / this.state.currentLeagueSettings.leagueSize);
-        if (this.state.currentDraftSession.currentPick % this.state.currentLeagueSettings.leagueSize == 0) {
+        if (this.state.currentDraftSession.currentPick % this.state.currentLeagueSettings.leagueSize === 0) {
             return nextTeamPicking;
         }
         else {
@@ -118,6 +119,8 @@ class DraftManager extends Component {
                 case 1:
                     nextTeamPicking--;
                     break;
+                default:
+                break;
             }
             return nextTeamPicking;
         }
@@ -130,11 +133,14 @@ class DraftManager extends Component {
         var currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
         var i = currentDraftedGroup.length - 1;
         var previousDraftedGroup = currentDraftedGroup.splice(0, i);
+        var currentPickValue = this.state.currentDraftSession.currentPick;
+        currentPickValue --;
         console.log(previousDraftedGroup);
         this.setState({
             currentDraftSession: {
                 selectedPlayers: previousDraftedGroup,
-                draftComplete: false
+                draftComplete: false,
+                currentPick: currentPickValue
             }
         })
     }
@@ -173,6 +179,10 @@ class DraftManager extends Component {
                     onDropdownSelected={this.OnDropdownSelected}
                 />
                 <AllDraftedPlayers
+                    leagueSettings={this.state.currentLeagueSettings}
+                    draftSession={this.state.currentDraftSession}
+                />
+                <WhenNextPick
                     leagueSettings={this.state.currentLeagueSettings}
                     draftSession={this.state.currentDraftSession}
                 />

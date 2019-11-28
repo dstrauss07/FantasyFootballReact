@@ -1,5 +1,5 @@
 import React from 'react';
-import Aux from '../../../hoc/Aux';
+import Aux from '../../../hoc/ReactAux';
 import CheatSheetPlayers from '../../../component/CheatSheetPlayers/CheatSheetPlayers';
 import Classes from './CheatSheet.module.css';
 

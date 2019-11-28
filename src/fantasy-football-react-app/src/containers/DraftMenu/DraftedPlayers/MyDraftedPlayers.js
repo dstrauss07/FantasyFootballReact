@@ -1,5 +1,5 @@
 import React from 'react';
-import Aux from '../../../hoc/Aux';
+import Aux from '../../../hoc/ReactAux';
 // import Classes from './MyDraftedPlayers.module.css';
 // import { numberLiteralTypeAnnotation } from '@babel/types';
 // import ReactDOM from 'react-dom';

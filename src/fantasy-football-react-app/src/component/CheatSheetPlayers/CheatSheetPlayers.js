@@ -10,11 +10,13 @@ const CheatSheetPlayers = (props) => {
     let selectedPlayers = props.selectedPlayers;
     let selected = false;
 
+    
+    console.log(props.filtered);
+
     if(props.playerPositionFilter === "ALL")
     {
         playerCount = inheritedPlayers.length;
     }
-
     else
     {
         var counter = 0;
@@ -27,7 +29,8 @@ const CheatSheetPlayers = (props) => {
         playerCount = counter;
     }
      
-  
+  if(selectedPlayers != null)
+  {
     for (var i = 0; i < inheritedPlayers.length; i++) {
         if (selectedPlayers.includes(inheritedPlayers[i]) )
         {
@@ -47,6 +50,7 @@ const CheatSheetPlayers = (props) => {
                     playerCount = {playerCount}
                     selected = {selected}
                     clicked = {props.clicked}
+                    filtered = {props.filtered}
                 />
         
         }
@@ -59,6 +63,7 @@ const CheatSheetPlayers = (props) => {
                     playerCount = {playerCount}
                     selected = {selected}
                     clicked = {props.clicked}
+                    filtered = {props.filtered}
                 />
         }
         if (props.playerScoringType === "dynasty") {
@@ -70,21 +75,18 @@ const CheatSheetPlayers = (props) => {
                     playerCount = {playerCount}
                     selected = {selected}
                     clicked = {props.clicked}
+                    filtered = {props.filtered}
                 />
         }
         if (inheritedPlayers[i].playerToRank.playerPos === props.playerPositionFilter || props.playerPositionFilter === "ALL") {
             allPlayers.push(playerToAdd);
         }
     }
-
-    //console.log(allPlayers);
+  }
 
        allPlayers.sort((a, b) =>
            a.props.playerRank - b.props.playerRank);
-
-           return allPlayers;
-        
-
+           return allPlayers;       
 }
 
 export default CheatSheetPlayers;

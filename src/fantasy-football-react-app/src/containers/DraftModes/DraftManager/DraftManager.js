@@ -29,7 +29,7 @@ let draftSession = {
     selectedPlayers: [],
     draftComplete: false,
     currentPick: 1,
-    teamPicking: 1
+    teamPicking: 1,
 }
 
 
@@ -45,20 +45,19 @@ class DraftManager extends Component {
         currentDraftSession: draftSession,
         settingsOpen: true,
         sessionStarted: false,
-        teamShown: defaultDraftSettings.draftSlot
+        playersFiltered: false,
+        teamShown: defaultDraftSettings.draftSlot,
+        draftType:"snake"
     };
 
 
 
     UpdateLeagueSettingsHandler = (props) => {
-        console.log(props);
         var updatedLeagueSettings = this.state.currentLeagueSettings;
-        console.log("starting legue settings " + updatedLeagueSettings);
         for (var key in updatedLeagueSettings) {
             if (props[key] != null) {
                 updatedLeagueSettings[key] = props[key];
             }
-
             this.setState({
                 currentLeagueSettings: updatedLeagueSettings
             })
@@ -90,11 +89,9 @@ class DraftManager extends Component {
             })
 
             if (this.state.currentDraftSession.teamPicking === this.state.currentLeagueSettings.draftSlot) {
-                alert("you picked!")
             }
         }
         else {
-            console.log("draft completed");
             this.setState({
                 currentDraftSession: {
                     selectedPlayers: currentListOfPlayers,
@@ -120,7 +117,7 @@ class DraftManager extends Component {
                     nextTeamPicking--;
                     break;
                 default:
-                break;
+                    break;
             }
             return nextTeamPicking;
         }
@@ -134,8 +131,7 @@ class DraftManager extends Component {
         var i = currentDraftedGroup.length - 1;
         var previousDraftedGroup = currentDraftedGroup.splice(0, i);
         var currentPickValue = this.state.currentDraftSession.currentPick;
-        currentPickValue --;
-        console.log(previousDraftedGroup);
+        currentPickValue--;
         this.setState({
             currentDraftSession: {
                 selectedPlayers: previousDraftedGroup,
@@ -146,12 +142,21 @@ class DraftManager extends Component {
     }
 
     OnDropdownSelected = (e) => {
-        console.log("THE VAL", e.target.value);
         this.setState({
             teamShown: e.target.value
         });
-
     }
+
+    FilterDraftedPlayers = () => {
+        console.log(this.state.playersFiltered);
+        if (this.state.playersFiltered) {
+            this.setState({ playersFiltered: false })
+        }
+        else {
+            this.setState({ playersFiltered: true })
+        }
+    }
+
 
 
     render() {
@@ -165,11 +170,11 @@ class DraftManager extends Component {
                     toggleSettings={this.ToggleSettingsPanel} />
 
                 <DraftMenu
-                    leagueType={"Auction"}
-                    leagueSettings={this.state.currentLeagueSettings}
                     settingsOpen={this.state.settingsOpen}
                     toggleSettings={this.ToggleSettingsPanel}
                     clicked={this.UpdateLeagueSettingsHandler}
+                    leagueSettings={this.state.currentLeagueSettings}
+                    draftSession={this.state.currentDraftSession}
                 />
                 <MyDraftedPlayers
                     leagueSettings={this.state.currentLeagueSettings}
@@ -187,11 +192,15 @@ class DraftManager extends Component {
                     draftSession={this.state.currentDraftSession}
                 />
                 <CheatSheet
+                    draftType = {this.state.draftType} 
                     currentRankings={this.state.playerRankings}
                     scoringType={this.state.currentLeagueSettings.leagueType}
-                    draftType="Snake"
                     draftSession={this.state.currentDraftSession}
-                    playerClicked={this.PlayerSelected} />
+                    playerClicked={this.PlayerSelected} 
+                    filterDrafted = {this.FilterDraftedPlayers}
+                    playersFilters = {this.state.playersFiltered}
+                    draftSession={this.state.currentDraftSession}
+                    />
             </Aux>
 
         )

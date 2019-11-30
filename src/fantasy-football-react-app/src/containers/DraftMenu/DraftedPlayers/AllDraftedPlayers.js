@@ -8,11 +8,15 @@ import classes from './AllDraftedPlayers.module.css';
 const AllDraftedPlayers = (props) => {
 
     let draftedPlayers;
+    let totalPlayersDrafted = 0;
     if (props.draftSession != null) {
         draftedPlayers = props.draftSession.selectedPlayers
     };
 
-    let totalPlayersDrafted = draftedPlayers.length;
+    if(draftedPlayers!=null)
+    {
+        totalPlayersDrafted = draftedPlayers.length;
+    }
 
     let leagueSize = props.leagueSettings.leagueSize;
 

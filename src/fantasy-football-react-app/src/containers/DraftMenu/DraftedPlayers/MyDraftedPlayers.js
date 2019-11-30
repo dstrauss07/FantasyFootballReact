@@ -40,20 +40,24 @@ const MyDraftedPlayers = (props) => {
     }
 
 
-    for (let i = 0; i < draftedPlayers.length; i++) {
-        let iIncrement = parseInt(i / leagueSize);
-        iIncrement = Math.floor(iIncrement);
-        if (iIncrement % 2 === 0) {
-            allTeams[
-                i - (iIncrement * leagueSize)
-            ].draftedPlayer.push(draftedPlayers[i])
-        }
-        else {
-            allTeams[
-                leagueSize - (i - (iIncrement * leagueSize) + 1)
-            ].draftedPlayer.push(draftedPlayers[i])
+    if(draftedPlayers!= null)
+    {
+        for (let i = 0; i < draftedPlayers.length; i++) {
+            let iIncrement = parseInt(i / leagueSize);
+            iIncrement = Math.floor(iIncrement);
+            if (iIncrement % 2 === 0) {
+                allTeams[
+                    i - (iIncrement * leagueSize)
+                ].draftedPlayer.push(draftedPlayers[i])
+            }
+            else {
+                allTeams[
+                    leagueSize - (i - (iIncrement * leagueSize) + 1)
+                ].draftedPlayer.push(draftedPlayers[i])
+            }
         }
     }
+
 
 
 
@@ -128,7 +132,7 @@ const MyDraftedPlayers = (props) => {
         kDiv = playerTypes.kPlayers.map(kplayer => <div>{kplayer.playerToRank.playerName}</div>)
     }
 
-    if (props.draftSession.selectedPlayers.length > 0) {
+    if (props.draftSession.selectedPlayers != null) {
         revertDiv = <div><button
             onClick={props.revertPick}>Revert Pick</button></div>
     }

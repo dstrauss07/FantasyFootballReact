@@ -2,8 +2,12 @@ import React from 'react';
 import Classes from './CheatSheetPlayer.module.css';
 
 const CheatSheetPlayer = (props) => {
-    let playerClass;
-    let selectedClass;
+    let playerClass,
+    selectedClass,
+    filteredClass;
+
+    
+    console.log(props.playersFilters);
 
     switch (props.currentPlayer.playerToRank.playerPos) {
         case 'QB':
@@ -30,10 +34,16 @@ const CheatSheetPlayer = (props) => {
 
     if (props.selected) {
         selectedClass = Classes.selected
-
     }
     else {
         selectedClass = Classes.notSelected
+    }
+
+    if (props.filtered){
+        filteredClass = Classes.filtered
+    }
+    else{
+        filteredClass = Classes.notFiltered
     }
 
     if (props.selected) {
@@ -41,9 +51,9 @@ const CheatSheetPlayer = (props) => {
             <div className={Classes.playerContainer}>
                 <div
                     className={Classes.playerDiv}>
-                    <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
-                    <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {props.playerPosRank}</div>
-                    <div className={[playerClass, selectedClass, Classes.playerRank].join(' ')}>{props.currentPlayer.playerToRank.playerRank}</div>
+                    <div className={[playerClass, selectedClass, filteredClass, Classes.playerName].join(' ')}>x{props.currentPlayer.playerToRank.playerName}</div>
+                    <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos}{props.currentPlayer.playerToRank.playerPosRank}</div>
+                    <div className={[playerClass, selectedClass, filteredClass, Classes.playerRank].join(' ')}>{props.currentPlayer.playerToRank.playerRank}</div>
                 </div>
             </div>
 
@@ -56,8 +66,10 @@ const CheatSheetPlayer = (props) => {
                 onClick={() => { props.clicked(props.currentPlayer) }}
                 className={Classes.playerDiv}>
                 <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
-                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {props.playerPosRank}</div>
-                <div className={[playerClass, selectedClass, Classes.playerRank].join(' ')}>{props.currentPlayer.playerToRank.playerRank}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {props.currentPlayer.playerToRank.playerPosRank}</div>
+                <div className={[playerClass, selectedClass, Classes.playerRank].join(' ')}>
+                    {props.currentPlayer.playerToRank.playerPosRank}
+                    </div>
             </div>
         </div>
         );

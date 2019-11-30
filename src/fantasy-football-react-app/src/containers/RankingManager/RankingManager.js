@@ -29,8 +29,6 @@ class RankingManager extends Component {
                 currentUser:nextProps.loggedInUser,
                 isLoading: nextProps.isLoading
              });  
-
-             console.log(this.state.playerRankings);
           }
 
     saveRankingsHandler = () =>{

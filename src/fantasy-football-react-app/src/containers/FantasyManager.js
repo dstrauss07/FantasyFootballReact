@@ -26,16 +26,12 @@ class FantasyManager extends Component {
 
 
     componentDidMount = () => {
-        console.log("component did Mount");
         this.pullRankingsFromApi();
 
     }
 
     pullRankingsFromApi = () => {
-        console.log("calling Ranking Pull");
         if (this.state.loginId != null) {
-            console.log(this.state.loginId);
-
             axios.get(rankUri + this.state.loginId.testUserProfileId)
                 .then(response => {
                     this.setState({
@@ -148,7 +144,8 @@ class FantasyManager extends Component {
                     <LoginManager
                         clickLogin={this.SetLoginId}
                         loggedInHandler={this.HandleLoggedInToggler}
-                        changeMode={this.CurrentModeChangeHandler} />
+                        changeMode={this.CurrentModeChangeHandler} 
+                        />
                 </Aux>
             )
         }

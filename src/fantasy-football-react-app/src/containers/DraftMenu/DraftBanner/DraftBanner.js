@@ -5,6 +5,8 @@ import Classes from './DraftBanner.module.css';
 
 const DraftBanner = (props) => {
 
+    console.log(props.settingsOpen);
+
     let scoreButton,
     budgetShow = Classes.show,
     draftSlotShow = Classes.show;

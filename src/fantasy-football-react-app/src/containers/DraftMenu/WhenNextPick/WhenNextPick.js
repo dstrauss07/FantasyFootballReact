@@ -23,51 +23,38 @@ const WhenNextPick = (props) => {
 
 
     if (draftRound % 2 === 1) {
-        console.log("odd round" + "roundPick:" + roundPick + "draft round" + draftRound)
-        console.log("your Pick Number"  + yourPickNumber);
       
         if (roundPick < yourPickNumber) 
         {
-            console.log("not your pick yet");
-
             yourNextPickNumber = yourPickNumber - roundPick;
-            console.log(yourNextPickNumber);
-            
             yourNextPick =  <div>You Pick in {yourNextPickNumber}</div>
         }
         else if ( roundPick === yourPickNumber)
         {
-            console.log("your pick!")
             yourNextPick = "It's Your Pick!";
             alert("Your Pick!");
         }
         else
         {
-            console.log("already picked")
+
             yourNextPickNumber = picksRemainingInRound + leagueSize - yourPickNumber + 1;
             yourNextPick =  <div>You Pick in {yourNextPickNumber}</div>
         }
     }
     else     
     {
-        console.log("even round");
-        console.log(draftRound + "-" + roundPick);
         if(roundPick < ((leagueSize - yourPickNumber) +1))
         {
-            console.log("not yet");
             yourNextPickNumber = leagueSize - yourPickNumber - roundPick + 1;
-            // yourNextPickInt = 
             yourNextPick =  <div>You Pick in {yourNextPickNumber}</div>
         }
         else if((roundPick > ((leagueSize - yourPickNumber) +1)))
         {
-            console.log("already picked");
             yourNextPickNumber = picksRemainingInRound + yourPickNumber;
             yourNextPick =  <div>You Pick in {yourNextPickNumber}</div>
         }    
         else if(roundPick === ((leagueSize - yourPickNumber) +1))
         {
-            console.log("your pick");
             yourNextPick = "It's Your Pick!";
             alert("Your Pick!");
         }  

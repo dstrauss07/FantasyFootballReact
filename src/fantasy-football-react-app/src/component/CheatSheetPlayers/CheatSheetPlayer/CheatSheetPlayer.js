@@ -7,9 +7,6 @@ const CheatSheetPlayer = (props) => {
     filteredClass;
     let posRankDiv;
 
-    console.log(props.scoringType);
-
-
     switch (props.currentPlayer.playerToRank.playerPos) {
         case 'QB':
             playerClass = Classes.qbPlayer;
@@ -50,11 +47,13 @@ const CheatSheetPlayer = (props) => {
     switch(props.scoringType)
     {
         case "standard":
-            posRankDiv = props.currentPlayer.playerToRank.posRank;
+            posRankDiv = props.currentPlayer.playerRanking.posRank;
             break;
-        case "ppr":
-                posRankDiv = props.currentPlayer.playerToRank.ppr;
-
+                case "ppr":
+                        posRankDiv = props.currentPlayer.playerRanking.pprPosRank;
+                        break;
+                case "dynasty":
+                        posRankDiv = props.currentPlayer.playerRanking.dynastyPosRank;
     }
 
     if (props.selected) {
@@ -77,10 +76,7 @@ const CheatSheetPlayer = (props) => {
                 onClick={() => { props.clicked(props.currentPlayer) }}
                 className={Classes.playerDiv}>
                 <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
-                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {props.currentPlayer.playerToRank.posRank}</div>
-                <div className={[playerClass, selectedClass, Classes.playerRank].join(' ')}>
-
-                    </div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
             </div>
         </div>
         );

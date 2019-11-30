@@ -32,9 +32,6 @@ let draftSession = {
     teamPicking: 1,
 }
 
-
-
-
 class DraftManager extends Component {
 
     state = {
@@ -47,10 +44,8 @@ class DraftManager extends Component {
         sessionStarted: false,
         playersFiltered: false,
         teamShown: defaultDraftSettings.draftSlot,
-        draftType:"snake"
+        draftType: "snake"
     };
-
-
 
     UpdateLeagueSettingsHandler = (props) => {
         var updatedLeagueSettings = this.state.currentLeagueSettings;
@@ -69,7 +64,15 @@ class DraftManager extends Component {
             this.setState({ settingsOpen: false })
         }
         else {
-            this.setState({ settingsOpen: true })
+            this.setState({
+                _settingsOpen: true,
+                get settingsOpen() {
+                    return this._settingsOpen;
+                },
+                set settingsOpen(value) {
+                    this._settingsOpen = value;
+                },
+            })
         }
     }
 
@@ -101,7 +104,6 @@ class DraftManager extends Component {
         }
     }
 
-
     FindWhoIsPicking = () => {
         let nextTeamPicking = this.state.currentDraftSession.teamPicking;
         let pickDividedByLeagueSize = parseInt(this.state.currentDraftSession.currentPick / this.state.currentLeagueSettings.leagueSize);
@@ -122,9 +124,6 @@ class DraftManager extends Component {
             return nextTeamPicking;
         }
     }
-
-
-
 
     RevertPick = () => {
         var currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
@@ -157,12 +156,9 @@ class DraftManager extends Component {
         }
     }
 
-
-
     render() {
-
+        
         return (
-
             <Aux>
                 <DraftBanner
                     currentLeagueSettings={this.state.currentLeagueSettings}
@@ -192,15 +188,15 @@ class DraftManager extends Component {
                     draftSession={this.state.currentDraftSession}
                 />
                 <CheatSheet
-                    draftType = {this.state.draftType} 
+                    draftType={this.state.draftType}
                     currentRankings={this.state.playerRankings}
                     scoringType={this.state.currentLeagueSettings.leagueType}
                     draftSession={this.state.currentDraftSession}
-                    playerClicked={this.PlayerSelected} 
-                    filterDrafted = {this.FilterDraftedPlayers}
-                    playersFilters = {this.state.playersFiltered}
+                    playerClicked={this.PlayerSelected}
+                    filterDrafted={this.FilterDraftedPlayers}
+                    playersFilters={this.state.playersFiltered}
                     draftSession={this.state.currentDraftSession}
-                    />
+                />
             </Aux>
 
         )

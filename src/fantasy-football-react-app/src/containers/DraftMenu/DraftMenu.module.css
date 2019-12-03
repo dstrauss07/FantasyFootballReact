@@ -6,37 +6,54 @@
 .formGroup
 {
     display:grid;
-    display: inline-block;
-    padding: .5rem;
-    margin: 0 .5rem;
-    max-width: 150px;
+    padding: .1rem;
+    margin: 0;
+    max-width: 10%;
+}
+
+.formSelect
+{
+    display:grid;
+    padding: 0 .1rem;
 }
 
 .formBox
 {
     display:grid;
-    display: inline-block;
-    grid-auto-columns: auto;
-    background-color:gray
-
+    grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 0 1.4rem;
+    background-color:gray;
+    margin: 0;
+    padding:0;
+    justify-items:center;
 }
 
 .submitButton
 {
     margin: auto;
-    display:grid;
+    display:inline-block;
     align-items: center;
     color:white;
     background-color:forestgreen;
+    margin-right:.5rem;
 }
 
-.closingButtonDiv
+.closingButton
 {
-text-align: right;
-padding: 0.2rem 0.2rem 0 0;
+    display:inline-block;
+    margin-left:.5rem;
 }
 
-input, label {
+.buttonDiv
+{
+text-align: center;
+padding: 0.2rem 0.2rem 0 0;
+display:grid;
+grid-template-columns: 1fr 1fr;
+justify-items:center;
+}
+
+input, label, select {
     display:grid;
 }
 
@@ -44,7 +61,13 @@ input
 {
     background-color:#bae7f8;
       text-align:center;
-    
+      max-width: 50px;
+}
+
+select
+{
+    background-color:#bae7f8;
+    text-align:center; 
 }
 
 .show
@@ -56,4 +79,5 @@ input
 {
     display: none;
 }
+
 

@@ -7,9 +7,9 @@ class Layout extends Component {
     render() {
         return (
             <Aux>
-                <main className={classes.Content}>
+                <div className={classes.Content}>
                     {this.props.children}
-                </main>
+                </div>
             </Aux>
         )
     }

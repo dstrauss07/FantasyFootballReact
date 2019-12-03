@@ -6,6 +6,7 @@ import CheatSheet from '../../DraftMenu/CheatSheet/CheatSheet';
 import MyDraftedPlayers from '../../DraftMenu/DraftedPlayers/MyDraftedPlayers';
 import AllDraftedPlayers from '../../DraftMenu/DraftedPlayers/AllDraftedPlayers';
 import WhenNextPick from '../../DraftMenu/WhenNextPick/WhenNextPick';
+import Classes from './DraftManager.module.css';
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
 
@@ -54,7 +55,8 @@ class DraftManager extends Component {
                 updatedLeagueSettings[key] = props[key];
             }
             this.setState({
-                currentLeagueSettings: updatedLeagueSettings
+                currentLeagueSettings: updatedLeagueSettings,
+                teamShown: updatedLeagueSettings.draftSlot
             })
         }
     }
@@ -130,7 +132,11 @@ class DraftManager extends Component {
         var i = currentDraftedGroup.length - 1;
         var previousDraftedGroup = currentDraftedGroup.splice(0, i);
         var currentPickValue = this.state.currentDraftSession.currentPick;
-        currentPickValue--;
+        if(currentPickValue>1)
+        {
+            currentPickValue--;
+        }
+
         this.setState({
             currentDraftSession: {
                 selectedPlayers: previousDraftedGroup,
@@ -157,46 +163,66 @@ class DraftManager extends Component {
     }
 
     render() {
-        
+
         return (
             <Aux>
-                <DraftBanner
-                    currentLeagueSettings={this.state.currentLeagueSettings}
-                    settingsOpen={this.state.settingsOpen}
-                    toggleSettings={this.ToggleSettingsPanel} />
+                <div className={Classes.containerDiv}>
+                    <DraftBanner
+                        currentLeagueSettings={this.state.currentLeagueSettings}
+                        settingsOpen={this.state.settingsOpen}
+                        toggleSettings={this.ToggleSettingsPanel} />
 
-                <DraftMenu
-                    settingsOpen={this.state.settingsOpen}
-                    toggleSettings={this.ToggleSettingsPanel}
-                    clicked={this.UpdateLeagueSettingsHandler}
-                    leagueSettings={this.state.currentLeagueSettings}
-                    draftSession={this.state.currentDraftSession}
-                />
-                <MyDraftedPlayers
-                    leagueSettings={this.state.currentLeagueSettings}
-                    draftSession={this.state.currentDraftSession}
-                    revertPick={this.RevertPick}
-                    teamShown={this.state.teamShown}
-                    onDropdownSelected={this.OnDropdownSelected}
-                />
-                <AllDraftedPlayers
-                    leagueSettings={this.state.currentLeagueSettings}
-                    draftSession={this.state.currentDraftSession}
-                />
-                <WhenNextPick
-                    leagueSettings={this.state.currentLeagueSettings}
-                    draftSession={this.state.currentDraftSession}
-                />
-                <CheatSheet
-                    draftType={this.state.draftType}
-                    currentRankings={this.state.playerRankings}
-                    scoringType={this.state.currentLeagueSettings.leagueType}
-                    draftSession={this.state.currentDraftSession}
-                    playerClicked={this.PlayerSelected}
-                    filterDrafted={this.FilterDraftedPlayers}
-                    playersFilters={this.state.playersFiltered}
-                    draftSession={this.state.currentDraftSession}
-                />
+                    <div className={Classes.settingsBar}>
+                        <div>
+                            <DraftMenu
+                                settingsOpen={this.state.settingsOpen}
+                                toggleSettings={this.ToggleSettingsPanel}
+                                clicked={this.UpdateLeagueSettingsHandler}
+                                leagueSettings={this.state.currentLeagueSettings}
+                                draftSession={this.state.currentDraftSession}
+                            />
+                        </div>
+                        <div>
+                            <WhenNextPick
+                                leagueSettings={this.state.currentLeagueSettings}
+                                draftSession={this.state.currentDraftSession}
+                            />
+                        </div>
+
+
+                    </div>
+
+                    <div className={Classes.draftedPlayers}>
+                        <div>
+
+                            <MyDraftedPlayers
+                                leagueSettings={this.state.currentLeagueSettings}
+                                draftSession={this.state.currentDraftSession}
+                                revertPick={this.RevertPick}
+                                teamShown={this.state.teamShown}
+                                onDropdownSelected={this.OnDropdownSelected}
+                            />
+                        </div>
+                        <div>
+                            <AllDraftedPlayers
+                                leagueSettings={this.state.currentLeagueSettings}
+                                draftSession={this.state.currentDraftSession}
+                            />
+                        </div>
+                    </div>
+
+
+                    <CheatSheet
+                        draftType={this.state.draftType}
+                        currentRankings={this.state.playerRankings}
+                        scoringType={this.state.currentLeagueSettings.leagueType}
+                        draftSession={this.state.currentDraftSession}
+                        playerClicked={this.PlayerSelected}
+                        filterDrafted={this.FilterDraftedPlayers}
+                        playersFilters={this.state.playersFiltered}
+                        draftSession={this.state.currentDraftSession}
+                    />
+                </div>
             </Aux>
 
         )

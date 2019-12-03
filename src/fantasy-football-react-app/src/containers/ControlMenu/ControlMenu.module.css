@@ -6,3 +6,25 @@
 {
     visibility: visible;
 }
+
+.containerGrid
+{
+    width: 100% !important;
+    display:grid;
+    grid-template-columns: 30% 30% 40%;
+    justify-content: left;
+    padding-left: 2rem;
+    padding: .25rem auto;
+    margin:.25rem auto;
+    max-height:25px;
+}
+
+.modeButton
+{
+    margin: 0 0.2rem;
+}
+
+.modeButtons
+{
+    padding: 0 1rem;
+}

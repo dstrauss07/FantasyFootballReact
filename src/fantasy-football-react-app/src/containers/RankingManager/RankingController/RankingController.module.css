@@ -1,14 +1,14 @@
 .ButtonMenu
 {
     display:grid;
-    grid-template-columns: 25% 75%;
-    justify-items: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: left;
 }
 
 .center
 {
     max-width:10rem;
-    margin-left: 25%;
+    text-align: center;
 }
 
 .Active

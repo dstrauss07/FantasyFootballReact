@@ -95,7 +95,7 @@ button :active
 .playerDiv 
 {
     display:grid;
-    grid-template-columns: 60% 20% 20% ;
+    grid-template-columns: 70% 30%;
     justify-content: center;
     font-size: .85rem;
     padding: .05rem auto;

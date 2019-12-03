@@ -63,6 +63,7 @@ const RankingController = (props) => {
                 <button className={saveClass} onClick={() => props.saveRankingsHandler()}>Save Rankings!</button>
             </div>
             <div className={Classes.ButtonMenu}>
+                <div></div>
                 <div>
                     <button className={standardClass} onClick={() => props.scoringChangeHandler(0)}>Standard</button>
                     <button className={pprClass} onClick={() => props.scoringChangeHandler(1)}>PPR</button>
@@ -77,6 +78,7 @@ const RankingController = (props) => {
                     <button className={dstClass} onClick={() => props.positionChangeHandler(5)}>DST</button>
                     <button className={kClass} onClick={() => props.positionChangeHandler(6)}>K</button>
                 </div>
+                <div></div>
             </div>
         </Aux>
     );

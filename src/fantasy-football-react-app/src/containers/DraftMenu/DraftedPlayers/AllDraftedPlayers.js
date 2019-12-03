@@ -1,7 +1,6 @@
 import React from 'react';
 import Aux from '../../../hoc/ReactAux';
 import classes from './AllDraftedPlayers.module.css';
-// import Classes from './AllDraftedPlayers.module.css';
 // import { numberLiteralTypeAnnotation } from '@babel/types';
 // import ReactDOM from 'react-dom';
 
@@ -133,7 +132,6 @@ const AllDraftedPlayers = (props) => {
     }
     return (
         <Aux>
-        <div>All Players!!!</div>
         <div>
         {allPlayerDiv}
         </div>

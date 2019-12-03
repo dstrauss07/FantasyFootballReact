@@ -172,14 +172,13 @@ const CheatSheet = (props) => {
 
     return (
         <Aux>
-            <div>Cheat Sheet!</div>
-                <div class="form-check" >
+             <div className={Classes.formCheck} >
+             <label className={Classes.formCheckLabel} for="filterDrafted">Filter Drafted Players</label>
                     <input type="checkbox"
-                        class="form-check-input"
+                        className={Classes.formCheckLabel} 
                         id="filterDrafted"
                         value={props.draftSession.playersFiltered}
                         onChange={props.filterDrafted} />
-                    <label class="form-check-label" for="filterDrafted">Filter Drafted Players</label>
                 </div>
             {draftDiv}
         </Aux>

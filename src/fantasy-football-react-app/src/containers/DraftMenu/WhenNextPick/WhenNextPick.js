@@ -32,7 +32,6 @@ const WhenNextPick = (props) => {
         else if ( roundPick === yourPickNumber)
         {
             yourNextPick = "It's Your Pick!";
-            alert("Your Pick!");
         }
         else
         {
@@ -56,7 +55,6 @@ const WhenNextPick = (props) => {
         else if(roundPick === ((leagueSize - yourPickNumber) +1))
         {
             yourNextPick = "It's Your Pick!";
-            alert("Your Pick!");
         }  
     }
  
@@ -67,8 +65,7 @@ return (
 <Aux>
 <div className={Classes.nextPickDiv}>
 
-<div>{draftRound} - {roundPick}  ~ Pick Number: {currentPickNumber}</div>
-    <div> {yourNextPick}</div>
+<div>{draftRound} - {roundPick}  ~ Pick Number: {currentPickNumber} ~ {yourNextPick}</div>
     </div>
 </Aux>
 

@@ -12,7 +12,7 @@ class DraftMenu extends Component {
         this.state = {
             leagueSettings: props.leagueSettings,
             settingsOpen: props.settingsOpen,
-            leagueType : props.leagueType,
+            leagueType: props.leagueType,
         }
     }
 
@@ -22,23 +22,23 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                startingBudget: e.target.value           
+                startingBudget: e.target.value
             }
         })
     }
 
     HandleUpdateDraftSlotChange = (e) => {
         let newDraftSlot = e.target.value;
-        
-             
-            this.setState({
+
+
+        this.setState({
             leagueSettings:
             {
-                draftSlot: newDraftSlot         
+                draftSlot: newDraftSlot
             }
         })
-  
-   }
+
+    }
 
     HandleUpdateLeagueSizeChange = (e) => {
         this.setState({
@@ -149,11 +149,11 @@ class DraftMenu extends Component {
     }
 
     UpdateSettingsAuto = () => {
-        
+
         this.props.clicked(this.state.leagueSettings);
     }
 
-    closeSettings = (e) =>{
+    closeSettings = (e) => {
         e.preventDefault();
         // this.setState({settingsOpen:false})
         this.props.toggleSettings();
@@ -164,345 +164,188 @@ class DraftMenu extends Component {
     render() {
         console.log(this.props.settingsOpen);
         let formToReturn,
-        blue = Classes.blue, 
-        formGroup = Classes.formGroup, 
-        formBox = Classes.formBox, 
-        submitButton= Classes.submitButton, 
-        closingButton= Classes.closingButton,
-        budgetShown = Classes.show,
-        draftSlotShown = Classes.show;
+            blue = Classes.blue,
+            formGroup = Classes.formGroup,
+            formSelect = Classes.formSelect,
+            formBox = Classes.formBox,
+            submitButton = Classes.submitButton,
+            closingButton = Classes.closingButton,
+            budgetShown = Classes.show,
+            draftSlotShown = Classes.show;
         let panelShown;
-  
-        if(this.props.settingsOpen)
-        {
-            panelShown = Classes.show 
+
+        if (this.props.settingsOpen) {
+            panelShown = Classes.show
         }
-        else
-        {
-            panelShown = Classes.hide 
+        else {
+            panelShown = Classes.hide
         }
 
-        if(this.props.leagueSettings.startingBudget == null)
-        {
+        if (this.props.leagueSettings.startingBudget == null) {
             budgetShown = Classes.hide;
         }
 
-        if(this.props.leagueSettings.draftSlot == null)
-        {
+        if (this.props.leagueSettings.draftSlot == null) {
             draftSlotShown = Classes.hide;
         }
-
-
-
-    
-
-        if (this.props.leagueType === "Auction") {
+        formToReturn =
             formToReturn =
-                <form className={panelShown}>
-                    <div className={formBox}>
-                        <div className={Classes.closingButtonDiv}>
-                    <button className={closingButton} onClick={(e) => { this.closeSettings(e) }}>XClose</button>
+            <form className={panelShown}>
+                <div className={formBox}>
+                    <div className={formGroup}>
+                        <label>Teams </label>
+                        <input type="number"
+                            id="leagueSize"
+                            name="leagueSize"
+                            min="2"
+                            max="32"
+                            value={this.state.leagueSettings.leagueSize}
+                            onChange={this.HandleUpdateLeagueSizeChange}
+                        />
                     </div>
-               
-                        <div className={[formGroup, budgetShown].join(' ')}>
-                            <label className={blue}>Starting Budget:  </label>
-                            <input
-                                type="int"
-                                id="startingBudget"
-                                name="startingBudget"
-                                value={this.state.leagueSettings.startingBudget}
-                                onChange={this.HandleUpdateStartingBudgetChange}
-                            />
-                        </div>
-                        <div className={[formGroup, draftSlotShown].join(' ')}>
-                            <label className={blue}>Draft Slot:  </label>
-                            <input
-                                type="number"
-                                id="draftSlot"
-                                ref="draftSlot"
-                                name="draftSlot"
-                                min = {1}
-                                max = {this.props.leagueSettings.leagueSize}        
-                                value={this.state.leagueSettings.draftSlot}
-                                onChange={this.HandleUpdateDraftSlotChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>League Size: </label>
-                            <input type="number"
-                                id="leagueSize"
-                                name="leagueSize"
-                                min="2"
-                                max="32"
-                                value={this.state.leagueSettings.leagueSize}
-                                onChange={this.HandleUpdateLeagueSizeChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>QB:  </label>
-                            <input type="number"
-                                id="totalStartingQb"
-                                name="totalStartingQb"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingQb}
-                                onChange={this.HandleUpdateStartingQbChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>RB:</label>
-                            <input type="number"
-                                id="totalStartingRb"
-                                name="totalStartingRb"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingRb}
-                                onChange={this.HandleUpdateStartingRbChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>WR:  </label>
-                            <input type="number"
-                                id="totalStartingWr"
-                                name="totalStartingWr"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingWr}
-                                onChange={this.HandleUpdateStartingWrChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>TE:</label>
-                            <input type="number"
-                                id="totalStartingTe"
-                                name="totalStartingTe"
-                                min="0"
-                                max="4"
-                                value={this.state.leagueSettings.totalStartingTe}
-                                onChange={this.HandleUpdateStartingTeChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>FLEX: </label>
-                            <input type="number"
-                                id="totalStartingFlex"
-                                name="totalStartingFlex"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingFlex}
-                                onChange={this.HandleUpdateStartingFlexChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>SFLEX: </label>
-                            <input type="number"
-                                id="totalStartingSFlex"
-                                name="totalStartingSFlex"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingSFlex}
-                                onChange={this.HandleUpdateStartingSFlexChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>DST: </label>
-                            <input type="number"
-                                id="totalStartingD"
-                                name="totalStartingD"
-                                min="0"
-                                max="5"
-                                value={this.state.leagueSettings.totalStartingD}
-                                onChange={this.HandleUpdateStartingDChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>K: </label>
-                            <input type="number"
-                                id="totalStartingK"
-                                name="totalStartingK"
-                                min="0"
-                                max="5"
-                                value={this.state.leagueSettings.totalStartingK}
-                                onChange={this.HandleUpdateStartingKChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>TOTAL PLAYERS  </label>
-                            <input type="number"
-                                id="totalPlayer"
-                                name="totalPlayer"
-                                min="1"
-                                max="50"
-                                value={this.state.leagueSettings.totalPlayer}
-                                onChange={this.HandleUpdateTotalPlayerChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>LeagueType:  </label>
-                            <select id="leagueType"
-                                name="leagueType"
-                                value={this.state.leagueSettings.leagueType}
-                                onChange={this.HandleUpdateLeagueTypeChange}>
+                    <div className={[formGroup, draftSlotShown].join(' ')}>
+                        <label className={blue}>Slot#  </label>
+                        <input
+                            type="number"
+                            id="draftSlot"
+                            ref="draftSlot"
+                            name="draftSlot"
+                            min={1}
+                            max={this.props.leagueSettings.leagueSize}
+                            value={this.state.leagueSettings.draftSlot}
+                            onChange={this.HandleUpdateDraftSlotChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>Total</label>
+                        <input type="number"
+                            id="totalPlayer"
+                            name="totalPlayer"
+                            min="1"
+                            max="50"
+                            value={this.state.leagueSettings.totalPlayer}
+                            onChange={this.HandleUpdateTotalPlayerChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>QB:  </label>
+                        <input type="number"
+                            id="totalStartingQb"
+                            name="totalStartingQb"
+                            min="0"
+                            max="10"
+                            value={this.state.leagueSettings.totalStartingQb}
+                            onChange={this.HandleUpdateStartingQbChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>RB:</label>
+                        <input type="number"
+                            id="totalStartingRb"
+                            name="totalStartingRb"
+                            min="0"
+                            max="10"
+                            value={this.state.leagueSettings.totalStartingRb}
+                            onChange={this.HandleUpdateStartingRbChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>WR:  </label>
+                        <input type="number"
+                            id="totalStartingWr"
+                            name="totalStartingWr"
+                            min="0"
+                            max="10"
+                            value={this.state.leagueSettings.totalStartingWr}
+                            onChange={this.HandleUpdateStartingWrChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>TE:</label>
+                        <input type="number"
+                            id="totalStartingTe"
+                            name="totalStartingTe"
+                            min="0"
+                            max="4"
+                            value={this.state.leagueSettings.totalStartingTe}
+                            onChange={this.HandleUpdateStartingTeChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>FLEX: </label>
+                        <input type="number"
+                            id="totalStartingFlex"
+                            name="totalStartingFlex"
+                            min="0"
+                            max="10"
+                            value={this.state.leagueSettings.totalStartingFlex}
+                            onChange={this.HandleUpdateStartingFlexChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>SFLEX: </label>
+                        <input type="number"
+                            id="totalStartingSFlex"
+                            name="totalStartingSFlex"
+                            min="0"
+                            max="10"
+                            value={this.state.leagueSettings.totalStartingSFlex}
+                            onChange={this.HandleUpdateStartingSFlexChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>DST: </label>
+                        <input type="number"
+                            id="totalStartingD"
+                            name="totalStartingD"
+                            min="0"
+                            max="5"
+                            value={this.state.leagueSettings.totalStartingD}
+                            onChange={this.HandleUpdateStartingDChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>K: </label>
+                        <input type="number"
+                            id="totalStartingK"
+                            name="totalStartingK"
+                            min="0"
+                            max="5"
+                            value={this.state.leagueSettings.totalStartingK}
+                            onChange={this.HandleUpdateStartingKChange}
+                        />
+                    </div>
+                    <div className={formGroup}>
+                        <label>Bench </label>
+                        <input type="number"
+                            id="totalStartingK"
+                            name="totalStartingK"
+                            min="0"
+                            max="5"
+                            value={this.state.leagueSettings.totalStartingK}
+                            onChange={this.HandleUpdateStartingKChange}
+                        />
+                    </div>
 
-                                <option value="standard">Standard</option>
-                                <option value="ppr">PPR</option>
-                                <option value="dynasty">Dynasty</option>
-                            </select>
-                        </div>
+                    <div className={formSelect}>
+                        <label>LeagueType:  </label>
+                        <select id="leagueType"
+                            name="leagueType"
+                            value={this.state.leagueSettings.leagueType}
+                            onChange={this.HandleUpdateLeagueTypeChange}>
+                            <option value="standard">Standard</option>
+                            <option value="ppr">PPR</option>
+                            <option value="dynasty">Dynasty</option>
+                        </select>
+                    </div>
+                    <div className={Classes.buttonDiv}>
                         <button className={submitButton} onClick={(e) => { this.UpdateSettings(e) }}>Submit Changes</button>
+                        <button className={closingButton} onClick={(e) => { this.closeSettings(e) }}>XClose</button>
                     </div>
-                </form>
-        }
 
-        else {
+                </div>
+            </form>
 
-            formToReturn =
-                <h2>Draft Manager</h2>
-                formToReturn =
-                <form className={panelShown}>
-                    <div className={formBox}>
-                        <div className={Classes.closingButtonDiv}>
-                    <button className={closingButton} onClick={(e) => { this.closeSettings(e) }}>XClose</button>
-                    </div>
-                        <div className={[formGroup, draftSlotShown].join(' ')}>
-                            <label className={blue}>Draft Slot:  </label>
-                            <input
-                                type="number"
-                                id="draftSlot"
-                                ref="draftSlot"
-                                name="draftSlot"
-                                min = {1}
-                                max = {this.props.leagueSettings.leagueSize}        
-                                value={this.state.leagueSettings.draftSlot}
-                                onChange={this.HandleUpdateDraftSlotChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>League Size: </label>
-                            <input type="number"
-                                id="leagueSize"
-                                name="leagueSize"
-                                min="2"
-                                max="32"
-                                value={this.state.leagueSettings.leagueSize}
-                                onChange={this.HandleUpdateLeagueSizeChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>QB:  </label>
-                            <input type="number"
-                                id="totalStartingQb"
-                                name="totalStartingQb"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingQb}
-                                onChange={this.HandleUpdateStartingQbChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>RB:</label>
-                            <input type="number"
-                                id="totalStartingRb"
-                                name="totalStartingRb"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingRb}
-                                onChange={this.HandleUpdateStartingRbChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>WR:  </label>
-                            <input type="number"
-                                id="totalStartingWr"
-                                name="totalStartingWr"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingWr}
-                                onChange={this.HandleUpdateStartingWrChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>TE:</label>
-                            <input type="number"
-                                id="totalStartingTe"
-                                name="totalStartingTe"
-                                min="0"
-                                max="4"
-                                value={this.state.leagueSettings.totalStartingTe}
-                                onChange={this.HandleUpdateStartingTeChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>FLEX: </label>
-                            <input type="number"
-                                id="totalStartingFlex"
-                                name="totalStartingFlex"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingFlex}
-                                onChange={this.HandleUpdateStartingFlexChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>SFLEX: </label>
-                            <input type="number"
-                                id="totalStartingSFlex"
-                                name="totalStartingSFlex"
-                                min="0"
-                                max="10"
-                                value={this.state.leagueSettings.totalStartingSFlex}
-                                onChange={this.HandleUpdateStartingSFlexChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>DST: </label>
-                            <input type="number"
-                                id="totalStartingD"
-                                name="totalStartingD"
-                                min="0"
-                                max="5"
-                                value={this.state.leagueSettings.totalStartingD}
-                                onChange={this.HandleUpdateStartingDChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>K: </label>
-                            <input type="number"
-                                id="totalStartingK"
-                                name="totalStartingK"
-                                min="0"
-                                max="5"
-                                value={this.state.leagueSettings.totalStartingK}
-                                onChange={this.HandleUpdateStartingKChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>TOTAL PLAYERS  </label>
-                            <input type="number"
-                                id="totalPlayer"
-                                name="totalPlayer"
-                                min="1"
-                                max="50"
-                                value={this.state.leagueSettings.totalPlayer}
-                                onChange={this.HandleUpdateTotalPlayerChange}
-                            />
-                        </div>
-                        <div className={formGroup}>
-                            <label>LeagueType:  </label>
-                            <select id="leagueType"
-                                name="leagueType"
-                                value={this.state.leagueSettings.leagueType}
-                                onChange={this.HandleUpdateLeagueTypeChange}>
-
-                                <option value="standard">Standard</option>
-                                <option value="ppr">PPR</option>
-                                <option value="dynasty">Dynasty</option>
-                            </select>
-                        </div>
-                        <button className={submitButton} onClick={(e) => { this.UpdateSettings(e) }}>Submit Changes</button>
-                    </div>
-                </form>
-        }
 
 
         return (

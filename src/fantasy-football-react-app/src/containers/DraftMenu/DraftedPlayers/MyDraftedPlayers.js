@@ -1,18 +1,19 @@
 import React from 'react';
 import Aux from '../../../hoc/ReactAux';
-// import Classes from './MyDraftedPlayers.module.css';
+import Classes from './MyDraftedPlayers.module.css';
 // import { numberLiteralTypeAnnotation } from '@babel/types';
 // import ReactDOM from 'react-dom';
 
 const MyDraftedPlayers = (props) => {
 
+    console.log(props);
 
     let draftedPlayers;
     if (props.draftSession != null) {
         draftedPlayers = props.draftSession.selectedPlayers
     };
 
-    let teamSlotShown = props.teamShown -1;
+    let teamSlotShown = props.teamShown - 1;
 
     let playerTypes = {
         qbPlayers: [],
@@ -40,8 +41,7 @@ const MyDraftedPlayers = (props) => {
     }
 
 
-    if(draftedPlayers!= null)
-    {
+    if (draftedPlayers != null) {
         for (let i = 0; i < draftedPlayers.length; i++) {
             let iIncrement = parseInt(i / leagueSize);
             iIncrement = Math.floor(iIncrement);
@@ -63,7 +63,7 @@ const MyDraftedPlayers = (props) => {
 
     if (allTeams[teamSlotShown].draftedPlayer.length > 0) {
         for (let i = 0; i < allTeams[teamSlotShown].draftedPlayer.length; i++) {
-            switch (allTeams[teamSlotShown].draftedPlayer[i].playerToRank.playerPos){ 
+            switch (allTeams[teamSlotShown].draftedPlayer[i].playerToRank.playerPos) {
                 case "QB":
                     playerTypes.qbPlayers.push(allTeams[teamSlotShown].draftedPlayer[i]);
                     break;
@@ -91,45 +91,45 @@ const MyDraftedPlayers = (props) => {
     let qbDiv, rbDiv, wrDiv, teDiv, dstDiv, kDiv, revertDiv;
 
     if (playerTypes.qbPlayers.length === 0) {
-        qbDiv = <div>none selected</div>
+        qbDiv = <div className={Classes.posDiv}>none selected</div>
     }
     else {
-        qbDiv = playerTypes.qbPlayers.map(qbplayer => <div>{qbplayer.playerToRank.playerName}</div>)
+        qbDiv = playerTypes.qbPlayers.map(qbplayer => <div className={Classes.posDiv}>{qbplayer.playerToRank.playerName}</div>)
     }
 
     if (playerTypes.rbPlayers.length === 0) {
-        rbDiv = <div>none selected</div>
+        rbDiv = <div className={Classes.posDiv}>none selected</div>
     }
     else {
-        rbDiv = playerTypes.rbPlayers.map(rbplayer => <div>{rbplayer.playerToRank.playerName}</div>)
+        rbDiv = playerTypes.rbPlayers.map(rbplayer => <div className={Classes.posDiv}>{rbplayer.playerToRank.playerName}</div>)
     }
 
     if (playerTypes.wrPlayers.length === 0) {
-        wrDiv = <div>none selected</div>
+        wrDiv = <div className={Classes.posDiv}>none selected</div>
     }
     else {
-        wrDiv = playerTypes.wrPlayers.map(wrplayer => <div>{wrplayer.playerToRank.playerName}</div>)
+        wrDiv = playerTypes.wrPlayers.map(wrplayer => <div className={Classes.posDiv}>{wrplayer.playerToRank.playerName}</div>)
     }
 
     if (playerTypes.tePlayers.length === 0) {
-        teDiv = <div>none selected</div>
+        teDiv = <div className={Classes.posDiv}>none selected</div>
     }
     else {
-        teDiv = playerTypes.tePlayers.map(teplayer => <div>{teplayer.playerToRank.playerName}</div>)
+        teDiv = playerTypes.tePlayers.map(teplayer => <div className={Classes.posDiv}>{teplayer.playerToRank.playerName}</div>)
     }
 
     if (playerTypes.dstPlayers.length === 0) {
-        dstDiv = <div>none selected</div>
+        dstDiv = <div className={Classes.posDiv}>none selected</div>
     }
     else {
-        dstDiv = playerTypes.dstPlayers.map(dstplayer => <div>{dstplayer.playerToRank.playerName}</div>)
+        dstDiv = playerTypes.dstPlayers.map(dstplayer => <div className={Classes.posDiv}>{dstplayer.playerToRank.playerName}</div>)
     }
 
     if (playerTypes.kPlayers.length === 0) {
-        kDiv = <div>none selected</div>
+        kDiv = <div className={Classes.posDiv}>none selected</div>
     }
     else {
-        kDiv = playerTypes.kPlayers.map(kplayer => <div>{kplayer.playerToRank.playerName}</div>)
+        kDiv = playerTypes.kPlayers.map(kplayer => <div className={Classes.posDiv}>{kplayer.playerToRank.playerName}</div>)
     }
 
     if (props.draftSession.selectedPlayers != null) {
@@ -141,43 +141,79 @@ const MyDraftedPlayers = (props) => {
     }
 
 
-    let CreateSelectItems =() => {
-        let teamTogglerOptions = [];         
-        for (let i=1; i<=props.leagueSettings.leagueSize; i++) {             
-            teamTogglerOptions.push(<option key={i} value={i}>Team {i}</option>);   
+    let CreateSelectItems = () => {
+        let teamTogglerOptions = [];
+        for (let i = 1; i <= props.leagueSettings.leagueSize; i++) {
+            if(i=== props.teamShown)
+            {
+                teamTogglerOptions.push(<option selected="selected" key={i} value={i}>Team {i}</option>);
+            }
+            else{
+                teamTogglerOptions.push(<option key={i} value={i}>Team {i}</option>);
+            }
         }
         return teamTogglerOptions;
-    }  
-   
+    }
 
-    
+
+
 
 
 
     return (
         <Aux>
-            {}
-            {revertDiv}
-            <form>
-            <div>
-            <select onChange={props.onDropdownSelected}>
-            {CreateSelectItems()}
-            </select>
+            <div className={Classes.controlArea}>
+                {revertDiv}
+                <div>
+                    <select onChange={props.onDropdownSelected}>
+                        {CreateSelectItems()}
+                    </select>
+                </div>
             </div>
-            </form>
-            <h3>QBs</h3>
-            {qbDiv}
-            <h3>RBs</h3>
-            {rbDiv}
-            <h3>WRs</h3>
-            {wrDiv}
-            <h3>TEs</h3>
-            {teDiv}
-            <h3>DST</h3>
-            {dstDiv}
-            <h3>K</h3>
-            {kDiv}
-            <div>{props.leagueSettings.leagueType}</div>
+
+
+            <div className={Classes.playerArea}>
+                <h3 className={Classes.posHead}>QBs</h3>
+                <div>
+                    {qbDiv}
+                </div>
+            </div>
+            <div className={Classes.breakLine} />
+            <div className={Classes.playerArea}>
+                <h3 className={Classes.posHead}>RBs</h3>
+                <div>
+                    {rbDiv}
+                </div>
+            </div>
+            <div className={Classes.breakLine} />
+            <div className={Classes.playerArea}>
+                <h3 className={Classes.posHead}>WRs</h3>
+                <div>
+                {wrDiv}
+                </div>
+            </div>
+            <div className={Classes.breakLine} />
+            <div className={Classes.playerArea}>
+                <h3 className={Classes.posHead}>TEs</h3>
+                <div>
+                    {teDiv}
+                </div>
+            </div>
+            <div className={Classes.breakLine} />
+            <div className={Classes.playerArea}>
+                <h3 className={Classes.posHead}>DST</h3>
+                <div>
+                {dstDiv}
+                </div>
+            </div>
+            <div className={Classes.breakLine} />
+            <div className={Classes.playerArea}>
+                <h3 className={Classes.posHead}>K</h3>
+                <div>
+                {kDiv} 
+                </div>
+            </div>
+            <div className={Classes.breakLine} />
         </Aux>
 
     )

@@ -25,6 +25,7 @@ const ControlMenu = (props) => {
     return (
    
         <Aux>
+            <div className={Classes.containerGrid}>
             <div className={loginClass}>
                 <button onClick={()=>props.clickOptions(3)}>Login</button>
             </div>
@@ -32,10 +33,11 @@ const ControlMenu = (props) => {
                 <h3>Hello {userName}</h3>
                 <button onClick={()=>props.loggedInHandler()}>Logout</button>
             </div>
-            <div>
-                <button onClick={()=>props.clickOptions(0)}>Rankings</button>
-                <button onClick={()=>props.clickOptions(1)}>Draft</button>
-                <button onClick={()=>props.clickOptions(2)}>Auction</button>
+            <div className={Classes.modeButtons}>
+                <button className={Classes.modeButton} onClick={()=>props.clickOptions(0)}>Rankings</button>
+                <button className={Classes.modeButton} onClick={()=>props.clickOptions(1)}>Draft</button>
+                <button className={Classes.modeButton} onClick={()=>props.clickOptions(2)}>Auction</button>
+            </div>
             </div>
         </Aux>
     );

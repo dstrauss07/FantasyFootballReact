@@ -165,7 +165,7 @@ const MyDraftedPlayers = (props) => {
             <div className={Classes.controlArea}>
                 {revertDiv}
                 <div>
-                    <select onChange={props.onDropdownSelected}>
+                    <select defaultValue={teamSlotShown+1} value={teamSlotShown+1} onChange={props.onDropdownSelected}>
                         {CreateSelectItems()}
                     </select>
                 </div>

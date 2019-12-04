@@ -5,11 +5,13 @@ import Classes from './WhenNextPick.module.css';
 
 const WhenNextPick = (props) => {
 
-    let yourPickNumber = parseInt(props.leagueSettings.draftSlot);
-    let currentPickNumber = parseInt(props.draftSession.currentPick);
-    let leagueSize = props.leagueSettings.leagueSize;
-    let yourNextPick; 
-    let yourNextPickNumber = 0;
+    let yourPickNumber = parseInt(props.leagueSettings.draftSlot),
+    currentPickNumber = parseInt(props.draftSession.currentPick),
+    leagueSize = props.leagueSettings.leagueSize,
+    yourNextPick, 
+    yourNextPickString,
+    yourNextPickArray,
+    yourNextPickNumber = 0;
 
     let roundPick = parseInt(currentPickNumber % leagueSize);
     if (roundPick === 0)
@@ -17,7 +19,6 @@ const WhenNextPick = (props) => {
         roundPick = leagueSize;
     }
     let draftRound = parseInt((currentPickNumber-1) / leagueSize) + 1;
-
     let picksRemainingInRound =   parseInt(leagueSize - roundPick);
 
 
@@ -27,7 +28,8 @@ const WhenNextPick = (props) => {
         if (roundPick < yourPickNumber) 
         {
             yourNextPickNumber = yourPickNumber - roundPick;
-            yourNextPick =  <div>You Pick in {yourNextPickNumber}</div>
+            yourNextPickString = yourNextPickNumber.toString();
+            yourNextPick =  "You Pick in " + yourNextPickString;
         }
         else if ( roundPick === yourPickNumber)
         {
@@ -37,7 +39,8 @@ const WhenNextPick = (props) => {
         {
 
             yourNextPickNumber = picksRemainingInRound + leagueSize - yourPickNumber + 1;
-            yourNextPick =  <div>You Pick in {yourNextPickNumber}</div>
+            yourNextPickString = yourNextPickNumber.toString();
+            yourNextPick =  "You Pick in " + yourNextPickString;
         }
     }
     else     
@@ -45,12 +48,15 @@ const WhenNextPick = (props) => {
         if(roundPick < ((leagueSize - yourPickNumber) +1))
         {
             yourNextPickNumber = leagueSize - yourPickNumber - roundPick + 1;
-            yourNextPick =  <div>You Pick in {yourNextPickNumber}</div>
+            yourNextPickString = yourNextPickNumber.toString();
+            yourNextPick =  "You Pick in " + yourNextPickString;
         }
         else if((roundPick > ((leagueSize - yourPickNumber) +1)))
         {
             yourNextPickNumber = picksRemainingInRound + yourPickNumber;
-            yourNextPick =  <div>You Pick in {yourNextPickNumber}</div>
+            yourNextPickString = yourNextPickNumber.toString();
+            yourNextPick =  "You Pick in " + yourNextPickString
+
         }    
         else if(roundPick === ((leagueSize - yourPickNumber) +1))
         {

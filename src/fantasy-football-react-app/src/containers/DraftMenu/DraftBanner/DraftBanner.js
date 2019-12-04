@@ -41,18 +41,18 @@ const DraftBanner = (props) => {
             <div className={Classes.draftBanner}>
                 <div className={Classes.draftDiv}>
                 <div> {props.currentLeagueSettings.leagueType}</div>
-                <div className={budgetShow}>Budget:{props.currentLeagueSettings.startingBudget}</div>
+                <div className={budgetShow}>Budget{props.currentLeagueSettings.startingBudget}</div>
+                <div >Teams{props.currentLeagueSettings.leagueSize}</div>
                 <div className={draftSlotShow}>Slot#{props.currentLeagueSettings.draftSlot}</div>
-                <div >Teams:{props.currentLeagueSettings.leagueSize}</div>
-                <div >Qb:{props.currentLeagueSettings.totalStartingQb}</div>
-                <div >Rb:{props.currentLeagueSettings.totalStartingRb}</div>
-                <div >Wr:{props.currentLeagueSettings.totalStartingWr}</div>
-                <div >Te:{props.currentLeagueSettings.totalStartingTe}</div>
-                <div >Flex:{props.currentLeagueSettings.totalStartingFlex}</div>
-                <div >SFlex:{props.currentLeagueSettings.totalStartingSFlex}</div>
-                <div >DST:{props.currentLeagueSettings.totalStartingD}</div>
-                <div >K:{props.currentLeagueSettings.totalStartingK}</div>        
-                <div>Players:{props.currentLeagueSettings.totalPlayer}</div>
+                <div>Players{props.currentLeagueSettings.totalPlayer}</div>
+                <div >Qb{props.currentLeagueSettings.totalStartingQb}</div>
+                <div >Rb{props.currentLeagueSettings.totalStartingRb}</div>
+                <div >Wr{props.currentLeagueSettings.totalStartingWr}</div>
+                <div >Te{props.currentLeagueSettings.totalStartingTe}</div>
+                <div >Flex{props.currentLeagueSettings.totalStartingFlex}</div>
+                <div >SFlex{props.currentLeagueSettings.totalStartingSFlex}</div>
+                <div >DST{props.currentLeagueSettings.totalStartingD}</div>
+                <div >K{props.currentLeagueSettings.totalStartingK}</div>        
                 <div className={scoreButton} onClick ={openSettings}>
                     <p></p>
                     <p></p>

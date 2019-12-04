@@ -24,20 +24,22 @@ class DraftMenu extends Component {
             {
                 startingBudget: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateDraftSlotChange = (e) => {
         let newDraftSlot = e.target.value;
-
-
         this.setState({
             leagueSettings:
             {
                 draftSlot: newDraftSlot
             }
-        })
-
+            
+            }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateLeagueSizeChange = (e) => {
@@ -46,7 +48,9 @@ class DraftMenu extends Component {
             {
                 leagueSize: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateStartingQbChange = (e) => {
@@ -55,7 +59,9 @@ class DraftMenu extends Component {
             {
                 totalStartingQb: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateStartingRbChange = (e) => {
@@ -64,7 +70,9 @@ class DraftMenu extends Component {
             {
                 totalStartingRb: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateStartingWrChange = (e) => {
@@ -73,7 +81,9 @@ class DraftMenu extends Component {
             {
                 totalStartingWr: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
 
@@ -83,7 +93,9 @@ class DraftMenu extends Component {
             {
                 totalStartingTe: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateStartingFlexChange = (e) => {
@@ -92,7 +104,9 @@ class DraftMenu extends Component {
             {
                 totalStartingFlex: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
 
@@ -102,7 +116,9 @@ class DraftMenu extends Component {
             {
                 totalStartingSFlex: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateStartingDChange = (e) => {
@@ -111,7 +127,9 @@ class DraftMenu extends Component {
             {
                 totalStartingD: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateStartingKChange = (e) => {
@@ -120,7 +138,9 @@ class DraftMenu extends Component {
             {
                 totalStartingK: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateTotalPlayerChange = (e) => {
@@ -129,7 +149,9 @@ class DraftMenu extends Component {
             {
                 totalPlayer: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
     HandleUpdateLeagueTypeChange = (e) => {
@@ -138,7 +160,9 @@ class DraftMenu extends Component {
             {
                 leagueType: e.target.value
             }
-        })
+        }, () => {
+            this.UpdateSettingsAuto();
+            })
     }
 
 
@@ -155,7 +179,6 @@ class DraftMenu extends Component {
 
     closeSettings = (e) => {
         e.preventDefault();
-        // this.setState({settingsOpen:false})
         this.props.toggleSettings();
     }
 
@@ -191,9 +214,26 @@ class DraftMenu extends Component {
         formToReturn =
             formToReturn =
             <form className={panelShown}>
+
+
                 <div className={formBox}>
+                <div className={formSelect}>
+                        <label>League Type</label>
+                        <select id="leagueType"
+                            name="leagueType"
+                            value={this.state.leagueSettings.leagueType}
+                            onChange={e=> this.setState({
+                                leagueSettings:
+                                {
+                                    leagueType: e.target.value
+                                }})}>
+                            <option value="standard">Standard</option>
+                            <option value="ppr">PPR</option>
+                            <option value="dynasty">Dynasty</option>
+                        </select>
+                    </div>
                     <div className={formGroup}>
-                        <label>Teams </label>
+                        <label>Teams</label>
                         <input type="number"
                             id="leagueSize"
                             name="leagueSize"
@@ -204,7 +244,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={[formGroup, draftSlotShown].join(' ')}>
-                        <label className={blue}>Slot#  </label>
+                        <label className={blue}>Slot#</label>
                         <input
                             type="number"
                             id="draftSlot"
@@ -217,7 +257,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={formGroup}>
-                        <label>Total</label>
+                        <label>Players</label>
                         <input type="number"
                             id="totalPlayer"
                             name="totalPlayer"
@@ -228,7 +268,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={formGroup}>
-                        <label>QB:  </label>
+                        <label>QB</label>
                         <input type="number"
                             id="totalStartingQb"
                             name="totalStartingQb"
@@ -239,7 +279,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={formGroup}>
-                        <label>RB:</label>
+                        <label>RB</label>
                         <input type="number"
                             id="totalStartingRb"
                             name="totalStartingRb"
@@ -250,7 +290,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={formGroup}>
-                        <label>WR:  </label>
+                        <label>WR</label>
                         <input type="number"
                             id="totalStartingWr"
                             name="totalStartingWr"
@@ -261,7 +301,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={formGroup}>
-                        <label>TE:</label>
+                        <label>TE</label>
                         <input type="number"
                             id="totalStartingTe"
                             name="totalStartingTe"
@@ -272,7 +312,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={formGroup}>
-                        <label>FLEX: </label>
+                        <label>FLEX </label>
                         <input type="number"
                             id="totalStartingFlex"
                             name="totalStartingFlex"
@@ -283,7 +323,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={formGroup}>
-                        <label>SFLEX: </label>
+                        <label>SFLEX </label>
                         <input type="number"
                             id="totalStartingSFlex"
                             name="totalStartingSFlex"
@@ -294,7 +334,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={formGroup}>
-                        <label>DST: </label>
+                        <label>DST </label>
                         <input type="number"
                             id="totalStartingD"
                             name="totalStartingD"
@@ -305,7 +345,7 @@ class DraftMenu extends Component {
                         />
                     </div>
                     <div className={formGroup}>
-                        <label>K: </label>
+                        <label>K </label>
                         <input type="number"
                             id="totalStartingK"
                             name="totalStartingK"
@@ -326,22 +366,10 @@ class DraftMenu extends Component {
                             onChange={this.HandleUpdateStartingKChange}
                         />
                     </div>
-
-                    <div className={formSelect}>
-                        <label>LeagueType:  </label>
-                        <select id="leagueType"
-                            name="leagueType"
-                            value={this.state.leagueSettings.leagueType}
-                            onChange={this.HandleUpdateLeagueTypeChange}>
-                            <option value="standard">Standard</option>
-                            <option value="ppr">PPR</option>
-                            <option value="dynasty">Dynasty</option>
-                        </select>
-                    </div>
                     <div className={Classes.buttonDiv}>
-                        <button className={submitButton} onClick={(e) => { this.UpdateSettings(e) }}>Submit Changes</button>
-                        <button className={closingButton} onClick={(e) => { this.closeSettings(e) }}>XClose</button>
+                        <button className={closingButton} onClick={(e) => { this.closeSettings(e) }}>X</button>
                     </div>
+
 
                 </div>
             </form>

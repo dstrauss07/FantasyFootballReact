@@ -1,12 +1,11 @@
 import React from 'react';
 import Aux from '../../../hoc/ReactAux';
 import Classes from './MyDraftedPlayers.module.css';
+import Suggestions from '../Suggestions/Suggestions'
 // import { numberLiteralTypeAnnotation } from '@babel/types';
 // import ReactDOM from 'react-dom';
 
 const MyDraftedPlayers = (props) => {
-
-    console.log(props);
 
     let draftedPlayers;
     if (props.draftSession != null) {
@@ -162,6 +161,7 @@ const MyDraftedPlayers = (props) => {
 
     return (
         <Aux>
+            <div>
             <div className={Classes.controlArea}>
                 {revertDiv}
                 <div>
@@ -170,8 +170,6 @@ const MyDraftedPlayers = (props) => {
                     </select>
                 </div>
             </div>
-
-
             <div className={Classes.playerArea}>
                 <h3 className={Classes.posHead}>QBs</h3>
                 <div>
@@ -214,6 +212,7 @@ const MyDraftedPlayers = (props) => {
                 </div>
             </div>
             <div className={Classes.breakLine} />
+            </div>
         </Aux>
 
     )

@@ -10,7 +10,6 @@ const WhenNextPick = (props) => {
     leagueSize = props.leagueSettings.leagueSize,
     yourNextPick, 
     yourNextPickString,
-    yourNextPickArray,
     yourNextPickNumber = 0;
 
     let roundPick = parseInt(currentPickNumber % leagueSize);

@@ -27,7 +27,6 @@ class FantasyManager extends Component {
 
     componentDidMount = () => {
         this.pullRankingsFromApi();
-
     }
 
     pullRankingsFromApi = () => {

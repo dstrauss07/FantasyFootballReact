@@ -185,7 +185,6 @@ class DraftMenu extends Component {
 
 
     render() {
-        console.log(this.props.settingsOpen);
         let formToReturn,
             blue = Classes.blue,
             formGroup = Classes.formGroup,

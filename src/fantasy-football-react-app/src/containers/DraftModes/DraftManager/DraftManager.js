@@ -28,13 +28,15 @@ let defaultDraftSettings = {
 }
 
 let draftSession = {
-    selectedPlayers:[],
-    myPlayers:[],
+    selectedPlayers: [],
+    // myPlayers: [],
+    allTeams: [],
     draftComplete: false,
     currentPick: 1,
     teamPicking: 1,
-    draftRound:1,
-    roundPick:1
+    prevTeamPicking: 0,
+    draftRound: 1,
+    roundPick: 1
 }
 
 class DraftManager extends Component {
@@ -54,61 +56,103 @@ class DraftManager extends Component {
 
 
 
-    PlayerSelected = (event) => {
-        var currentListOfPlayers = this.state.currentDraftSession.selectedPlayers;
-        var myCurrentPlayers = this.state.currentDraftSession.myPlayers;
-        var thisTeamPicking = parseInt(this.state.currentDraftSession.teamPicking);
-        var mySlot = parseInt(this.state.currentLeagueSettings.draftSlot);
-        let nextPicker = this.FindWhoIsPicking();
-        currentListOfPlayers.push(event);
-
-        console.log(thisTeamPicking );
-        console.log(typeof thisTeamPicking);
-        console.log(mySlot);
-        console.log(typeof mySlot)
-
-        console.log(thisTeamPicking === mySlot);
-
-        if (thisTeamPicking === mySlot) {
-            myCurrentPlayers.push(event);
-            console.log("mycurrentPlayers=");
-            console.log(myCurrentPlayers);
+    CreateAllTeams = (draftedPlayers) => {
+        var leagueSize = this.state.currentLeagueSettings.leagueSize;
+        let allTeamsUpdate = [];
+        for (let i = 0; i < leagueSize; i++) {
+            let playNum = i + 1;
+            allTeamsUpdate[i] =
+                {
+                    name: 'player' + playNum, draftedPlayer: []
+                }
         }
-
-           this.setState({
-                currentDraftSession: {
-                    selectedPlayers: currentListOfPlayers,
-                    myPlayers: myCurrentPlayers,
-                    draftComplete: false,
-                    currentPick: this.state.currentDraftSession.currentPick + 1,
-                    teamPicking: nextPicker
-                },
-            },   console.log(this.state.currentDraftSession))
-  
-        
-        }
-    
-
-    RevertPick = () => {
-        var currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
-        var i = currentDraftedGroup.length - 1;
-        var previousDraftedGroup = currentDraftedGroup.splice(0, i);
-        var currentPickValue = this.state.currentDraftSession.currentPick;
-        if(currentPickValue>1)
-        {
-            currentPickValue--;
-        }
-        this.setState({
-            currentDraftSession: {
-                selectedPlayers: previousDraftedGroup,
-                draftComplete: false,
-                currentPick: currentPickValue
+        if (draftedPlayers.length > 0) {
+            for (let i = 0; i < draftedPlayers.length; i++) {
+                let iIncrement = parseInt(i / leagueSize);
+                iIncrement = Math.floor(iIncrement);
+                if (iIncrement % 2 === 0) {
+                    allTeamsUpdate[
+                        i - (iIncrement * leagueSize)
+                    ].draftedPlayer.push(draftedPlayers[i])
+                }
+                else {
+                    allTeamsUpdate[
+                        leagueSize - (i - (iIncrement * leagueSize) + 1)
+                    ].draftedPlayer.push(draftedPlayers[i])
+                }
             }
-        })
+        }
+        console.log(allTeamsUpdate);
+        return allTeamsUpdate;
     }
 
-    FindWhoIsPicking = () => {
-        let nextTeamPicking = this.state.currentDraftSession.teamPicking;
+
+    PlayerSelected = (event) => {
+        var currentListOfPlayers = this.state.currentDraftSession.selectedPlayers;
+        // var myCurrentPlayers = this.state.currentDraftSession.myPlayers;
+        var thisTeamPicking = parseInt(this.state.currentDraftSession.teamPicking);
+        var mySlot = parseInt(this.state.currentLeagueSettings.draftSlot);
+        let nextPicker = this.FindWhoIsPicking(this.state.currentDraftSession.teamPicking);
+        currentListOfPlayers.push(event);
+        // if (thisTeamPicking === mySlot) {
+        //     myCurrentPlayers.push(event);
+        // }
+        let allTeamsUpdated = this.CreateAllTeams(currentListOfPlayers);
+        this.setState({
+            currentDraftSession: {
+                selectedPlayers: currentListOfPlayers,
+                // myPlayers: myCurrentPlayers,
+                draftComplete: false,
+                currentPick: this.state.currentDraftSession.currentPick + 1,
+                prevTeamPicking: thisTeamPicking,
+                teamPicking: nextPicker,
+                allTeams: allTeamsUpdated
+            },
+        }, console.log(this.state.currentDraftSession))
+    }
+
+
+    RevertPick = () => {
+        const currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
+        let currentPickValue = this.state.currentDraftSession.currentPick;
+        var draftSlot = parseInt(this.state.currentLeagueSettings.draftSlot);
+        let i = currentDraftedGroup.length - 1;
+        const myDraftedGroup = this.state.currentDraftSession.myPlayers;
+        let previousDraftedGroup = currentDraftedGroup.splice(0, i);
+        let previousMyDraftedGroup = this.state.currentDraftSession.myPlayers;
+        let prevTeamPicking = this.state.currentDraftSession.prevTeamPicking;
+        // if (currentPickValue > 1) {
+        //     if (prevTeamPicking === draftSlot) {
+        //         if (previousMyDraftedGroup.length > 0) {
+        //             console.log("removing from my players");
+        //             var j = myDraftedGroup.length - 1;
+        //             previousMyDraftedGroup = previousMyDraftedGroup.splice(0, j);
+        //             this.setState({
+        //                 currentDraftSession: {
+        //                     myPlayers: previousMyDraftedGroup
+        //                 }
+        //             })
+        //         }
+        //     }
+            let updatedPreviousPicker =
+                this.FindPrevPickNumAfterRevert(prevTeamPicking, currentPickValue);
+            currentPickValue--;
+            let allTeamsUpdated = this.CreateAllTeams(previousDraftedGroup);
+            this.setState({
+                currentDraftSession: {
+                    selectedPlayers: previousDraftedGroup,
+                    draftComplete: false,
+                    currentPick: currentPickValue,
+                    prevTeamPicking: updatedPreviousPicker,
+                    teamPicking: prevTeamPicking,
+                    allTeams: allTeamsUpdated
+                }
+            });
+    
+    }
+
+    FindWhoIsPicking = (whoPicking) => {
+        let nextTeamPicking = whoPicking;
         let pickDividedByLeagueSize = parseInt(this.state.currentDraftSession.currentPick / this.state.currentLeagueSettings.leagueSize);
         if (this.state.currentDraftSession.currentPick % this.state.currentLeagueSettings.leagueSize === 0) {
             return nextTeamPicking;
@@ -124,13 +168,33 @@ class DraftManager extends Component {
                 default:
                     break;
             }
-            return nextTeamPicking;
+        }
+        return nextTeamPicking;
+    }
+
+    FindPrevPickNumAfterRevert = (prevTeamPicking, currentPick) => {
+        let prevPickNumToReturn = prevTeamPicking;
+        let pickDividedByLeagueSize = parseInt(this.state.currentDraftSession.currentPick / this.state.currentLeagueSettings.leagueSize);
+        if (currentPick % this.state.currentLeagueSettings.leagueSize === 1) {
+            return prevPickNumToReturn;
+        }
+        else {
+            switch (pickDividedByLeagueSize % 2) {
+                case 0:
+                    prevPickNumToReturn--;
+                    break;
+                case 1:
+                    prevPickNumToReturn--;
+                    break;
+                default:
+                    break;
+            }
+            return prevPickNumToReturn;
         }
     }
 
-
     UpdateLeagueSettingsHandler = (props) => {
-        var updatedLeagueSettings = this.state.currentLeagueSettings;
+        let updatedLeagueSettings = this.state.currentLeagueSettings;
         for (var key in updatedLeagueSettings) {
             if (props[key] != null) {
                 updatedLeagueSettings[key] = props[key];
@@ -138,10 +202,22 @@ class DraftManager extends Component {
             this.setState({
                 currentLeagueSettings: updatedLeagueSettings,
                 teamShown: updatedLeagueSettings.draftSlot
-            })
+            }, () =>{
+                let updatedDraftSession = this.state.currentDraftSession;
+                let updatedAllTeams = this.CreateAllTeams
+                (this.state.currentDraftSession.selectedPlayers);
+                let myNewTeam = updatedAllTeams[this.state.currentLeagueSettings.draftSlot-1].draftedPlayer;
+                updatedDraftSession.allTeams = updatedAllTeams;
+                updatedDraftSession.myPlayers = myNewTeam;
+                this.setState({
+                    currentDraftSession: updatedDraftSession
+                })
+            }
+            )
         }
     }
 
+    
     ToggleSettingsPanel = () => {
         if (this.state.settingsOpen) {
             this.setState({ settingsOpen: false })
@@ -159,16 +235,13 @@ class DraftManager extends Component {
         }
     }
 
-
-
-    OnDropdownSelected = (e) => {
+    MyDraftedPlayersDropdown = (e) => {
         this.setState({
             teamShown: e.target.value
         });
     }
 
     FilterDraftedPlayers = () => {
-        console.log(this.state.playersFiltered);
         if (this.state.playersFiltered) {
             this.setState({ playersFiltered: false })
         }
@@ -201,7 +274,7 @@ class DraftManager extends Component {
                                 leagueSettings={this.state.currentLeagueSettings}
                                 draftSession={this.state.currentDraftSession}
                             />
-                        </div>       
+                        </div>
                     </div>
                     <div className={Classes.draftedPlayers}>
                         <div>
@@ -210,7 +283,7 @@ class DraftManager extends Component {
                                 draftSession={this.state.currentDraftSession}
                                 revertPick={this.RevertPick}
                                 teamShown={this.state.teamShown}
-                                onDropdownSelected={this.OnDropdownSelected}
+                                onDropdownSelected={this.MyDraftedPlayersDropdown}
                             />
                         </div>
                         <div>
@@ -221,11 +294,11 @@ class DraftManager extends Component {
                         </div>
 
                         <div>
-                        <Suggestions
-                               draftType={this.state.draftType}
-                               currentRankings={this.state.playerRankings}
-                               leagueSettings={this.state.currentLeagueSettings}
-                               draftSession={this.state.currentDraftSession}
+                            <Suggestions
+                                draftType={this.state.draftType}
+                                currentRankings={this.state.playerRankings}
+                                leagueSettings={this.state.currentLeagueSettings}
+                                draftSession={this.state.currentDraftSession}
                             />
                         </div>
                     </div>

@@ -4,8 +4,8 @@ import Classes from './CheatSheetPlayer.module.css';
 const CheatSheetPlayer = (props) => {
     let playerClass,
     selectedClass,
-    filteredClass;
-    let posRankDiv;
+    filteredClass, 
+    posRankDiv;
 
     switch (props.currentPlayer.playerToRank.playerPos) {
         case 'QB':

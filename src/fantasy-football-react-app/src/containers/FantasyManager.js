@@ -21,7 +21,7 @@ class FantasyManager extends Component {
         playerRankings: null,
         loggedIn: false,
         isLoading: true,
-        defaultId: 2
+        defaultId: 2025
     }
 
 

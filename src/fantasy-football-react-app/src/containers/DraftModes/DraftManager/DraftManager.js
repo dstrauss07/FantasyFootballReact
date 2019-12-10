@@ -29,7 +29,6 @@ let defaultDraftSettings = {
 
 let draftSession = {
     selectedPlayers: [],
-    // myPlayers: [],
     allTeams: [],
     draftComplete: false,
     currentPick: 1,
@@ -89,26 +88,50 @@ class DraftManager extends Component {
 
     PlayerSelected = (event) => {
         var currentListOfPlayers = this.state.currentDraftSession.selectedPlayers;
-        // var myCurrentPlayers = this.state.currentDraftSession.myPlayers;
         var thisTeamPicking = parseInt(this.state.currentDraftSession.teamPicking);
-        var mySlot = parseInt(this.state.currentLeagueSettings.draftSlot);
         let nextPicker = this.FindWhoIsPicking(this.state.currentDraftSession.teamPicking);
         currentListOfPlayers.push(event);
-        // if (thisTeamPicking === mySlot) {
-        //     myCurrentPlayers.push(event);
-        // }
         let allTeamsUpdated = this.CreateAllTeams(currentListOfPlayers);
+        let newPickNum = this.state.currentDraftSession.currentPick + 1;
+        let newRoundPick = this.DetermineRoundPick(newPickNum);
+        let newDraftRound = this.DetermineDraftRound(newPickNum);
         this.setState({
             currentDraftSession: {
                 selectedPlayers: currentListOfPlayers,
-                // myPlayers: myCurrentPlayers,
                 draftComplete: false,
-                currentPick: this.state.currentDraftSession.currentPick + 1,
+                currentPick: newPickNum,
                 prevTeamPicking: thisTeamPicking,
                 teamPicking: nextPicker,
-                allTeams: allTeamsUpdated
+                allTeams: allTeamsUpdated,
+                roundPick: newRoundPick,
+                draftRound: newDraftRound
             },
         }, console.log(this.state.currentDraftSession))
+    }
+
+    DetermineRoundPick = (newPickNum) =>{
+        var leagueSize = this.state.currentLeagueSettings.leagueSize;
+        let newRoundPick = (newPickNum + leagueSize) % leagueSize;
+        if(newRoundPick === 0)
+        {
+            newRoundPick = leagueSize
+        }
+
+        return newRoundPick;
+
+    }
+
+    DetermineDraftRound = (newPickNum) =>{
+        var leagueSize = this.state.currentLeagueSettings.leagueSize;
+        var roundPick = this.state.currentDraftSession.roundPick;
+        let newDraftRound = this.state.currentDraftSession.draftRound;
+
+        if(roundPick === leagueSize)
+        {
+            newDraftRound++
+        }
+
+        return newDraftRound
     }
 
 
@@ -121,19 +144,6 @@ class DraftManager extends Component {
         let previousDraftedGroup = currentDraftedGroup.splice(0, i);
         let previousMyDraftedGroup = this.state.currentDraftSession.myPlayers;
         let prevTeamPicking = this.state.currentDraftSession.prevTeamPicking;
-        // if (currentPickValue > 1) {
-        //     if (prevTeamPicking === draftSlot) {
-        //         if (previousMyDraftedGroup.length > 0) {
-        //             console.log("removing from my players");
-        //             var j = myDraftedGroup.length - 1;
-        //             previousMyDraftedGroup = previousMyDraftedGroup.splice(0, j);
-        //             this.setState({
-        //                 currentDraftSession: {
-        //                     myPlayers: previousMyDraftedGroup
-        //                 }
-        //             })
-        //         }
-        //     }
             let updatedPreviousPicker =
                 this.FindPrevPickNumAfterRevert(prevTeamPicking, currentPickValue);
             currentPickValue--;
@@ -216,7 +226,6 @@ class DraftManager extends Component {
             )
         }
     }
-
     
     ToggleSettingsPanel = () => {
         if (this.state.settingsOpen) {

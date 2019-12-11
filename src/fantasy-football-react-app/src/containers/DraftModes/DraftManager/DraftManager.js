@@ -50,7 +50,7 @@ class DraftManager extends Component {
         sessionStarted: false,
         playersFiltered: false,
         teamShown: defaultDraftSettings.draftSlot,
-        draftType: "snake"
+        draftType: this.props.draftType
     };
 
 
@@ -263,6 +263,9 @@ class DraftManager extends Component {
         return (
             <Aux>
                 <div className={Classes.containerDiv}>
+                    <div className={Classes.draftTypeDiv}>
+                        {this.props.draftType} Draft
+                    </div>
                     <DraftBanner
                         currentLeagueSettings={this.state.currentLeagueSettings}
                         settingsOpen={this.state.settingsOpen}

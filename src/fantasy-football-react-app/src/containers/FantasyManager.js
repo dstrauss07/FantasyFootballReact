@@ -110,6 +110,7 @@ class FantasyManager extends Component {
                         loggedInUser={this.state.loginId}
                         playerRankings={this.state.playerRankings}
                         loggedIn={this.state.loggedIn}
+                        draftType="snake"
                     />
                 </Aux>
             )
@@ -123,10 +124,11 @@ class FantasyManager extends Component {
                         currentUser={this.state.loginId}
                         loggedInHandler={this.HandleLoggedInToggler}
                     />
-                    <AuctionManager
+                    <DraftManager
                         loggedInUser={this.state.loginId}
                         playerRankings={this.state.playerRankings}
                         loggedIn={this.state.loggedIn}
+                        draftType="auction"
                     />
                 </Aux>
             )

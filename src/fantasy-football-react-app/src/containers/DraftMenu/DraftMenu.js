@@ -35,8 +35,7 @@ class DraftMenu extends Component {
             leagueSettings:
             {
                 draftSlot: newDraftSlot
-            }
-            
+            }    
             }, () => {
             this.UpdateSettingsAuto();
             })

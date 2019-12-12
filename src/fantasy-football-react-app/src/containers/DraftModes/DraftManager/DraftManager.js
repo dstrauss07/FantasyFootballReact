@@ -5,6 +5,7 @@ import DraftBanner from '../../DraftMenu/DraftBanner/DraftBanner';
 import CheatSheet from '../../DraftMenu/CheatSheet/CheatSheet';
 import MyDraftedPlayers from '../../DraftMenu/DraftedPlayers/MyDraftedPlayers';
 import AllDraftedPlayers from '../../DraftMenu/DraftedPlayers/AllDraftedPlayers';
+import SuggestPlayers from '../../DraftMenu/SuggestPlayers/SuggestPlayers';
 import Suggestions from '../../DraftMenu/Suggestions/Suggestions';
 import WhenNextPick from '../../DraftMenu/WhenNextPick/WhenNextPick';
 import Classes from './DraftManager.module.css';
@@ -312,6 +313,14 @@ class DraftManager extends Component {
                                 leagueSettings={this.state.currentLeagueSettings}
                                 draftSession={this.state.currentDraftSession}
                             />
+                            
+                            <SuggestPlayers
+                                draftType={this.state.draftType}
+                                currentRankings={this.state.playerRankings}
+                                leagueSettings={this.state.currentLeagueSettings}
+                                draftSession={this.state.currentDraftSession}
+                            />
+
                         </div>
                     </div>
                     <CheatSheet

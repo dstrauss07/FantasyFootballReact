@@ -82,7 +82,6 @@ class DraftManager extends Component {
                 }
             }
         }
-        console.log(allTeamsUpdate);
         return allTeamsUpdate;
     }
 
@@ -117,9 +116,7 @@ class DraftManager extends Component {
         {
             newRoundPick = leagueSize
         }
-
         return newRoundPick;
-
     }
 
     DetermineDraftRound = (newPickNum) =>{
@@ -159,7 +156,6 @@ class DraftManager extends Component {
                     allTeams: allTeamsUpdated
                 }
             });
-    
     }
 
     FindWhoIsPicking = (whoPicking) => {
@@ -305,22 +301,19 @@ class DraftManager extends Component {
                                 draftSession={this.state.currentDraftSession}
                             />
                         </div>
-
                         <div>
                             <Suggestions
                                 draftType={this.state.draftType}
                                 currentRankings={this.state.playerRankings}
                                 leagueSettings={this.state.currentLeagueSettings}
                                 draftSession={this.state.currentDraftSession}
-                            />
-                            
+                            />                           
                             <SuggestPlayers
                                 draftType={this.state.draftType}
                                 currentRankings={this.state.playerRankings}
                                 leagueSettings={this.state.currentLeagueSettings}
                                 draftSession={this.state.currentDraftSession}
                             />
-
                         </div>
                     </div>
                     <CheatSheet

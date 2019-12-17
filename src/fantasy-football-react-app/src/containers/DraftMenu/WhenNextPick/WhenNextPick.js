@@ -7,15 +7,15 @@ const WhenNextPick = (props) => {
 
     let yourPickNumber = parseInt(props.leagueSettings.draftSlot),
     currentPickNumber = parseInt(props.draftSession.currentPick),
-    leagueSize = props.leagueSettings.leagueSize,
+    leagueSize = parseInt(props.leagueSettings.leagueSize),
     yourNextPick, 
     yourNextPickString,
     yourNextPickNumber = 0;
 
     let roundPick = parseInt(currentPickNumber % leagueSize);
-    if (roundPick === 0)
+    if (roundPick === 0 && currentPickNumber>0)
     {
-        roundPick = leagueSize;
+        roundPick = parseInt(leagueSize);
     }
     let draftRound = parseInt((currentPickNumber-1) / leagueSize) + 1;
     let picksRemainingInRound =   parseInt(leagueSize - roundPick);
@@ -28,7 +28,7 @@ const WhenNextPick = (props) => {
         {
             yourNextPickNumber = yourPickNumber - roundPick;
             yourNextPickString = yourNextPickNumber.toString();
-            yourNextPick =  "You Pick in " + yourNextPickString;
+            yourNextPick =  "You Pick in "  + yourNextPickString;
         }
         else if ( roundPick === yourPickNumber)
         {
@@ -36,10 +36,9 @@ const WhenNextPick = (props) => {
         }
         else
         {
-
             yourNextPickNumber = picksRemainingInRound + leagueSize - yourPickNumber + 1;
             yourNextPickString = yourNextPickNumber.toString();
-            yourNextPick =  "You Pick in " + yourNextPickString;
+            yourNextPick =  "You Pick in "  + yourNextPickString;
         }
     }
     else     
@@ -69,9 +68,11 @@ const WhenNextPick = (props) => {
 return (
 <Aux>
 <div className={Classes.nextPickDiv}>
-
-<div>{draftRound} - {roundPick}  ~ Pick Number: {currentPickNumber} ~ {yourNextPick}</div>
-    </div>
+    <div></div>
+    <div className={Classes.nextPickCol}> ({currentPickNumber}.)  Round {draftRound}  ~ Pick {roundPick} </div>
+    <div/>
+    <div className={Classes.nextPickCol}>{yourNextPick}</div>
+</div>
 </Aux>
 
 )

@@ -1,6 +1,13 @@
 .nextPickDiv
 {
-    background: darkred;
+    background: black;
     color: white;
     text-align: center;
+    display:grid;
+    grid-template-columns: 33% 11% 12% 11% 33%;
+}
+
+.nextPickCol
+{
+    display:grid;
 }

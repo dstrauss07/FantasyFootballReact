@@ -13,8 +13,25 @@ import Classes from './DraftManager.module.css';
 const leagueTypes = ["standard", "ppr", "dynasty"]
 
 let defaultDraftSettings = {
+    leagueSize: 6,
+    draftSlot: 3,
+    totalStartingQb: 1,
+    totalStartingRb: 1,
+    totalStartingWr: 1,
+    totalStartingTe: 1,
+    totalStartingFlex: 1,
+    totalStartingSFlex: 0,
+    totalStartingD: 1,
+    totalStartingK: 1,
+    totalPlayer: 10,
+    leagueType: leagueTypes[0]
+}
+
+let defaultAuctionSettings = {
+    startingBudget: 200,
+    remainingBudget: 200,
     leagueSize: 12,
-    draftSlot: 1,
+    draftSlot: 3,
     totalStartingQb: 1,
     totalStartingRb: 2,
     totalStartingWr: 3,
@@ -24,11 +41,10 @@ let defaultDraftSettings = {
     totalStartingD: 1,
     totalStartingK: 1,
     totalPlayer: 16,
-    totalPlayers: 192,
     leagueType: leagueTypes[0]
 }
 
-let draftSession = {
+let defaultDraftSession = {
     selectedPlayers: [],
     allTeams: [],
     draftComplete: false,
@@ -46,7 +62,7 @@ class DraftManager extends Component {
         isLoading: this.props.isLoading,
         currentUser: this.props.loggedInUser,
         currentLeagueSettings: defaultDraftSettings,
-        currentDraftSession: draftSession,
+        currentDraftSession: null,
         settingsOpen: true,
         sessionStarted: false,
         playersFiltered: false,
@@ -54,6 +70,54 @@ class DraftManager extends Component {
         draftType: this.props.draftType
     };
 
+
+    componentWillMount  = () => {
+        if(this.props.draftType === "snake")
+        {
+            console.log("snake!");
+            this.setState({        
+                currentLeagueSettings: defaultDraftSettings,
+                currentDraftSession: defaultDraftSession,
+            })
+        }
+        else if(this.props.draftType === "auction")
+        {
+            console.log("auction!");
+            this.setState({
+                currentLeagueSettings: defaultAuctionSettings,
+                currentDraftSession: defaultDraftSession
+            })
+        }
+    }
+
+
+
+    componentWillReceiveProps  = (newProps) => {
+    if(newProps.draftType !== this.props.draftType)
+    {
+        this.setState({
+            draftType: newProps.draftType
+        })
+
+    if(newProps.draftType === "snake")
+    {
+        console.log("snake!");
+        this.setState({        
+            currentLeagueSettings: defaultDraftSettings,
+            currentDraftSession: defaultDraftSession,
+        })
+    }
+    else if(newProps.draftType === "auction")
+    {
+        console.log("auction!");
+        this.setState({
+            currentLeagueSettings: defaultAuctionSettings,
+            currentDraftSession: defaultDraftSession
+        })
+    }
+}
+
+}
 
 
     CreateAllTeams = (draftedPlayers) => {
@@ -266,9 +330,12 @@ class DraftManager extends Component {
                     <DraftBanner
                         currentLeagueSettings={this.state.currentLeagueSettings}
                         settingsOpen={this.state.settingsOpen}
-                        toggleSettings={this.ToggleSettingsPanel} />
+                        toggleSettings={this.ToggleSettingsPanel} 
+                        draftSession={this.state.currentDraftSession}
+                        draftType = {this.state.draftType}/>
+                        
 
-                    <div className={Classes.settingsBar}>
+                        <div className={Classes.settingsBar}>
                         <div>
                             <DraftMenu
                                 settingsOpen={this.state.settingsOpen}
@@ -276,6 +343,7 @@ class DraftManager extends Component {
                                 clicked={this.UpdateLeagueSettingsHandler}
                                 leagueSettings={this.state.currentLeagueSettings}
                                 draftSession={this.state.currentDraftSession}
+                                draftType = {this.state.draftType}
                             />
                         </div>
                         <div>

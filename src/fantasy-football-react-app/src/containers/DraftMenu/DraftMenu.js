@@ -183,13 +183,14 @@ class DraftMenu extends Component {
 
 
 
+
+
     render() {
         let formToReturn,
             blue = Classes.blue,
             formGroup = Classes.formGroup,
             formSelect = Classes.formSelect,
             formBox = Classes.formBox,
-            submitButton = Classes.submitButton,
             closingButton = Classes.closingButton,
             budgetShown = Classes.show,
             draftSlotShown = Classes.show;
@@ -202,13 +203,18 @@ class DraftMenu extends Component {
             panelShown = Classes.hide
         }
 
-        if (this.props.leagueSettings.startingBudget == null) {
+        console.log(this.props.draftType);
+
+        if (this.props.draftType === "snake") {
+            console.log("hide the budget");
             budgetShown = Classes.hide;
         }
-
-        if (this.props.leagueSettings.draftSlot == null) {
-            draftSlotShown = Classes.hide;
+        else if (this.props.draftType === "auction"){
+            console.log("show the budget");
+            budgetShown = Classes.show
         }
+
+
         formToReturn =
             formToReturn =
             <form className={panelShown}>
@@ -229,6 +235,17 @@ class DraftMenu extends Component {
                             <option value="ppr">PPR</option>
                             <option value="dynasty">Dynasty</option>
                         </select>
+                    </div>
+                    <div className={[formGroup, budgetShown].join(' ')}>
+                        <label>Starting Budget</label>
+                        <input type="number"
+                            id="startingBudget"
+                            name="startingBudget"
+                            min="1"
+                            max="1000000000"
+                            value={this.state.leagueSettings.startingBudget}
+                            onChange={this.HandleUpdateStartingBudgetChange}
+                        />
                     </div>
                     <div className={formGroup}>
                         <label>Teams</label>
@@ -353,23 +370,11 @@ class DraftMenu extends Component {
                             onChange={this.HandleUpdateStartingKChange}
                         />
                     </div>
-                    <div className={formGroup}>
-                        <label>Bench </label>
-                        <input type="number"
-                            id="totalStartingK"
-                            name="totalStartingK"
-                            min="0"
-                            max="5"
-                            value={this.state.leagueSettings.totalStartingK}
-                            onChange={this.HandleUpdateStartingKChange}
-                        />
-                    </div>
-                    <div className={Classes.buttonDiv}>
-                        <button className={closingButton} onClick={(e) => { this.closeSettings(e) }}>X</button>
-                    </div>
-
-
                 </div>
+                <div className={Classes.buttonDiv}>
+                        <button className={closingButton} onClick={(e) => { this.closeSettings(e) }}>close</button>
+                </div>
+
             </form>
 
 

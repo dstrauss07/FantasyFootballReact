@@ -6,33 +6,65 @@ import Classes from './DraftBanner.module.css';
 const DraftBanner = (props) => {
 
     let scoreButton,
-    bannerShow = Classes.hide,
-    budgetShow = Classes.show,
+        bannerShow = Classes.hide,
+        budgetShow = Classes.show,
+        draftSlotShow = Classes.show;
 
-    draftSlotShow = Classes.show;
+    const benchNum = props.currentLeagueSettings.totalPlayer - props.currentLeagueSettings.totalStartingQb - props.currentLeagueSettings.totalStartingRb - props.currentLeagueSettings.totalStartingWr - props.currentLeagueSettings.totalStartingTe - props.currentLeagueSettings.totalStartingFlex - props.currentLeagueSettings.totalStartingSFlex - props.currentLeagueSettings.totalStartingD - props.currentLeagueSettings.totalStartingK;
 
-    if (props.settingsOpen)
-    {
+    let myPlayerCount, qbCount, rbCount, wrCount, teCount, flexCount, sFlexCount, dCount, kCount;
+    let myTeam;
+    const selectedPlayers = props.draftSession.selectedPlayers;
+    const allTeams = props.draftSession.allTeams;
+    const draftSlot = props.currentLeagueSettings.draftSlot;
+
+    console.log(allTeams);
+    if (selectedPlayers.length < draftSlot) {
+        myPlayerCount = 0;
+        qbCount = 0;
+        rbCount = 0;
+        wrCount = 0;
+        teCount = 0;
+        flexCount = 0;
+        sFlexCount = 0;
+        dCount = 0;
+        kCount = 0;
+    }
+    else {
+        myTeam = allTeams[draftSlot - 1].draftedPlayer;
+        myPlayerCount = myTeam.length;
+        qbCount = myTeam.filter(p => p.playerToRank.playerPos === 'QB').length;
+        rbCount = myTeam.filter(p => p.playerToRank.playerPos === 'RB').length;
+        wrCount = myTeam.filter(p => p.playerToRank.playerPos === 'WR').length;
+        teCount = myTeam.filter(p => p.playerToRank.playerPos === 'TE').length;
+        flexCount = myTeam.filter(p => p.playerToRank.playerPos === 'FLEX').length;
+        sFlexCount = myTeam.filter(p => p.playerToRank.playerPos === 'SFLEX').length;
+        dCount = myTeam.filter(p => p.playerToRank.playerPos === 'DST').length;
+        kCount = myTeam.filter(p => p.playerToRank.playerPos === 'K').length;
+    }
+
+    // let myTeam = allTeams[draftSlot];
+
+    const leagueType = String(props.currentLeagueSettings.leagueType).toUpperCase();
+
+    if (props.settingsOpen) {
         bannerShow = Classes.hide
+    }
+    else {
+        bannerShow = Classes.draftBanner
+    }
+
+
+    if (props.draftType === 'auction') {
+        budgetShow = Classes.show
     }
     else
     {
-        bannerShow = Classes.draftBanner
-    }
-    
-
-    if(props.currentLeagueSettings.startingBudget == null)
-    {
-        budgetShow= Classes.hide;
+        budgetShow = Classes.hide
     }
 
-    if(props.currentLeagueSettings.draftSlot == null)
-    {
-        draftSlotShow= Classes.hide;
-    }
-    
 
-   const openSettings = (e) =>{
+    const openSettings = (e) => {
         e.preventDefault();
         props.toggleSettings();
     }
@@ -41,24 +73,24 @@ const DraftBanner = (props) => {
         <Aux>
             <div className={bannerShow}>
                 <div className={Classes.draftDiv}>
-                <div> {props.currentLeagueSettings.leagueType}</div>
-                <div className={budgetShow}>Budget{props.currentLeagueSettings.startingBudget}</div>
-                <div >Teams{props.currentLeagueSettings.leagueSize}</div>
-                <div className={draftSlotShow}>Slot#{props.currentLeagueSettings.draftSlot}</div>
-                <div>Players{props.currentLeagueSettings.totalPlayer}</div>
-                <div >Qb{props.currentLeagueSettings.totalStartingQb}</div>
-                <div >Rb{props.currentLeagueSettings.totalStartingRb}</div>
-                <div >Wr{props.currentLeagueSettings.totalStartingWr}</div>
-                <div >Te{props.currentLeagueSettings.totalStartingTe}</div>
-                <div >Flex{props.currentLeagueSettings.totalStartingFlex}</div>
-                <div >SFlex{props.currentLeagueSettings.totalStartingSFlex}</div>
-                <div >DST{props.currentLeagueSettings.totalStartingD}</div>
-                <div >K{props.currentLeagueSettings.totalStartingK}</div>        
-                <div className={scoreButton} onClick ={openSettings}>
-                    <p></p>
-                    <p></p>
-                    <p></p>
-                </div>
+                    <div> {leagueType}</div>
+                    <div className={budgetShow}> ${props.currentLeagueSettings.startingBudget} of ${props.currentLeagueSettings.startingBudget}</div>
+                    <div >Slot# <br/> {draftSlot} of  {props.currentLeagueSettings.leagueSize} </div>
+                    <div>Drafted <br/>{myPlayerCount} of {props.currentLeagueSettings.totalPlayer}</div>
+                    <div > QB <br/>{qbCount} of {props.currentLeagueSettings.totalStartingQb}</div>
+                    <div >Rb <br/> {rbCount} of {props.currentLeagueSettings.totalStartingRb}</div>
+                    <div >WR <br/> {wrCount} of {props.currentLeagueSettings.totalStartingWr}</div>
+                    <div >TE <br/> {teCount} of {props.currentLeagueSettings.totalStartingTe}</div>
+                    <div >Flex <br/>{flexCount} of{props.currentLeagueSettings.totalStartingFlex}</div>
+                    <div >SFlex <br/> {sFlexCount} of {props.currentLeagueSettings.totalStartingSFlex}</div>
+                    <div >DST <br/> {dCount} of {props.currentLeagueSettings.totalStartingD}</div>
+                    <div >K <br/> {kCount} of
+                    {props.currentLeagueSettings.totalStartingK}</div>
+                    <div>Bench <br/> {benchNum}</div>
+                    <div className={scoreButton} onClick={openSettings}>
+                        <p></p>
+                        <p></p>
+                    </div>
                 </div>
             </div>
         </Aux>

@@ -20,7 +20,7 @@
 .formBox
 {
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     padding: 0 1.4rem;
     background-color:gray;
     margin: 0;
@@ -28,20 +28,14 @@
     justify-items:center;
 }
 
-.submitButton
-{
-    margin: auto;
-    display:inline-block;
-    align-items: center;
-    color:white;
-    background-color:forestgreen;
-    margin-right:.5rem;
-}
-
 .closingButton
 {
     display:inline-block;
-    margin-left:.5rem;
+    margin-left:1rem;
+    background-color:black;
+    color:white;
+    padding:.1rem 0.05rem;
+    margin: 0.4rem 0 0.1rem 0;
 }
 
 .buttonDiv
@@ -49,18 +43,10 @@
 text-align: center;
 padding: 0;
 display:grid;
-grid-template-columns: 1fr 1fr;
 max-height: 4%;
 justify-items:center;
 margin-right:1rem;
-}
-
-.buttonDiv button
-{
-    background-color:darkred;
-    font-size: 0.78rem;
-    padding:0rem 0.1rem;
-    color:rgb(251, 255, 194);
+background-color:gray;
 }
 
 .buttonDiv button:hover

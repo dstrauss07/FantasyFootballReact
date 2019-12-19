@@ -154,6 +154,7 @@ class DraftMenu extends Component {
     }
 
     HandleUpdateLeagueTypeChange = (e) => {
+        console.log();
         this.setState({
             leagueSettings:
             {
@@ -203,14 +204,10 @@ class DraftMenu extends Component {
             panelShown = Classes.hide
         }
 
-        console.log(this.props.draftType);
-
         if (this.props.draftType === "snake") {
-            console.log("hide the budget");
             budgetShown = Classes.hide;
         }
         else if (this.props.draftType === "auction"){
-            console.log("show the budget");
             budgetShown = Classes.show
         }
 
@@ -226,11 +223,7 @@ class DraftMenu extends Component {
                         <select id="leagueType"
                             name="leagueType"
                             value={this.state.leagueSettings.leagueType}
-                            onChange={e=> this.setState({
-                                leagueSettings:
-                                {
-                                    leagueType: e.target.value
-                                }})}>
+                            onChange={this.HandleUpdateLeagueTypeChange}>
                             <option value="standard">Standard</option>
                             <option value="ppr">PPR</option>
                             <option value="dynasty">Dynasty</option>

@@ -18,7 +18,6 @@ const DraftBanner = (props) => {
     const allTeams = props.draftSession.allTeams;
     const draftSlot = props.currentLeagueSettings.draftSlot;
 
-    console.log(allTeams);
     if (selectedPlayers.length < draftSlot) {
         myPlayerCount = 0;
         qbCount = 0;

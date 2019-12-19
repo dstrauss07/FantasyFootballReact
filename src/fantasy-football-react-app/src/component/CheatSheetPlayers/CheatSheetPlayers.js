@@ -81,8 +81,6 @@ const CheatSheetPlayers = (props) => {
                 a.props.currentPlayer.playerRanking.playerRank - b.props.currentPlayer.playerRanking.playerRank);
             return allPlayers;
         case "ppr":
-            console.log("ppr!");
-            console.log(allPlayers);
             allPlayers.sort((a, b) =>
             a.props.currentPlayer.playerRanking.pprRank - b.props.currentPlayer.playerRanking.pprRank);
             return allPlayers;

@@ -62,8 +62,8 @@ const CheatSheetPlayer = (props) => {
                 <div
                     className={Classes.playerDiv}>
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerName].join(' ')}>x{props.currentPlayer.playerToRank.playerName}</div>
+                    <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam} </div>
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
-                    <div className={[playerClass, selectedClass, filteredClass, Classes.playerRank].join(' ')}>{props.currentPlayer.playerToRank.playerRank}</div>
                 </div>
             </div>
 
@@ -76,6 +76,7 @@ const CheatSheetPlayer = (props) => {
                 onClick={() => { props.clicked(props.currentPlayer) }}
                 className={Classes.playerDiv}>
                 <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
             </div>
         </div>

@@ -196,7 +196,7 @@ PlayerSelected = (event) => {
     let allTeamsUpdated = this.CreateAllTeams(currentListOfPlayers);
     let newPickNum = this.state.currentDraftSession.currentPick + 1;
     let newRoundPick = this.DetermineRoundPick(newPickNum);
-    let newDraftRound = this.DetermineDraftRound(newPickNum);
+    let newDraftRound = this.DetermineDraftRound(newPickNum,false);
     let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated);
     this.setState({
         currentDraftSession: {
@@ -213,6 +213,37 @@ PlayerSelected = (event) => {
     });
 }
 
+RevertPick = () => {
+    const currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
+    let currentPickValue = this.state.currentDraftSession.currentPick;
+    let i = currentDraftedGroup.length - 1;
+    let previousDraftedGroup = currentDraftedGroup.splice(0, i);
+    let prevTeamPicking = this.state.currentDraftSession.prevTeamPicking;
+    let updatedPreviousPicker =
+        this.FindPrevPickNumAfterRevert(prevTeamPicking, currentPickValue);
+    let newPickNum = this.state.currentDraftSession.currentPick-1;
+    console.log(newPickNum);
+    let newRoundPick = this.DetermineRoundPick(newPickNum);
+    console.log(newRoundPick);
+    let newDraftRound = this.DetermineDraftRound(newPickNum,true);
+    console.log(newDraftRound);
+    let allTeamsUpdated = this.CreateAllTeams(previousDraftedGroup);
+    let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated);
+    this.setState({
+        currentDraftSession: {
+            selectedPlayers: previousDraftedGroup,
+            draftComplete: false,
+            currentPick: newPickNum,
+            prevTeamPicking: updatedPreviousPicker,
+            roundPick: newRoundPick,
+            draftRound: newDraftRound,
+            teamPicking: prevTeamPicking,
+            allTeams: allTeamsUpdated,
+            myTeam: myTeamUpdated
+        }
+    });
+}
+
 DetermineRoundPick = (newPickNum) => {
     var leagueSize = this.state.currentLeagueSettings.leagueSize;
     let newRoundPick = (newPickNum + leagueSize) % leagueSize;
@@ -222,42 +253,24 @@ DetermineRoundPick = (newPickNum) => {
     return newRoundPick;
 }
 
-DetermineDraftRound = (newPickNum) => {
-    var leagueSize = this.state.currentLeagueSettings.leagueSize;
-    var roundPick = this.state.currentDraftSession.roundPick;
+DetermineDraftRound = (newPickNum, revert) => {
+    const leagueSize = this.state.currentLeagueSettings.leagueSize;
+    const roundPick = newPickNum;
     let newDraftRound = this.state.currentDraftSession.draftRound;
 
-    if (roundPick === leagueSize) {
-        newDraftRound++
+    if (roundPick === leagueSize && !revert) {
+        newDraftRound++;
+    }
+    if(roundPick === leagueSize && revert){
+        newDraftRound--;
+        console.log(newDraftRound);
     }
 
-    return newDraftRound
-}
 
 
-RevertPick = () => {
-    const currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
-    let currentPickValue = this.state.currentDraftSession.currentPick;
-    let i = currentDraftedGroup.length - 1;
-    let previousDraftedGroup = currentDraftedGroup.splice(0, i);
-    let prevTeamPicking = this.state.currentDraftSession.prevTeamPicking;
-    let updatedPreviousPicker =
-        this.FindPrevPickNumAfterRevert(prevTeamPicking, currentPickValue);
-    currentPickValue--;
-    let allTeamsUpdated = this.CreateAllTeams(previousDraftedGroup);
-    let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated);
-    this.setState({
-        currentDraftSession: {
-            selectedPlayers: previousDraftedGroup,
-            draftComplete: false,
-            currentPick: currentPickValue,
-            prevTeamPicking: updatedPreviousPicker,
-            teamPicking: prevTeamPicking,
-            allTeams: allTeamsUpdated,
-            myTeam: myTeamUpdated
-        }
-    });
+    return newDraftRound;
 }
+
 
 FindWhoIsPicking = (whoPicking) => {
     let nextTeamPicking = whoPicking;

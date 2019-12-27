@@ -16,8 +16,6 @@ class DraftMenu extends Component {
         }
     }
 
-
-
     HandleUpdateStartingBudgetChange = (e) => {
         this.setState({
             leagueSettings:
@@ -108,7 +106,6 @@ class DraftMenu extends Component {
             })
     }
 
-
     HandleUpdateStartingSFlexChange = (e) => {
         this.setState({
             leagueSettings:
@@ -154,7 +151,6 @@ class DraftMenu extends Component {
     }
 
     HandleUpdateLeagueTypeChange = (e) => {
-        console.log();
         this.setState({
             leagueSettings:
             {
@@ -165,7 +161,6 @@ class DraftMenu extends Component {
             })
     }
 
-
     UpdateSettings = (e) => {
         e.preventDefault();
         this.props.clicked(this.state.leagueSettings);
@@ -173,7 +168,6 @@ class DraftMenu extends Component {
     }
 
     UpdateSettingsAuto = () => {
-
         this.props.clicked(this.state.leagueSettings);
     }
 
@@ -181,10 +175,6 @@ class DraftMenu extends Component {
         e.preventDefault();
         this.props.toggleSettings();
     }
-
-
-
-
 
     render() {
         let formToReturn,

@@ -226,10 +226,16 @@ class DraftManager extends Component {
             if (props[key] != null) {
                 updatedLeagueSettings[key] = props[key];
             }
+            if(updatedLeagueSettings.draftSlot>updatedLeagueSettings.leagueSize)
+            {
+                updatedLeagueSettings.draftSlot = updatedLeagueSettings.leagueSize
+            }
+
             this.setState({
                 currentLeagueSettings: updatedLeagueSettings,
                 teamShown: updatedLeagueSettings.draftSlot
             }, () => {
+
                 let updatedDraftSession = this.state.currentDraftSession;
                 let updatedAllTeams =  this.CreateAllTeams(this.state.currentDraftSession.selectedPlayers, this.state.currentLeagueSettings.leagueSize);
                 let myNewTeam = this.CreateMyTeam(updatedAllTeams, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);

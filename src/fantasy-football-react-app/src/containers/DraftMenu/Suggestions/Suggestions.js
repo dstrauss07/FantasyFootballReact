@@ -22,8 +22,6 @@ const Suggestions = (props) => {
     myTes:myTe,
     myDsts:myDst,
     myKs:myK}; 
-
-  let playerRankings = props.currentRankings;
   let selectedPlayers = props.draftSession.selectedPlayers;
   let remainingPlayers = props.currentRankings;
   for (let i = 0; i < selectedPlayers.length; i++) {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/ReactAux';
 import axios from 'axios';
+import Classes from './loginManager.module.css';
 
 
 let loginReturnDiv;
@@ -111,9 +112,9 @@ class LoginManager extends Component {
 
     render() {
         if (this.state.loginMode === "login") {
-            loginReturnDiv = <div>
-                <h3>Login!</h3>
-                <form>
+            loginReturnDiv = <div className={Classes.loginBox}><div>
+                <h3 className={Classes.red}>Login!</h3>
+                <form className={Classes.loginForm}>
                     <label htmlFor="UserEmail">Email Address: </label>
                     <input type="email"
                         id="UserEmail"
@@ -129,15 +130,15 @@ class LoginManager extends Component {
                         onChange={this.handlePasswordChange} />
                     <button onClick={(e) => { this.UserLoginHandler(e) }}>Login</button>
                 </form>
-            </div>
+            </div></div>
         }
 
 
         if (this.state.loginMode === "register") {
             loginReturnDiv =
-                <div>
+            <div className={Classes.loginBox}> <div>
                     <h3>Register!</h3>
-                    <form>
+                    <form className={Classes.loginForm}>
                         <label>Name:
                     <input type="text"
                                 id="UserName"
@@ -172,9 +173,8 @@ class LoginManager extends Component {
                         </label>
                         <button onClick={(e) => { this.UserRegisterHandler(e) }}> Register</button>
 
-                    </form>
-                </div>
-        }
+                    </form></div></div>      
+            }
 
         return (
             <Aux>

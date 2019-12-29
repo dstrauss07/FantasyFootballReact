@@ -252,6 +252,7 @@ class DraftMenu extends Component {
                             max={this.props.leagueSettings.leagueSize}
                             value={this.state.leagueSettings.draftSlot}
                             onChange={this.HandleUpdateDraftSlotChange}
+                            onKeyDown="return false"
                         />
                     </div>
                     <div className={formGroup}>

@@ -32,17 +32,19 @@ class RankingManager extends Component {
           }
 
     saveRankingsHandler = () =>{
+      
             let playerRankingsToUpdate= [];
             let currentPlayerRanking;
             let playerRank;
 
+
+            if(this.state.currentUser != null)
+            {
             for(playerRank in this.state.playerRankings)
             {
                 currentPlayerRanking = this.state.playerRankings[playerRank];
                 playerRankingsToUpdate.push(currentPlayerRanking);
-            }
-
-          
+            }         
             axios.patch(rankUri, playerRankingsToUpdate)
                 .then(response=>{
                    
@@ -51,6 +53,11 @@ class RankingManager extends Component {
                     console.log(err);
                 });
                 this.setState({isChanged:false});
+            }
+            else
+            {
+                this.props.goToLogin(3)
+            }
     }
 
 

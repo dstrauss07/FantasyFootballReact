@@ -52,12 +52,12 @@ class FantasyManager extends Component {
     }
 
 
+
     CurrentModeChangeHandler = (modeSetNumber) => {
         this.setState({ mode: fantasyModes[modeSetNumber] })
     }
 
-    SetLoginId = (currentLogin) =>
-        this.setState({ loginId: currentLogin });
+
 
     HandleLoggedInToggler = () => {
         if (this.state.loggedIn) {
@@ -71,8 +71,14 @@ class FantasyManager extends Component {
             this.setState({ loggedIn: true })
             this.pullRankingsFromApi()
         }
-
     }
+
+        SetLoginId = (currentLogin) =>
+        this.setState({ loginId: currentLogin });
+
+
+
+
     render() {
 
         const currentMode = this.state.mode;
@@ -92,7 +98,8 @@ class FantasyManager extends Component {
                         loggedInUser={this.state.loginId}
                         playerRankings={this.state.playerRankings}
                         loggedIn={this.state.loggedIn}
-                        isLoading={this.state.isLoading} />
+                        isLoading={this.state.isLoading} 
+                        goToLogin={this.CurrentModeChangeHandler}/>
                 </Aux>
             )
         }

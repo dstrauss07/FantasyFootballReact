@@ -1,0 +1,16 @@
+.red
+{
+  color: red;
+}
+
+.loginBox
+{
+  display:grid;
+  justify-items:center;
+}
+
+.loginForm input
+{
+  min-width: 200px;
+  text-justify: left;
+}

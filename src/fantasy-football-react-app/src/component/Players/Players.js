@@ -17,7 +17,6 @@ const players = (props) => {
     {
         var counter = 0;
         inheritedPlayers.forEach(function (player){
-            console.log(counter);
             if (player.playerToRank.playerPos === props.playerPositionFilter)
             {
                 counter++;
@@ -25,7 +24,7 @@ const players = (props) => {
         })
         playerCount = counter;
     }
-     
+
   
     for (var i = 0; i < inheritedPlayers.length; i++) {
         if (props.playerScoringType === "standard") {
@@ -41,6 +40,8 @@ const players = (props) => {
                     positionFilter = {props.playerPositionFilter}
                     playerCount = {playerCount}
                     movePlayerClicked = {props.movePlayerClicked}
+                    playerTop = {props.playerTop}
+                    playerBottom = {props.playerBottom}
                 />
         
         }
@@ -56,6 +57,8 @@ const players = (props) => {
                     positionFilter = {props.playerPositionFilter}
                     playerCount = {playerCount}
                     movePlayerClicked = {props.movePlayerClicked}
+                    playerTop = {props.playerTop}
+                    playerBottom = {props.playerBottom}
                 />
         }
         if (props.playerScoringType === "dynasty") {
@@ -70,6 +73,8 @@ const players = (props) => {
                     positionFilter = {props.playerPositionFilter}
                     playerCount = {playerCount}
                     movePlayerClicked = {props.movePlayerClicked}
+                    playerTop = {props.playerTop}
+                    playerBottom = {props.playerBottom}
                 />
         }
         if (inheritedPlayers[i].playerToRank.playerPos === props.playerPositionFilter || props.playerPositionFilter === "ALL") {

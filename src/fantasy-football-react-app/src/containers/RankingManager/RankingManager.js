@@ -36,8 +36,6 @@ class RankingManager extends Component {
         let playerRankingsToUpdate = [];
         let currentPlayerRanking;
         let playerRank;
-
-
         if (this.state.currentUser != null) {
             for (playerRank in this.state.playerRankings) {
                 currentPlayerRanking = this.state.playerRankings[playerRank];

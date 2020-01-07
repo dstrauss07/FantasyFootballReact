@@ -3,7 +3,7 @@ import Aux from '../hoc/ReactAux';
 import ControlMenu from './ControlMenu/ControlMenu';
 import RankingManager from './RankingManager/RankingManager';
 import LoginManager from './LoginManager/LoginManager';
-import DraftManager from './DraftModes/DraftManager/DraftManager';
+import DraftManager from './DraftManager/DraftManager';
 import axios from 'axios';
 
 

@@ -3,7 +3,7 @@ import Aux from '../../hoc/ReactAux';
 import Players from '../../component/Players/Players';
 import axios from 'axios';
 import Classes from './RankingManager.module.css';
-import RankingController from './RankingController/RankingController';
+import RankingMenu from './RankingMenu/RankingMenu';
 // import { debuggerStatement } from '@babel/types';
 
 const scoringTypes = ["standard", "ppr", "dynasty"];
@@ -531,7 +531,7 @@ class RankingManager extends Component {
             return (
                 <Aux>
 
-                    <RankingController
+                    <RankingMenu
                         scoringType={this.state.scoringType}
                         positionFilter={this.state.positionFilter}
                         saveRankingsHandler={this.saveRankingsHandler}

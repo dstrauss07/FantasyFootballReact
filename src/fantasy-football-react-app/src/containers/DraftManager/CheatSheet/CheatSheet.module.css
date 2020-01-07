@@ -1,0 +1,30 @@
+.cheatSheetArea
+{
+    background-color:wheat;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin:0;
+    padding:0;
+}
+
+.allPlayers
+{
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+.formCheckInput, .formCheckLabel
+{
+    display:inline-block;
+    color:red;
+}
+
+.formCheck
+{
+    display:inline-block;
+   background-color:wheat;
+    width:100%;
+    padding-left:75%;
+}

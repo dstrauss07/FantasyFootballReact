@@ -1,0 +1,87 @@
+.blue
+{
+    color:blue;
+}
+
+.formGroup
+{
+    display:grid;
+    padding: .1rem;
+    margin: 0;
+    max-width: 10%;
+}
+
+.formSelect
+{
+    display:grid;
+    padding: 0 .1rem;
+}
+
+.formBox
+{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding: 0 1.4rem;
+    background-color:gray;
+    margin: 0;
+    padding:0;
+    justify-items:center;
+}
+
+.closingButton
+{
+    display:inline-block;
+    margin-left:1rem;
+    background-color:black;
+    color:white;
+    padding:.1rem 0.05rem;
+    margin: 0.4rem 0 0.1rem 0;
+}
+
+.buttonDiv
+{
+text-align: center;
+padding: 0;
+display:grid;
+max-height: 4%;
+justify-items:center;
+margin-right:1rem;
+background-color:gray;
+}
+
+.buttonDiv button:hover
+{
+color:gold;
+background-color:black;
+}
+
+
+
+input, label, select {
+    display:grid;
+}
+
+input
+{
+    background-color:#bae7f8;
+      text-align:center;
+      max-width: 50px;
+}
+
+select
+{
+    background-color:#bae7f8;
+    text-align:center; 
+}
+
+.show
+{
+    display: inherit;
+}
+
+.hide
+{
+    display: none;
+}
+
+

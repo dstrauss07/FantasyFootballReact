@@ -1,0 +1,18 @@
+.containerDiv
+{
+background-color:white;
+max-width:100%;
+}
+
+.draftedPlayers
+{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.draftTypeDiv
+{
+  /* align-content: center; */
+  text-align: center;
+  color: blue;
+}

@@ -1,0 +1,44 @@
+.hidden
+{
+    display:none;
+}
+
+.visible
+{
+    display :inline-block;
+}
+
+.posHead
+{
+    padding:0;
+    margin:0;
+    color:green;
+}
+
+.posDiv
+{
+    padding:0;
+    margin:0;
+    color:red;
+}
+
+.controlArea
+{
+    display:grid;
+    grid-template-columns: 1fr 1fr 70%;
+    padding-left: 1%;
+}
+
+.playerArea
+{
+    display:grid;
+    grid-template-columns: 15% 85%;
+    padding-left: 1%;
+}
+
+.breakLine
+{
+    background-color: black;
+    height:1px;
+    width:50%;
+}

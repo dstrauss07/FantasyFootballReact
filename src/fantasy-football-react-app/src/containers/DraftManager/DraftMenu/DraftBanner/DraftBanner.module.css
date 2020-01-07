@@ -1,0 +1,41 @@
+.draftBanner{
+color:blue;
+display: grid;
+background-color: black;
+color:white;
+display: inline-flex;
+width:100%;
+
+}
+
+.draftBanner div
+{
+    padding: 0 .25rem;
+}
+.draftDiv{
+    font-size: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    margin: 0 5%;
+}
+
+p
+{
+    width: 35px;
+    height: 2px;
+    background-color: white;
+    margin: 6px 0;
+}
+
+.show
+{
+    display:inline-block;
+}
+
+.hide
+
+{
+    display:none;
+}
+

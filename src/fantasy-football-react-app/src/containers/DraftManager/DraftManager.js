@@ -9,11 +9,12 @@ import Suggestions from './DraftMenu/Suggestions/Suggestions';
 import WhenNextPick from './DraftMenu/WhenNextPick/WhenNextPick';
 import Classes from './DraftManager.module.css';
 import ConfirmPick from './ConfirmPick/ConfirmPick';
+import classes from './DraftManager.module.css';
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
 
 //Default Settings
-let defaultAuctionSettings = {
+const defaultAuctionSettings = {
     startingBudget: 200,
     remainingBudget: 200,
     leagueSize: 12,
@@ -30,7 +31,7 @@ let defaultAuctionSettings = {
     leagueType: leagueTypes[0]
 }
 
-let defaultDraftSettings = {
+const defaultDraftSettings = {
     leagueSize: 6,
     draftSlot: 3,
     totalStartingQb: 1,
@@ -45,7 +46,8 @@ let defaultDraftSettings = {
     leagueType: leagueTypes[0]
 }
 
-let defaultDraftSession = {
+const defaultDraftSession = {
+    confirmMode: false,
     selectedPlayers: [],
     allTeams: [],
     myTeam: [],
@@ -55,8 +57,22 @@ let defaultDraftSession = {
     roundPick: 1
 }
 
-class DraftManager extends Component {
+const defaultConfirmProps = {
+    confirmMode: false,
+    selectedPlayers: [],
+    allTeams: [],
+    myTeam: [],
+    draftComplete: false,
+    currentPick: 1,
+    draftRound: 1,
+    roundPick: 1
+}
 
+let confirmClass = Classes.hide;
+let mainClass = Classes.show;
+
+class DraftManager extends Component {
+    
     state = {
         playerRankings: this.props.playerRankings,
         isLoading: this.props.isLoading,
@@ -67,8 +83,11 @@ class DraftManager extends Component {
         sessionStarted: false,
         playersFiltered: false,
         teamShown: defaultDraftSettings.draftSlot,
-        draftType: this.props.draftType
-    };
+        draftType: this.props.draftType,
+        confirmPickProps : defaultConfirmProps
+        }
+
+    /* Life Cycle scripts */
 
     componentWillMount = () => {
         if (this.props.draftType === "snake") {
@@ -81,7 +100,7 @@ class DraftManager extends Component {
             this.setState({
                 currentLeagueSettings: defaultAuctionSettings,
                 currentDraftSession: defaultDraftSession
-            })
+            }) 
         }
     }
 
@@ -90,7 +109,7 @@ class DraftManager extends Component {
             this.setState({
                 draftType: newProps.draftType
             })
-
+        }
             if (newProps.draftType === "snake") {
                 this.setState({
                     currentLeagueSettings: defaultDraftSettings,
@@ -103,7 +122,39 @@ class DraftManager extends Component {
                     currentDraftSession: defaultDraftSession
                 })
             }
+    }
+
+    componentDidUpdate = () =>{
+        if(this.state.confirmPickProps.confirmMode)
+        {           
+            mainClass = Classes.hide;
+            confirmClass = Classes.show;
         }
+        else
+        {
+            confirmClass = Classes.hide;
+            mainClass = Classes.show;
+        }
+    }
+    
+    ConfirmDraftPick= (props) =>{
+        mainClass = Classes.show;
+        confirmClass = Classes.hide;
+        let confirmProps = props.confirmProps;
+        let defaultProps = defaultConfirmProps;
+        this.setState({                 
+            confirmPickProps:defaultProps,
+            currentDraftSession:confirmProps
+        });
+    }
+
+    RejectDraftPick= () =>{
+        mainClass = Classes.show;
+        confirmClass = Classes.hide; 
+        let defaultProps = defaultConfirmProps;
+        this.setState({                 
+            confirmPickProps:defaultProps,
+        });
     }
 
     CreateAllTeams = (draftedPlayers, leagueSize) => {
@@ -130,10 +181,9 @@ class DraftManager extends Component {
                     ].draftedPlayer.push(draftedPlayers[i])
                 }
             }
-        }
-        console.log(allTeamsUpdate);
         return allTeamsUpdate;
     }
+}
 
     CreateMyTeam = (allTeams,draftSlot,leagueType) => {
         let returnMyTeam = allTeams[draftSlot - 1].draftedPlayer;
@@ -212,24 +262,36 @@ class DraftManager extends Component {
         let newPickNum = this.state.currentDraftSession.currentPick + 1;
         let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
         let newDraftRound = this.DetermineDraftRound(newPickNum, this.state.currentLeagueSettings.leagueSize);
-        let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
-        
+        let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);  
         if (myTeamUpdated.length >prevMyTeamLength )
         {
-            console.log("Your Pick Suckah");         
+            let playerToConsider = myTeamUpdated.slice(-1);
+            this.setState({
+                confirmPickProps:
+                {
+                    confirmMode: true,
+                    selectedPlayers: currentListOfPlayers,
+                    allTeams: allTeamsUpdated,
+                    myTeam: myTeamUpdated,
+                    draftComplete: false,
+                    currentPick: newPickNum,
+                    draftRound: newDraftRound,
+                    roundPick: newRoundPick
+                }
+            },()=> {this.forceUpdate(); })  
+           }
+        else
+        {
+            this.setState({
+                currentDraftSession: {
+                    selectedPlayers: currentListOfPlayers,
+                    currentPick: newPickNum,
+                    allTeams: allTeamsUpdated,
+                    roundPick: newRoundPick,
+                    draftRound: newDraftRound,
+                    myTeam: myTeamUpdated
+                }});
         }
-
-        this.setState({
-            currentDraftSession: {
-                selectedPlayers: currentListOfPlayers,
-                draftComplete: false,
-                currentPick: newPickNum,
-                allTeams: allTeamsUpdated,
-                roundPick: newRoundPick,
-                draftRound: newDraftRound,
-                myTeam: myTeamUpdated
-            },
-        });
     }
 
     RevertPick = () => {
@@ -250,8 +312,7 @@ class DraftManager extends Component {
                 draftRound: newDraftRound,
                 allTeams: allTeamsUpdated,
                 myTeam: myTeamUpdated
-            }
-        });
+            }});
     }
 
     UpdateLeagueSettingsHandler = (props) => {
@@ -262,32 +323,27 @@ class DraftManager extends Component {
             }
             if(updatedLeagueSettings.draftSlot>updatedLeagueSettings.leagueSize)
             {
-                updatedLeagueSettings.draftSlot = updatedLeagueSettings.leagueSize
+                updatedLeagueSettings.draftSlot = updatedLeagueSettings.leagueSize;
             }
-
             this.setState({
                 currentLeagueSettings: updatedLeagueSettings,
                 teamShown: updatedLeagueSettings.draftSlot
             }, () => {
-
                 let updatedDraftSession = this.state.currentDraftSession;
                 let updatedAllTeams =  this.CreateAllTeams(this.state.currentDraftSession.selectedPlayers, this.state.currentLeagueSettings.leagueSize);
                 let myNewTeam = this.CreateMyTeam(updatedAllTeams, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
-                let updatedPlayerRanks = this.SortPlayerRankings(this.state.playerRankings,this.state.currentLeagueSettings.leagueType)
-                
-                
+                let updatedPlayerRanks = this.SortPlayerRankings(this.state.playerRankings,this.state.currentLeagueSettings.leagueType);       
                 updatedDraftSession.allTeams = updatedAllTeams;
                 updatedDraftSession.myPlayers = myNewTeam;
                 updatedDraftSession.roundPick = this.DetermineRoundPick(this.state.currentDraftSession.currentPick, this.state.currentLeagueSettings.leagueSize);
-               updatedDraftSession.draftRound = this.DetermineDraftRound(this.state.currentDraftSession.currentPick, this.state.currentLeagueSettings.leagueSize);
+                updatedDraftSession.draftRound = this.DetermineDraftRound(this.state.currentDraftSession.currentPick, this.state.currentLeagueSettings.leagueSize);
                 this.setState({
                     currentDraftSession: updatedDraftSession,
                     currentRankings:updatedPlayerRanks
-                })
-            })}
+                })}
+        )
     }
-
-
+}
 
     SortPlayerRankings = (playerRankings, leagueType) =>{
         let playerRanksToReturn = playerRankings;
@@ -329,8 +385,7 @@ class DraftManager extends Component {
             break; 
         }
         return playerRanksToReturn;
-        }
-    
+        } 
 
     ToggleSettingsPanel = () => {
         if (this.state.settingsOpen) {
@@ -354,12 +409,11 @@ class DraftManager extends Component {
         });
     }
 
-
-
     render() {
         return (
             <Aux>
                 <div className={Classes.containerDiv}>
+                    <div className={mainClass}>
                     <div className={Classes.draftTypeDiv}>
                         {this.props.draftType} Draft
                     </div>
@@ -422,8 +476,13 @@ class DraftManager extends Component {
                         filterDrafted={this.FilterDraftedPlayers}
                         playersFilters={this.state.playersFiltered}
                     />
-                    <div className={Classes.confirmPickDiv}>
-                    <ConfirmPick />
+                    </div>
+                    <div className={confirmClass}>
+                    <ConfirmPick 
+                    confirmProps = {this.state.confirmPickProps}
+                    confirmClick = {this.ConfirmDraftPick}
+                    rejectClick={this.RejectDraftPick}
+                    />
                     </div>
                 </div>
             </Aux>

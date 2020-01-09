@@ -16,3 +16,13 @@ max-width:100%;
   text-align: center;
   color: blue;
 }
+
+.hide
+{
+  display:none;
+}
+
+.show
+{
+  display: inline;
+}

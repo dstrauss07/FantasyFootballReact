@@ -204,7 +204,6 @@ class DraftManager extends Component {
         if(i>0)
         {
             let previousDraftedGroup = currentDraftedGroup.splice(0, i);
-            console.log(previousDraftedGroup);
             let newPickNum = this.state.currentDraftSession.currentPick - 1;
             let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
             let newDraftRound = this.DetermineDraftRound(newPickNum, this.state.currentLeagueSettings.leagueSize);
@@ -274,11 +273,12 @@ class DraftManager extends Component {
                     ].draftedPlayer.push(draftedPlayers[i])
                 }
             }
-        return allTeamsUpdate;
     }
+    return allTeamsUpdate;
 }
 
     CreateMyTeam = (allTeams,draftSlot,leagueType) => {
+
         let returnMyTeam = allTeams[draftSlot - 1].draftedPlayer;
         if (leagueType === leagueTypes[0]) {
             returnMyTeam.sort(function (a, b) {

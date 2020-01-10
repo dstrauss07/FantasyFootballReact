@@ -19,8 +19,8 @@ const ConfirmPick = (props) =>{
   return(
     <Aux>
       {playerToSelectDiv}
-      <button onClick={()=>props.confirmClick(confirmProps)}> Confirm Pick</button>
-      <button onClick={()=>props.rejectClick()}> Reject Pick</button>
+      <button onClick={()=>props.confirmClick(confirmProps,false)}> Confirm Pick</button>
+      <button onClick={()=>props.confirmClick(confirmProps,true)}> Reject Pick</button>
     </Aux>
 
 

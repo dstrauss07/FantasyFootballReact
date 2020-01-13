@@ -4,6 +4,7 @@ import Classes from './WhenNextPick.module.css';
 // import { debuggerStatement } from '@babel/types';
 
 const WhenNextPick = (props) => {
+    
 
     let yourPickNumber = parseInt(props.leagueSettings.draftSlot),
     currentPickNumber = parseInt(props.draftSession.currentPick),

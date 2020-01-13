@@ -14,11 +14,13 @@ const DraftBanner = (props) => {
 
     let myPlayerCount, qbCount, rbCount, wrCount, teCount, flexCount, sFlexCount, dCount, kCount;
     let myTeam;
-    const selectedPlayers = props.draftSession.selectedPlayers;
+    let selectedPlayers = props.draftSession.selectedPlayers;
     const allTeams = props.draftSession.allTeams;
     const draftSlot = props.currentLeagueSettings.draftSlot;
 
-    if (selectedPlayers.length < draftSlot) {
+    if (selectedPlayers.length < draftSlot 
+        // && selectedPlayers.length>0 
+        ) {
         myPlayerCount = 0;
         qbCount = 0;
         rbCount = 0;
@@ -30,6 +32,8 @@ const DraftBanner = (props) => {
         kCount = 0;
     }
     else {
+
+        console.log("hello?");
         myTeam = allTeams[draftSlot - 1].draftedPlayer;
         myPlayerCount = myTeam.length;
         qbCount = myTeam.filter(p => p.playerToRank.playerPos === 'QB').length;
@@ -73,7 +77,7 @@ const DraftBanner = (props) => {
             <div className={bannerShow}>
                 <div className={Classes.draftDiv}>
                     <div> {leagueType}</div>
-                    <div className={budgetShow}> ${props.currentLeagueSettings.startingBudget} of ${props.currentLeagueSettings.startingBudget}</div>
+                    <div className={budgetShow}> ${props.draftSession.remainingBudget} of <br/>  ${props.currentLeagueSettings.startingBudget}</div>
                     <div >Slot# <br/> {draftSlot} of  {props.currentLeagueSettings.leagueSize} </div>
                     <div>Drafted <br/>{myPlayerCount} of {props.currentLeagueSettings.totalPlayer}</div>
                     <div > QB <br/>{qbCount} of {props.currentLeagueSettings.totalStartingQb}</div>

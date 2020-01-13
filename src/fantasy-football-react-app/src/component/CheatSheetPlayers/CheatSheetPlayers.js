@@ -2,7 +2,7 @@ import React from 'react';
 import CheatSheetPlayer from './CheatSheetPlayer/CheatSheetPlayer'
 
 const CheatSheetPlayers = (props) => {
-
+    // console.log(props.buttonDisabled);
     const inheritedPlayers = props.playersToRank;
     let allPlayers = [];
     let playerToAdd;
@@ -42,6 +42,7 @@ const CheatSheetPlayers = (props) => {
                         selected={selected}
                         clicked={props.clicked}
                         filtered={props.filtered}
+                        buttonDisabled={props.buttonDisabled}
                     />
 
             }
@@ -55,6 +56,7 @@ const CheatSheetPlayers = (props) => {
                     selected={selected}
                     clicked={props.clicked}
                     filtered={props.filtered}
+                    buttonDisabled={props.buttonDisabled}
                 />
             }
             if (props.playerScoringType === "dynasty") {
@@ -67,6 +69,7 @@ const CheatSheetPlayers = (props) => {
                     selected={selected}
                     clicked={props.clicked}
                     filtered={props.filtered}
+                    buttonDisabled={props.buttonDisabled}
                 />
             }
             if (inheritedPlayers[i].playerToRank.playerPos === props.playerPositionFilter || props.playerPositionFilter === "ALL") {

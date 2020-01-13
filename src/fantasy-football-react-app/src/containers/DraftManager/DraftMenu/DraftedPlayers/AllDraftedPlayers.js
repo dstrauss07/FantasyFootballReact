@@ -6,7 +6,9 @@ import classes from './AllDraftedPlayers.module.css';
 
 const AllDraftedPlayers = (props) => {
 
-    let draftSession = props.draftSession,
+    if(props.draftType==="snake")
+    {
+        let draftSession = props.draftSession,
         leagueSize = props.leagueSettings.leagueSize,
         currentPick = props.draftSession.currentPick,
         lastTenPlayersDrafted = [],
@@ -86,6 +88,13 @@ const AllDraftedPlayers = (props) => {
 
         </Aux>
     )
+    }
+
+    else{
+        return(<div>auction - coming soon.</div>)
+    }
+
+
 }
 
 

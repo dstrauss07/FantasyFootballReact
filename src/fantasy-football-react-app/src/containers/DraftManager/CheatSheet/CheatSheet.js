@@ -6,9 +6,17 @@ import { tsPropertySignature } from '@babel/types';
 
 const CheatSheet = (props) => {
     let draftDiv;
+    let cheatSheetArea= Classes.cheatSheetArea;
+    let formCheck = Classes.formCheck
+    if(props.buttonDisabled)
+    {
+        cheatSheetArea = Classes.cheatSheetAreaDisabled;
+        formCheck = Classes.formCheckDisabled;
+    }
+
     switch (props.draftType) {
         case "snake":
-            draftDiv = <div className={Classes.cheatSheetArea}>
+            draftDiv = <div className={cheatSheetArea}>
                 <div className={Classes.allPlayers}>
                     <h4>All Players</h4>
                     <CheatSheetPlayers
@@ -18,6 +26,7 @@ const CheatSheet = (props) => {
                         clicked={props.playerClicked}
                         playerPositionFilter="ALL"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -29,6 +38,7 @@ const CheatSheet = (props) => {
                         clicked={props.playerClicked}
                         playerPositionFilter="QB"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -40,6 +50,7 @@ const CheatSheet = (props) => {
                         clicked={props.playerClicked}
                         playerPositionFilter="RB"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -51,6 +62,7 @@ const CheatSheet = (props) => {
                         clicked={props.playerClicked}
                         playerPositionFilter="WR"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -62,6 +74,7 @@ const CheatSheet = (props) => {
                         clicked={props.playerClicked}
                         playerPositionFilter="TE"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -73,6 +86,7 @@ const CheatSheet = (props) => {
                         clicked={props.playerClicked}
                         playerPositionFilter="DST"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -84,6 +98,7 @@ const CheatSheet = (props) => {
                         clicked={props.playerClicked}
                         playerPositionFilter="K"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
             </div>
@@ -92,15 +107,17 @@ const CheatSheet = (props) => {
 
 
         case "auction":
-            draftDiv = <div className={Classes.cheatSheetArea}>
+            draftDiv = <div className={cheatSheetArea}>
                 <div className={Classes.allPlayers}>
                     <h4>All Players</h4>
                     <CheatSheetPlayers
                         playersToRank={props.currentRankings}
                         selectedPlayers={props.draftSession.selectedPlayers}
                         playerScoringType={props.scoringType}
+                        clicked={props.playerClicked}
                         playerPositionFilter="ALL"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -109,8 +126,10 @@ const CheatSheet = (props) => {
                         playersToRank={props.currentRankings}
                         selectedPlayers={props.draftSession.selectedPlayers}
                         playerScoringType={props.scoringType}
+                        clicked={props.playerClicked}
                         playerPositionFilter="QB"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -119,8 +138,10 @@ const CheatSheet = (props) => {
                         playersToRank={props.currentRankings}
                         selectedPlayers={props.draftSession.selectedPlayers}
                         playerScoringType={props.scoringType}
+                        clicked={props.playerClicked}
                         playerPositionFilter="RB"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -129,8 +150,10 @@ const CheatSheet = (props) => {
                         playersToRank={props.currentRankings}
                         selectedPlayers={props.draftSession.selectedPlayers}
                         playerScoringType={props.scoringType}
+                        clicked={props.playerClicked}
                         playerPositionFilter="WR"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -139,8 +162,10 @@ const CheatSheet = (props) => {
                         playersToRank={props.currentRankings}
                         selectedPlayers={props.draftSession.selectedPlayers}
                         playerScoringType={props.scoringType}
+                        clicked={props.playerClicked}
                         playerPositionFilter="TE"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -149,8 +174,10 @@ const CheatSheet = (props) => {
                         playersToRank={props.currentRankings}
                         selectedPlayers={props.draftSession.selectedPlayers}
                         playerScoringType={props.scoringType}
+                        clicked={props.playerClicked}
                         playerPositionFilter="DST"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
                 <div>
@@ -159,8 +186,10 @@ const CheatSheet = (props) => {
                         playersToRank={props.currentRankings}
                         selectedPlayers={props.draftSession.selectedPlayers}
                         playerScoringType={props.scoringType}
+                        clicked={props.playerClicked}
                         playerPositionFilter="K"
                         filtered={props.playersFilters}
+                        buttonDisabled={props.buttonDisabled}
                     />
                 </div>
             </div>
@@ -172,7 +201,7 @@ const CheatSheet = (props) => {
 
     return (
         <Aux>
-             <div className={Classes.formCheck} >
+             <div className={formCheck} >
              <label className={Classes.formCheckLabel} for="filterDrafted">Filter Drafted Players</label>
                     <input type="checkbox"
                         className={Classes.formCheckLabel} 

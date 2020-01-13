@@ -7,6 +7,7 @@ const CheatSheetPlayer = (props) => {
     filteredClass, 
     posRankDiv;
 
+
     switch (props.currentPlayer.playerToRank.playerPos) {
         case 'QB':
             playerClass = Classes.qbPlayer;
@@ -70,7 +71,21 @@ const CheatSheetPlayer = (props) => {
         );
     }
     else {
-        return(
+   if(props.buttonDisabled)
+   {
+    return(
+        <div className={Classes.playerContainer}>
+            <div className={Classes.playerDiv}>
+                <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
+            </div>
+        </div>
+        );
+   }
+   else
+   {
+    return(
         <div className={Classes.playerContainer}>
             <div
                 onClick={() => { props.clicked(props.currentPlayer) }}
@@ -81,7 +96,11 @@ const CheatSheetPlayer = (props) => {
             </div>
         </div>
         );
+   }
+
     }
+
+
 
 
 }

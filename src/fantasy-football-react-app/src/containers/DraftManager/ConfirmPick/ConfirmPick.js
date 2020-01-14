@@ -7,6 +7,8 @@ const ConfirmPick = (props) =>{
 
   let confirmButton;
   let rejectButton;
+  let auctionForm;
+
 
   let HandleTeamPickingChange = (e) => {
       props.UpdateTeam(e.target.value);
@@ -29,7 +31,15 @@ const ConfirmPick = (props) =>{
   {
     confirmButton = <button onClick={()=>props.confirmClick(false)}> Confirm Pick</button>
     rejectButton = <button onClick={()=>props.confirmClick(true)}> Reject Pick</button>
+    auctionForm = Classes.hide;
   }
+
+  if(props.draftType=== "auction")
+{
+  confirmButton = <button onClick={()=>props.confirmClick(false)}> Auction Pick</button>
+  rejectButton = <button onClick={()=>props.confirmClick(true)}> Different Player</button>
+  auctionForm = Classes.show;
+}
 
 
   let CreateSelectItems = () => {
@@ -46,11 +56,6 @@ const ConfirmPick = (props) =>{
 }
 
 
-if(props.draftType=== "auction")
-{
-  confirmButton = <button onClick={()=>props.confirmClick(false)}> Auction Pick</button>
-  rejectButton = <button onClick={()=>props.confirmClick(true)}> Different Player</button>
-}
 
 
 
@@ -61,10 +66,11 @@ if(props.draftType=== "auction")
       {confirmButton}
       {rejectButton}
 
-      <div>
+      <div className={auctionForm}>
             <select id="teamPicking" name="teamPicking" onChange={HandleTeamPickingChange}>
                        {CreateSelectItems()}
             </select>
+            
             <label>Player Bid</label>
             <input type="number"
                     id="playerCost"

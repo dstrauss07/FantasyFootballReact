@@ -66,6 +66,8 @@ const DraftBanner = (props) => {
         budgetShow = Classes.hide
     }
 
+    let budgetRemaining = props.draftSession.myTeam.budgetRemaining;
+
 
     const openSettings = (e) => {
         e.preventDefault();
@@ -76,8 +78,8 @@ const DraftBanner = (props) => {
         <Aux>
             <div className={bannerShow}>
                 <div className={Classes.draftDiv}>
-                    <div> {leagueType}</div>
-                    <div className={budgetShow}> ${props.draftSession.remainingBudget} of <br/>  ${props.currentLeagueSettings.startingBudget}</div>
+                    <div>{leagueType} LEAGUE</div>
+                    <div className={budgetShow}> Budget<br/> ${props.draftSession.myTeam.budgetRemaining} of ${props.currentLeagueSettings.startingBudget} </div>
                     <div >Slot# <br/> {draftSlot} of  {props.currentLeagueSettings.leagueSize} </div>
                     <div>Drafted <br/>{myPlayerCount} of {props.currentLeagueSettings.totalPlayer}</div>
                     <div > QB <br/>{qbCount} of {props.currentLeagueSettings.totalStartingQb}</div>

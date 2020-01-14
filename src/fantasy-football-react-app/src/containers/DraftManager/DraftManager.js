@@ -85,16 +85,10 @@ class DraftManager extends Component {
     /* Life Cycle Events */
     componentWillMount = () => {
         if (this.props.draftType === "snake") {
-            this.setState({
-                currentLeagueSettings: defaultDraftSettings,
-                currentDraftSession: defaultDraftSession
-            });
+            this.StartSnakeDraft();
         }
         else if (this.props.draftType === "auction") {
-            this.setState({
-                currentLeagueSettings: defaultAuctionSettings,
-                currentDraftSession: defaultAuctionSession
-            });
+            this.StartAuctionDraft();
         }
     }
 
@@ -105,16 +99,10 @@ class DraftManager extends Component {
             })
         }
         if (newProps.draftType === "snake") {
-            this.setState({
-                currentLeagueSettings: defaultDraftSettings,
-                currentDraftSession: defaultDraftSession,
-            })
+            this.StartSnakeDraft()
         }
         else if (newProps.draftType === "auction") {
-            this.setState({
-                currentLeagueSettings: defaultAuctionSettings,
-                currentDraftSession: defaultAuctionSession
-            })
+            this.StartAuctionDraft();
         }
     }
 
@@ -130,6 +118,36 @@ class DraftManager extends Component {
         console.log(nextState);
     }
 
+    StartAuctionDraft = () =>{
+        this.setState({
+            currentLeagueSettings: defaultAuctionSettings,
+            currentDraftSession: defaultAuctionSession
+        },   () =>{
+            let initialAllTeams = this.CreateInitialAuctionTeams();
+            let initialMyTeam = initialAllTeams[this.state.currentLeagueSettings.draftSlot-1];
+            this.setState({
+                currentDraftSession:{
+                    selectedPlayers: [],
+                    allTeams: initialAllTeams,
+                    myTeam: initialMyTeam,
+                    draftComplete: false,
+                    currentPick: 1,
+                    draftRound: 1,
+                    roundPick: 1
+                }
+            })
+        } 
+    )   
+    }
+
+    StartSnakeDraft = () =>{
+        this.setState({
+            currentLeagueSettings: defaultDraftSettings,
+            currentDraftSession: defaultDraftSession,
+        })
+    }
+
+
     //PLAYER SELECTION//
 
 
@@ -141,12 +159,9 @@ class DraftManager extends Component {
         let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
         let newDraftRound = this.DetermineDraftRound(newPickNum, this.state.currentLeagueSettings.leagueSize);
         if (this.props.draftType === "snake") {
-            console.log("snake")
             let allTeamsUpdated = this.CreateAllTeams(currentListOfPlayers, this.state.currentLeagueSettings.leagueSize);
             let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
             if (myTeamUpdated.length > prevMyTeamLength) {
-                console.log("snake My Player");
-                console.log(currentListOfPlayers);
                 this.setState({
                     confirmMode: true,
                     settingsOpen: false,
@@ -162,7 +177,6 @@ class DraftManager extends Component {
                 })
             }
             else {
-                console.log("snake other Player");
                 this.setState({
                     settingsOpen: false,
                     playerOnAuction:event,
@@ -178,26 +192,26 @@ class DraftManager extends Component {
             }
         }
         else if (this.props.draftType === "auction") {
-            console.log("here");
-            let allAuctionTeamsUpdated;
-            if (this.state.currentDraftSession.currentPick === 1) {
-                console.log("creating initial teams");
-                allAuctionTeamsUpdated = this.CreateInitialAuctionTeams(this.state.currentLeagueSettings.leagueSize);
-                this.setState({
-                    playerOnAuction:event,
-                    confirmMode: true,
-                    settingsOpen: false,
-                    currentDraftSession: {
-                        selectedPlayers: [],
-                        currentPick: newPickNum,
-                        myTeam:[],
-                        allTeams: allAuctionTeamsUpdated,
-                        roundPick: newRoundPick,
-                        draftRound: newDraftRound 
-                    }
-                });
-            }
-            else {
+            // console.log("here");
+            // let allAuctionTeamsUpdated;
+            // if (this.state.currentDraftSession.currentPick === 1) {
+            //     // console.log("creating initial teams");
+            //     // allAuctionTeamsUpdated = this.CreateInitialAuctionTeams();
+            //     this.setState({
+            //         playerOnAuction:event,
+            //         confirmMode: true,
+            //         settingsOpen: false,
+            //         currentDraftSession: {
+            //             selectedPlayers: [],
+            //             currentPick: newPickNum,
+            //             myTeam:[],
+            //             allTeams: allAuctionTeamsUpdated,
+            //             roundPick: newRoundPick,
+            //             draftRound: newDraftRound 
+            //         }
+            //     });
+            // }
+            // else {
                 console.log("here!");
                 this.setState(prevState=>({
                     confirmMode: true,
@@ -212,7 +226,7 @@ class DraftManager extends Component {
                         myTeam: prevState.currentDraftSession.myTeam
                     } 
                 }));   
-            }
+            // }
         }
     }
 
@@ -236,7 +250,7 @@ class DraftManager extends Component {
                 playersSelected.push(this.state.playerOnAuction);
                 let allAuctionTeamsUpdated = this.state.currentDraftSession.allTeams;
                 allAuctionTeamsUpdated[this.state.teamBidding].draftedPlayer.push(this.state.playerOnAuction);
-                allAuctionTeamsUpdated[this.state.teamBidding].budgetRemaing-=this.state.currentBid;
+                allAuctionTeamsUpdated[this.state.teamBidding].budgetRemaining-=this.state.currentBid;
                 let myTeamUpdated = allAuctionTeamsUpdated[this.state.currentLeagueSettings.draftSlot-1];
 
                 this.setState(state=>({
@@ -344,13 +358,13 @@ class DraftManager extends Component {
         return allTeamsUpdate;
     }
 
-    CreateInitialAuctionTeams = (leagueSize) => {
+    CreateInitialAuctionTeams = () => {
         let allTeamsUpdate = [];
-        for (let i = 0; i < leagueSize; i++) {
+        for (let i = 0; i < this.state.currentLeagueSettings.leagueSize; i++) {
             let playNum = i + 1;
             allTeamsUpdate[i] =
             {
-                name: 'player' + playNum, draftedPlayer: [], budgetRemaing: this.state.currentLeagueSettings.startingBudget
+                name: 'player' + playNum, draftedPlayer: [], budgetRemaining: this.state.currentLeagueSettings.startingBudget
             }
         }
         return allTeamsUpdate;

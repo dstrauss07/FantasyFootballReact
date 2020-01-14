@@ -177,7 +177,6 @@ const MyDraftedPlayers = (props) => {
         revertDiv = <div></div>
     }
 
-
     let CreateSelectItems = () => {
         let teamTogglerOptions = [];
         for (let i = 1; i <= props.leagueSettings.leagueSize; i++) {
@@ -190,11 +189,6 @@ const MyDraftedPlayers = (props) => {
         }
         return teamTogglerOptions;
     }
-
-
-
-
-
 
     return (
         <Aux>

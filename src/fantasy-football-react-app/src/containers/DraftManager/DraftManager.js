@@ -77,7 +77,9 @@ class DraftManager extends Component {
         teamShown: defaultDraftSettings.draftSlot,
         draftType: this.props.draftType,
         confirmMode: false,
-        playerOnAuction:null
+        playerOnAuction:null,
+        currentBid:1,
+        teamBidding:0
     }
 
     /* Life Cycle Events */
@@ -233,7 +235,8 @@ class DraftManager extends Component {
                 let playersSelected = previousDraftSession.selectedPlayers;
                 playersSelected.push(this.state.playerOnAuction);
                 let allAuctionTeamsUpdated = this.state.currentDraftSession.allTeams;
-                allAuctionTeamsUpdated[2].draftedPlayer.push(this.state.playerOnAuction);
+                allAuctionTeamsUpdated[this.state.teamBidding].draftedPlayer.push(this.state.playerOnAuction);
+                allAuctionTeamsUpdated[this.state.teamBidding].budgetRemaing-=this.state.currentBid;
                 let myTeamUpdated = allAuctionTeamsUpdated[this.state.currentLeagueSettings.draftSlot-1];
 
                 this.setState(state=>({
@@ -254,7 +257,19 @@ class DraftManager extends Component {
         }
     }
 
+    UpdateBid = (bid) =>{
+        console.log(bid);
+        this.setState({
+            currentBid : parseInt(bid)
+        })
+    }
 
+    UpdateTeam = (team) =>{
+        console.log(team);
+        this.setState({
+            teamBidding : parseInt(team)-1
+        })
+    }
 
     RevertPick = () => {
         console.log("revert called");
@@ -565,10 +580,13 @@ class DraftManager extends Component {
                     <div className={confirmClass}>
                         <ConfirmPick
                             confirmProps={this.state.currentDraftSession}
+                            leagueSettings={this.state.currentLeagueSettings}
                             confirmClick={this.ConfirmDraftPick}
                             rejectClick={this.RejectDraftPick}
                             playerOnAuction={this.state.playerOnAuction}
                             draftType={this.state.draftType}
+                            UpdateTeam = {this.UpdateTeam}
+                            UpdateBid = {this.UpdateBid}
                         />
                         <CheatSheet
                             draftType={this.state.draftType}

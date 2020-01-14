@@ -6,7 +6,16 @@ const ConfirmPick = (props) =>{
   let playerToSelectDiv = <div/>
 
   let confirmButton;
-  let rejectButton
+  let rejectButton;
+
+  let HandleTeamPickingChange = (e) => {
+      props.UpdateTeam(e.target.value);
+  }
+
+  let HandleBidChange = (e) => {
+        props.UpdateBid(e.target.value);
+  }
+
 
   if(props.playerOnAuction !== null)
   {
@@ -23,11 +32,26 @@ const ConfirmPick = (props) =>{
   }
 
 
-  if(props.draftType=== "auction")
-  {
-    confirmButton = <button onClick={()=>props.confirmClick(false)}> Auction Pick</button>
-    rejectButton = <button onClick={()=>props.confirmClick(true)}> Different Player</button>
-  }
+  let CreateSelectItems = () => {
+    let teamTogglerOptions = [];
+    for (let i = 1; i <= props.leagueSettings.leagueSize; i++) {
+        if (i === props.teamShown) {
+            teamTogglerOptions.push(<option selected="selected" key={i} value={i}>Team {i}</option>);
+        }
+        else {
+            teamTogglerOptions.push(<option key={i} value={i}>Team {i}</option>);
+        }
+    }
+    return teamTogglerOptions;
+}
+
+
+if(props.draftType=== "auction")
+{
+  confirmButton = <button onClick={()=>props.confirmClick(false)}> Auction Pick</button>
+  rejectButton = <button onClick={()=>props.confirmClick(true)}> Different Player</button>
+}
+
 
 
   
@@ -36,6 +60,20 @@ const ConfirmPick = (props) =>{
       {playerToSelectDiv}
       {confirmButton}
       {rejectButton}
+
+      <div>
+            <select id="teamPicking" name="teamPicking" onChange={HandleTeamPickingChange}>
+                       {CreateSelectItems()}
+            </select>
+            <label>Player Bid</label>
+            <input type="number"
+                    id="playerCost"
+                    name="playerCost"
+                    min="1"
+                    max={props.leagueSettings.startingBudget}
+                    onChange={HandleBidChange}
+              />
+      </div>
     </Aux>
 
 

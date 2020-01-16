@@ -7,7 +7,6 @@ import Classes from './MyDraftedPlayers.module.css';
 const MyDraftedPlayers = (props) => {
 
     let teamSlotShown = props.teamShown - 1;
-
     let playerTypes = {
         qbPlayers: [],
         rbPlayers: [],
@@ -16,10 +15,8 @@ const MyDraftedPlayers = (props) => {
         dstPlayers: [],
         kPlayers: []
     }
-
     let allTeams;
-
-
+    let remainingBudget = <div></div>;
     if (props.draftSession.currentPick > 1) {
         allTeams = props.draftSession.allTeams;
 
@@ -111,7 +108,6 @@ const MyDraftedPlayers = (props) => {
         }
     }
 
-
     if (playerTypes.tePlayers.length === 0) {
         teDiv = <div className={Classes.posDiv}>none selected</div>
     }
@@ -169,14 +165,6 @@ const MyDraftedPlayers = (props) => {
         }
     }
 
-    if (props.draftSession.currentPick >1) {
-        revertDiv = <div><button
-            onClick={props.revertPick}>Revert Pick</button></div>
-    }
-    else {
-        revertDiv = <div></div>
-    }
-
     let CreateSelectItems = () => {
         let teamTogglerOptions = [];
         for (let i = 1; i <= props.leagueSettings.leagueSize; i++) {
@@ -190,6 +178,18 @@ const MyDraftedPlayers = (props) => {
         return teamTogglerOptions;
     }
 
+    if(props.draftType === "auction" && !props.confirmMode )
+    {
+        if(props.draftSession.currentPick>1)
+        {
+            remainingBudget = <div>${props.draftSession.allTeams[props.teamShown-1].budgetRemaining} of ${props.leagueSettings.startingBudget} </div>
+        }
+        else
+        {
+            remainingBudget = <div>${props.leagueSettings.startingBudget} of ${props.leagueSettings.startingBudget}  </div>
+        }
+    }
+
     return (
         <Aux>
             <div>
@@ -200,7 +200,10 @@ const MyDraftedPlayers = (props) => {
                             {CreateSelectItems()}
                         </select>
                     </div>
+                    {remainingBudget}
+                    <div/>
                 </div>
+
                 <div className={Classes.playerArea}>
                     <h3 className={Classes.posHead}>QBs</h3>
                     <div>
@@ -245,7 +248,6 @@ const MyDraftedPlayers = (props) => {
                 <div className={Classes.breakLine} />
             </div>
         </Aux>
-
     )
 }
 export default MyDraftedPlayers;

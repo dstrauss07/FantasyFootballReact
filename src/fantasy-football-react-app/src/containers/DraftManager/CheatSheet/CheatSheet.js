@@ -7,7 +7,8 @@ import { tsPropertySignature } from '@babel/types';
 const CheatSheet = (props) => {
     let draftDiv;
     let cheatSheetArea= Classes.cheatSheetArea;
-    let formCheck = Classes.formCheck
+    let formCheck = Classes.formCheck;
+    let revertDiv;
     if(props.buttonDisabled)
     {
         cheatSheetArea = Classes.cheatSheetAreaDisabled;
@@ -199,8 +200,17 @@ const CheatSheet = (props) => {
             draftDiv = <div>Unknown draft Type</div>
     }
 
+        if (props.draftSession.currentPick >1) {
+        revertDiv = <div><button
+            onClick={props.revertPick}>Revert Pick</button></div>
+    }
+    else {
+        revertDiv = <div></div>
+    }
+
     return (
         <Aux>
+            {revertDiv}
              <div className={formCheck} >
              <label className={Classes.formCheckLabel} for="filterDrafted">Filter Drafted Players</label>
                     <input type="checkbox"

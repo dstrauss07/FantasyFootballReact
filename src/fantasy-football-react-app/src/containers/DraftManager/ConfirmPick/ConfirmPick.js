@@ -4,11 +4,9 @@ import Aux from '../../../hoc/ReactAux'
 
 const ConfirmPick = (props) =>{
   let playerToSelectDiv = <div/>
-
   let confirmButton;
   let rejectButton;
   let auctionForm;
-
 
   let HandleTeamPickingChange = (e) => {
       props.UpdateTeam(e.target.value);
@@ -54,18 +52,12 @@ const ConfirmPick = (props) =>{
     }
     return teamTogglerOptions;
 }
-
-
-
-
-
   
   return(
     <Aux>
       {playerToSelectDiv}
       {confirmButton}
       {rejectButton}
-
       <div className={auctionForm}>
             <select id="teamPicking" name="teamPicking" onChange={HandleTeamPickingChange}>
                        {CreateSelectItems()}

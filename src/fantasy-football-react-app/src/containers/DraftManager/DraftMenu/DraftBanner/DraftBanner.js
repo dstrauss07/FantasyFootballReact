@@ -69,6 +69,7 @@ const DraftBanner = (props) => {
     let budgetRemaining = props.draftSession.myTeam.budgetRemaining;
 
 
+
     const openSettings = (e) => {
         e.preventDefault();
         props.toggleSettings();

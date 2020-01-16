@@ -25,7 +25,7 @@
 .controlArea
 {
     display:grid;
-    grid-template-columns: 1fr 1fr 70%;
+    grid-template-columns: 20% 20% 40% 20%;
     padding-left: 1%;
 }
 

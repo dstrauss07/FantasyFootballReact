@@ -115,7 +115,6 @@ class DraftManager extends Component {
             confirmClass = Classes.hide;
             mainClass = Classes.show;
         }
-        console.log(nextState);
     }
 
     StartAuctionDraft = () =>{
@@ -162,6 +161,7 @@ class DraftManager extends Component {
             let allTeamsUpdated = this.CreateAllTeams(currentListOfPlayers, this.state.currentLeagueSettings.leagueSize);
             let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
             if (myTeamUpdated.length > prevMyTeamLength) {
+                console.log("here");
                 this.setState({
                     confirmMode: true,
                     settingsOpen: false,
@@ -177,6 +177,7 @@ class DraftManager extends Component {
                 })
             }
             else {
+                console.log("snake");
                 this.setState({
                     settingsOpen: false,
                     playerOnAuction:event,
@@ -192,41 +193,12 @@ class DraftManager extends Component {
             }
         }
         else if (this.props.draftType === "auction") {
-            // console.log("here");
-            // let allAuctionTeamsUpdated;
-            // if (this.state.currentDraftSession.currentPick === 1) {
-            //     // console.log("creating initial teams");
-            //     // allAuctionTeamsUpdated = this.CreateInitialAuctionTeams();
-            //     this.setState({
-            //         playerOnAuction:event,
-            //         confirmMode: true,
-            //         settingsOpen: false,
-            //         currentDraftSession: {
-            //             selectedPlayers: [],
-            //             currentPick: newPickNum,
-            //             myTeam:[],
-            //             allTeams: allAuctionTeamsUpdated,
-            //             roundPick: newRoundPick,
-            //             draftRound: newDraftRound 
-            //         }
-            //     });
-            // }
-            // else {
-                console.log("here!");
-                this.setState(prevState=>({
+            console.log("auction");
+                this.setState({
                     confirmMode: true,
                     settingsOpen: false,
-                    playerOnAuction:event,
-                    currentDraftSession: {
-                        selectedPlayers: prevState.currentDraftSession.selectedPlayers,
-                        currentPick: newPickNum,
-                        allTeams: prevState.currentDraftSession.allTeams,
-                        roundPick: newRoundPick,
-                        draftRound: newDraftRound,
-                        myTeam: prevState.currentDraftSession.myTeam
-                    } 
-                }));   
-            // }
+                    playerOnAuction:event
+                });   
         }
     }
 
@@ -244,6 +216,9 @@ class DraftManager extends Component {
             }
         }
         else if (this.props.draftType === "auction") {
+            let newPickNum = this.state.currentDraftSession.currentPick + 1;
+            let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
+            let newDraftRound = this.DetermineDraftRound(newPickNum, this.state.currentLeagueSettings.leagueSize);
             if (!reject) {
                 let previousDraftSession = this.state.currentDraftSession;
                 let playersSelected = previousDraftSession.selectedPlayers;
@@ -252,53 +227,58 @@ class DraftManager extends Component {
                 allAuctionTeamsUpdated[this.state.teamBidding].draftedPlayer.push(this.state.playerOnAuction);
                 allAuctionTeamsUpdated[this.state.teamBidding].budgetRemaining-=this.state.currentBid;
                 let myTeamUpdated = allAuctionTeamsUpdated[this.state.currentLeagueSettings.draftSlot-1];
-
-                this.setState(state=>({
+                console.log("here");
+                this.setState({
                     currentDraftSession: {
                         selectedPlayers: playersSelected,
-                        currentPick: state.currentDraftSession.currentPick,
+                        currentPick: newPickNum,
                         allTeams: allAuctionTeamsUpdated,
-                        roundPick: state.currentDraftSession.roundPick,
-                        draftRound: state.currentDraftSession.draftRound,
+                        roundPick: newRoundPick,
+                        draftRound: newDraftRound,
                         myTeam: myTeamUpdated
                     },                                        
                     confirmMode: false 
                 })
-                )}
+            }
+                
             else {
-                this.setState({ confirmMode: false });
+                let updatedDraftSession = this.state.currentDraftSession;
+                let playersSelected = updatedDraftSession.selectedPlayers; 
+                playersSelected.pop();
+                updatedDraftSession.selectedPlayers = playersSelected;
+                this.setState({ confirmMode: false, draftSession: updatedDraftSession
+                 });
             }
         }
     }
 
+
+
     UpdateBid = (bid) =>{
-        console.log(bid);
         this.setState({
             currentBid : parseInt(bid)
         })
     }
 
     UpdateTeam = (team) =>{
-        console.log(team);
         this.setState({
             teamBidding : parseInt(team)-1
         })
     }
 
     RevertPick = () => {
-        console.log("revert called");
         let currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
-        let i = currentDraftedGroup.length - 1;
-        if (i > 0) {
-            let previousDraftedGroup = currentDraftedGroup.splice(0, i);
+        if (this.state.draftType === "snake") {
+            console.log("here");
+            currentDraftedGroup.pop();
             let newPickNum = this.state.currentDraftSession.currentPick - 1;
             let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
             let newDraftRound = this.DetermineDraftRound(newPickNum, this.state.currentLeagueSettings.leagueSize);
-            let allTeamsUpdated = this.CreateAllTeams(previousDraftedGroup, this.state.currentLeagueSettings.leagueSize);
+            let allTeamsUpdated = this.CreateAllTeams(currentDraftedGroup, this.state.currentLeagueSettings.leagueSize);
             let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
             this.setState({
                 currentDraftSession: {
-                    selectedPlayers: previousDraftedGroup,
+                    selectedPlayers: currentDraftedGroup,
                     draftComplete: false,
                     currentPick: newPickNum,
                     roundPick: newRoundPick,
@@ -308,26 +288,62 @@ class DraftManager extends Component {
                 }
             });
         }
-        if (i === 0) {
-            let selectedPlayers = [];
-            if (this.state.draftType === "snake") {
+        // if (i === 0) {
+        //     let selectedPlayers = [];
+        //         this.setState({
+        //             currentDraftSession: {
+        //                 confirmMode: false,
+        //                 selectedPlayers: [],
+        //                 allTeams: [],
+        //                 myTeam: [],
+        //                 draftComplete: false,
+        //                 currentPick: 1,
+        //                 draftRound: 1,
+        //                 roundPick: 1
+        //             }
+        //         });
+        //     }
+        // }
+        else if(this.state.draftType === "auction") {
+            console.log(currentDraftedGroup);
+                let playerToRemove = currentDraftedGroup.pop();
+                let playersSelected = this.state.currentDraftSession.selectedPlayers; 
+                playersSelected.pop();
+                let allTeamsUpdated = this.RemoveAuctionedPlayer(this.state.currentDraftSession.allTeams,playerToRemove);
+                let myTeamUpdated =   allTeamsUpdated[this.state.currentLeagueSettings.draftSlot-1]           
+                let newPickNum = this.state.currentDraftSession.currentPick - 1;
+                let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
+                let newDraftRound = this.DetermineDraftRound(newPickNum, this.state.currentLeagueSettings.leagueSize);
                 this.setState({
                     currentDraftSession: {
-                        confirmMode: false,
-                        selectedPlayers: [],
-                        allTeams: [],
-                        myTeam: [],
+                        selectedPlayers: playersSelected,
                         draftComplete: false,
-                        currentPick: 1,
-                        draftRound: 1,
-                        roundPick: 1
+                        currentPick: newPickNum,
+                        roundPick: newRoundPick,
+                        draftRound: newDraftRound,
+                        allTeams: allTeamsUpdated,
+                        myTeam: myTeamUpdated
                     }
                 });
             }
-            else {
-                console.log("else");
+    }
+
+    RemoveAuctionedPlayer = (myTeams,player) =>
+    {
+        let updatedTeams = [];
+        for(let i =0; i<myTeams.length;i++)
+        {
+            let updatedTeam = myTeams[i];
+            let teamPlayers =updatedTeam.draftedPlayer;
+            if(teamPlayers.includes(player))
+            {
+                updatedTeam.draftedPlayer =  teamPlayers.filter(x=> x.playerToRank.playerId !== player.playerToRank.playerId);
+                updatedTeam.budgetRemaining += this.state.currentBid;
             }
+            updatedTeams.push(updatedTeam);
         }
+
+        return updatedTeams;
     }
 
     CreateAllTeams = (draftedPlayers, leagueSize) => {
@@ -571,6 +587,8 @@ class DraftManager extends Component {
                                 revertPick={this.RevertPick}
                                 teamShown={this.state.teamShown}
                                 onDropdownSelected={this.MyDraftedPlayersDropdown}
+                                draftType={this.state.draftType}
+                                confirmMode = {this.state.confirmMode}
                             />
                         </div>
                         <div>
@@ -593,8 +611,9 @@ class DraftManager extends Component {
                     </div>
                     <div className={confirmClass}>
                         <ConfirmPick
-                            confirmProps={this.state.currentDraftSession}
+                            draftSession={this.state.currentDraftSession}
                             leagueSettings={this.state.currentLeagueSettings}
+                            draftSession={this.state.currentDraftSession}
                             confirmClick={this.ConfirmDraftPick}
                             rejectClick={this.RejectDraftPick}
                             playerOnAuction={this.state.playerOnAuction}
@@ -611,6 +630,7 @@ class DraftManager extends Component {
                             filterDrafted={this.FilterDraftedPlayers}
                             playersFilters={this.state.playersFiltered}
                             buttonDisabled={this.state.confirmMode}
+                            revertPick={this.RevertPick}
                         />
                     </div>
                     <div className={mainClass}>
@@ -623,6 +643,7 @@ class DraftManager extends Component {
                             filterDrafted={this.FilterDraftedPlayers}
                             playersFilters={this.state.playersFiltered}
                             buttonDisabled={this.state.confirmMode}
+                            revertPick={this.RevertPick}
                         />
                     </div>
                 </div>

@@ -19,8 +19,6 @@ const SuggestPlayers = (props) => {
   suggestPlayer1 = remainingPlayers[0];
   suggestText1 = <p>Best Player</p>
 
-
-console.log(props);
   if(props.draftSession.draftRound < 2)
   {
     suggestPlayer2 = remainingPlayers[1];

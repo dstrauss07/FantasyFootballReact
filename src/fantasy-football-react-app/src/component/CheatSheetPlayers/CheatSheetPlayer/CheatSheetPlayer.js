@@ -7,6 +7,8 @@ const CheatSheetPlayer = (props) => {
     filteredClass, 
     posRankDiv;
 
+    let auctionValueDiv = Classes.auctionValueDiv;
+    
 
     switch (props.currentPlayer.playerToRank.playerPos) {
         case 'QB':
@@ -58,51 +60,91 @@ const CheatSheetPlayer = (props) => {
     }
 
     if (props.selected) {
-        return (
-            <div className={Classes.playerContainer}>
+
+        if(props.draftType==="snake")
+        {
+            return (
+                <div className={Classes.playerContainer}>
+                    <div
+                        className={Classes.playerDiv}>
+                        <div className={[playerClass, selectedClass, filteredClass, Classes.playerName].join(' ')}>x{props.currentPlayer.playerToRank.playerName}</div>
+                        <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam} </div>
+                        <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
+                    </div>
+                </div>
+    
+            );
+        }
+        else
+        {
+            return(
+                <div className={Classes.playerContainer}>
                 <div
-                    className={Classes.playerDiv}>
+                    className={auctionValueDiv}>
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerName].join(' ')}>x{props.currentPlayer.playerToRank.playerName}</div>
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam} </div>
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
+                    <div className={[playerClass, selectedClass, filteredClass,Classes.playerPos].join(' ')}>${props.currentPlayer.playerRanking.playerValue}</div>
                 </div>
             </div>
+            )
+        }
 
-        );
     }
     else {
    if(props.buttonDisabled)
    {
+    if(props.draftType==="snake")
+    {
     return(
         <div className={Classes.playerContainer}>
             <div className={Classes.playerDiv}>
                 <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
-            </div>
-        </div>
-        );
-   }
-   else
-   {
-    return(
-        <div className={Classes.playerContainer}>
-            <div
-                onClick={() => { props.clicked(props.currentPlayer) }}
-                className={Classes.playerDiv}>
+            </div></div>);
+    }
+    else
+    {
+        return(
+            <div className={Classes.playerContainer}>
+            <div className={auctionValueDiv}>
                 <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>${props.currentPlayer.playerRanking.playerValue}</div>
+            </div></div>);
+    }
+   }
+   else
+   {
+       if(props.draftType==="snake")
+       {
+        return(
+        
+            <div className={Classes.playerContainer}>
+                <div
+                    onClick={() => { props.clicked(props.currentPlayer) }}
+                    className={Classes.playerDiv}>
+                    <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
+                    <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
+                    <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
+                </div>  </div>
+            );
+       }
+       else{
+        return(
+        <div className={Classes.playerContainer}>
+            <div
+                onClick={() => { props.clicked(props.currentPlayer) }}
+                className={auctionValueDiv}>
+                <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>${props.currentPlayer.playerRanking.playerValue}</div>
             </div>
         </div>
-        );
-   }
-
-    }
-
-
-
-
+        );}}}
 }
 
 export default CheatSheetPlayer;

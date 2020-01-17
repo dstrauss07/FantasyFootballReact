@@ -8,11 +8,13 @@ const CheatSheet = (props) => {
     let draftDiv;
     let cheatSheetArea= Classes.cheatSheetArea;
     let formCheck = Classes.formCheck;
+    let revertDivClass;
     let revertDiv;
     if(props.buttonDisabled)
     {
         cheatSheetArea = Classes.cheatSheetAreaDisabled;
         formCheck = Classes.formCheckDisabled;
+        revertDivClass = Classes.hide;
     }
 
     switch (props.draftType) {
@@ -28,6 +30,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="ALL"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -40,6 +43,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="QB"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -52,6 +56,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="RB"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -64,6 +69,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="WR"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -76,6 +82,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="TE"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -88,6 +95,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="DST"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -100,6 +108,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="K"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
             </div>
@@ -119,6 +128,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="ALL"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -131,6 +141,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="QB"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -143,6 +154,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="RB"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -155,6 +167,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="WR"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -167,6 +180,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="TE"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -179,6 +193,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="DST"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
                 <div>
@@ -191,6 +206,7 @@ const CheatSheet = (props) => {
                         playerPositionFilter="K"
                         filtered={props.playersFilters}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
                 </div>
             </div>
@@ -210,7 +226,9 @@ const CheatSheet = (props) => {
 
     return (
         <Aux>
-            {revertDiv}
+            <div className={revertDivClass}>
+                {revertDiv}
+            </div>
              <div className={formCheck} >
              <label className={Classes.formCheckLabel} for="filterDrafted">Filter Drafted Players</label>
                     <input type="checkbox"

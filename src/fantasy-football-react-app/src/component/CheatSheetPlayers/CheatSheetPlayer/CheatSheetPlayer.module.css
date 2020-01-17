@@ -95,12 +95,24 @@ button :active
 .playerDiv 
 {
     display:grid;
-    grid-template-columns: 50% 25% 25%;
+    grid-template-columns: 40% 20% 20%;
     justify-content: center;
     font-size: .85rem;
     padding: .05rem auto;
     margin:.05rem 0.5rem;
 }
+
+.auctionValueDiv
+{
+    display:grid;
+    grid-template-columns: 40% 20% 20% 20%;
+    justify-content: center;
+    font-size: .85rem;
+    padding: .05rem auto;
+    margin:.05rem 0.5rem;
+}
+
+
 
 @media (max-width: 799px)
 {

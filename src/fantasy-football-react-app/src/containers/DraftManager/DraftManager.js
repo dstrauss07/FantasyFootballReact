@@ -9,6 +9,8 @@ import Suggestions from './DraftMenu/Suggestions/Suggestions';
 import WhenNextPick from './DraftMenu/WhenNextPick/WhenNextPick';
 import Classes from './DraftManager.module.css';
 import ConfirmPick from './ConfirmPick/ConfirmPick';
+import {DetermineDraftValues} from './DraftScripts/DetermineDraftValues'
+
 
 const leagueTypes = ["standard", "ppr", "dynasty"]
 //Defaults
@@ -84,6 +86,10 @@ class DraftManager extends Component {
 
     /* Life Cycle Events */
     componentWillMount = () => {
+        let draftValues = DetermineDraftValues(this.props.playerRankings);
+        this.setState({
+            playerRankings:draftValues
+        })
         if (this.props.draftType === "snake") {
             this.StartSnakeDraft();
         }

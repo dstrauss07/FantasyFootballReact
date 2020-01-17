@@ -43,6 +43,7 @@ const CheatSheetPlayers = (props) => {
                         clicked={props.clicked}
                         filtered={props.filtered}
                         buttonDisabled={props.buttonDisabled}
+                        draftType={props.draftType}
                     />
 
             }
@@ -57,6 +58,7 @@ const CheatSheetPlayers = (props) => {
                     clicked={props.clicked}
                     filtered={props.filtered}
                     buttonDisabled={props.buttonDisabled}
+                    draftType={props.draftType}
                 />
             }
             if (props.playerScoringType === "dynasty") {
@@ -70,6 +72,7 @@ const CheatSheetPlayers = (props) => {
                     clicked={props.clicked}
                     filtered={props.filtered}
                     buttonDisabled={props.buttonDisabled}
+                    draftType={props.draftType}
                 />
             }
             if (inheritedPlayers[i].playerToRank.playerPos === props.playerPositionFilter || props.playerPositionFilter === "ALL") {

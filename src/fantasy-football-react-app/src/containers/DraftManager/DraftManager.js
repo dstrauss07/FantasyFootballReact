@@ -158,11 +158,13 @@ class DraftManager extends Component {
 
     PlayerSelected = (event) => {
         const prevMyTeamLength = this.state.currentDraftSession.myTeam.length;
-        let currentListOfPlayers = this.state.currentDraftSession.selectedPlayers;
+        let currentListOfPlayers = [...this.state.currentDraftSession.selectedPlayers];
         currentListOfPlayers.push(event);
+        console.log(currentListOfPlayers);
         let newPickNum = this.state.currentDraftSession.currentPick + 1;
         let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
         let newDraftRound = this.DetermineDraftRound(newPickNum, this.state.currentLeagueSettings.leagueSize);
+
         if (this.props.draftType === "snake") {
             let allTeamsUpdated = this.CreateAllTeams(currentListOfPlayers, this.state.currentLeagueSettings.leagueSize);
             let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
@@ -294,27 +296,10 @@ class DraftManager extends Component {
                 }
             });
         }
-        // if (i === 0) {
-        //     let selectedPlayers = [];
-        //         this.setState({
-        //             currentDraftSession: {
-        //                 confirmMode: false,
-        //                 selectedPlayers: [],
-        //                 allTeams: [],
-        //                 myTeam: [],
-        //                 draftComplete: false,
-        //                 currentPick: 1,
-        //                 draftRound: 1,
-        //                 roundPick: 1
-        //             }
-        //         });
-        //     }
-        // }
         else if(this.state.draftType === "auction") {
             console.log(currentDraftedGroup);
                 let playerToRemove = currentDraftedGroup.pop();
-                let playersSelected = this.state.currentDraftSession.selectedPlayers; 
-                playersSelected.pop();
+                let playersSelected = [...this.state.currentDraftSession.selectedPlayers]; 
                 let allTeamsUpdated = this.RemoveAuctionedPlayer(this.state.currentDraftSession.allTeams,playerToRemove);
                 let myTeamUpdated =   allTeamsUpdated[this.state.currentLeagueSettings.draftSlot-1]           
                 let newPickNum = this.state.currentDraftSession.currentPick - 1;

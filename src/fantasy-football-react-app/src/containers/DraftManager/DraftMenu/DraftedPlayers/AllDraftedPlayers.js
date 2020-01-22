@@ -5,20 +5,20 @@ import classes from './AllDraftedPlayers.module.css';
 // import ReactDOM from 'react-dom';
 
 const AllDraftedPlayers = (props) => {
+    
+    let draftSession = props.draftSession,
+    leagueSize = props.leagueSettings.leagueSize,
+    currentPick = props.draftSession.currentPick,
+    lastTenPlayersDrafted = [],
+    teamDraftedNumber = 1,
+    evenRound,
+    lastTenDrafted = draftSession.selectedPlayers.slice(-10),
+    draftRound,
+    roundPickCalc,
+    allPlayerDiv,
+    allTeams= draftSession.allTeams,
+    pickCalc = currentPick - lastTenDrafted.length;
 
-    if(props.draftType==="snake")
-    {
-        let draftSession = props.draftSession,
-        leagueSize = props.leagueSettings.leagueSize,
-        currentPick = props.draftSession.currentPick,
-        lastTenPlayersDrafted = [],
-        teamDraftedNumber = 1,
-        evenRound,
-        lastTenDrafted = draftSession.selectedPlayers.slice(-10),
-        draftRound,
-        pickCalc,
-        roundPickCalc,
-        allPlayerDiv;
 
     if (currentPick === 1) {
         allPlayerDiv = React.createElement(
@@ -26,51 +26,39 @@ const AllDraftedPlayers = (props) => {
             className: classes.allPlayersList
         },
             React.createElement('li', { id: 'li1' }, 'No Players Selected Yet'))
+        
     }
-    else {
 
-    pickCalc = currentPick - lastTenDrafted.length;
-    roundPickCalc = pickCalc % leagueSize;
-    draftRound = parseInt(pickCalc / leagueSize);
-
-    if (roundPickCalc === 0) {
-            roundPickCalc = leagueSize;
-      }
-    
-    if(draftRound % 2 === 1)
+    else{ 
+    if(props.draftType==="snake")
     {
-        evenRound  = false;
-    }
-    else
-    {
-        evenRound  = true;
-    }
-   
+  
     for(let i =0; i< lastTenDrafted.length; i++)
     {
         roundPickCalc = pickCalc % leagueSize;
+        draftRound = parseInt(pickCalc / leagueSize);
+
+
         if (roundPickCalc === 0) {
             roundPickCalc = leagueSize;
+            draftRound--;
         }
-        if(roundPickCalc === 1)
+
+        if(roundPickCalc === 1 && draftRound>0)  
         {
             evenRound = !evenRound;
-            draftRound++;
         }
-        if(draftRound===0)
-        {
-            draftRound++;
-            evenRound  = false;
-        }
+
         if(evenRound)
         {
             teamDraftedNumber = leagueSize - roundPickCalc + 1
         }
+
         else
         {
             teamDraftedNumber = roundPickCalc;
         }
-        let p = <li>{draftRound} . {roundPickCalc} <span>({pickCalc} )</span> {lastTenDrafted[i].playerToRank.playerName} / {lastTenDrafted[i].playerToRank.playerPos} by Team # {teamDraftedNumber}</li>
+        let p = <li>{draftRound+1} . {roundPickCalc} <span>({pickCalc} )</span> {lastTenDrafted[i].playerToRank.playerName} / {lastTenDrafted[i].playerToRank.playerPos} by Team # {teamDraftedNumber}</li>
         lastTenPlayersDrafted.push(p);      
         pickCalc++;
     }
@@ -79,7 +67,44 @@ const AllDraftedPlayers = (props) => {
             className: classes.allPlayersList
         },
             React.createElement('li', { id: 'li1' }, lastTenPlayersDrafted))
+ 
+   }
+    else{
+
+
+        for(let i =0; i< lastTenDrafted.length; i++){
+            let playerDraftedName = lastTenDrafted[i].playerToRank.playerName;
+            let teamSelected;
+            
+            for(let j = 0; j< allTeams.length; j++){
+
+                let draftedPlayersByTeam = allTeams[j].draftedPlayer;
+                console.log(draftedPlayersByTeam);
+                if(draftedPlayersByTeam.some(element => element.playerToRank.playerName === playerDraftedName)){
+                    teamSelected = allTeams[j].name;
+                }
+            }
+
+            console.log(teamSelected);
+            
+            
+            let p = <li><span>({pickCalc} )</span> {playerDraftedName} / {lastTenDrafted[i].playerToRank.playerPos} / by {teamSelected}</li>
+            
+            
+            
+            
+            lastTenPlayersDrafted.push(p);      
+            pickCalc++;  
+        }
+        allPlayerDiv = React.createElement(
+            'ul', {
+            className: classes.allPlayersList
+        },
+            React.createElement('li', { id: 'li1' }, lastTenPlayersDrafted))
+
     }
+}
+
     return (
         <Aux>
             <div>
@@ -88,11 +113,6 @@ const AllDraftedPlayers = (props) => {
 
         </Aux>
     )
-    }
-
-    else{
-        return(<div>auction - coming soon.</div>)
-    }
 
 
 }

@@ -6,6 +6,7 @@ import CheatSheet from './CheatSheet/CheatSheet';
 import MyDraftedPlayers from './DraftMenu/DraftedPlayers/MyDraftedPlayers';
 import AllDraftedPlayers from './DraftMenu/DraftedPlayers/AllDraftedPlayers';
 import Suggestions from './DraftMenu/Suggestions/Suggestions';
+import AuctionSuggestions from './DraftMenu/Suggestions/AuctionSuggestions';
 import WhenNextPick from './DraftMenu/WhenNextPick/WhenNextPick';
 import Classes from './DraftManager.module.css';
 import ConfirmPick from './ConfirmPick/ConfirmPick';
@@ -540,6 +541,29 @@ class DraftManager extends Component {
     }
 
     render() {
+        let suggestDiv;
+        if(this.props.draftType==="snake"){
+            suggestDiv =                           
+              <Suggestions
+                draftType={this.state.draftType
+                }
+                currentRankings={this.state.playerRankings}
+                leagueSettings={this.state.currentLeagueSettings}
+                draftSession={this.state.currentDraftSession}
+                playerClicked={this.PlayerSelected}
+                draftType={this.state.draftType}
+            /> 
+        }
+        else{
+            suggestDiv = <AuctionSuggestions
+            draftType={this.state.draftType}
+            currentRankings={this.state.playerRankings}
+            leagueSettings={this.state.currentLeagueSettings}
+            draftSession={this.state.currentDraftSession}
+            playerClicked={this.PlayerSelected}
+            draftType={this.state.draftType}
+            />
+        }
         return (
             <Aux>
                 <div className={Classes.containerDiv}>
@@ -590,14 +614,7 @@ class DraftManager extends Component {
                             />
                         </div>
                         <div>
-                            <Suggestions
-                                draftType={this.state.draftType}
-                                currentRankings={this.state.playerRankings}
-                                leagueSettings={this.state.currentLeagueSettings}
-                                draftSession={this.state.currentDraftSession}
-                                playerClicked={this.PlayerSelected}
-                                draftType={this.state.draftType}
-                            />
+                            {suggestDiv}
                         </div>
                     </div>
                     <div className={confirmClass}>

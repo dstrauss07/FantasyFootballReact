@@ -5,8 +5,6 @@ import SuggestPlayers from './SuggestPlayers/SuggestPlayers';
 
 const Suggestions = (props) => {
 
-  if(props.draftType === "snake")
-  {
     let draftDiv;
     let draftRound = props.draftSession.draftRound;
     let myTeam = props.draftSession.myTeam,
@@ -72,18 +70,10 @@ const Suggestions = (props) => {
           playersRemaining={remainingPlayers}
           remainingGroups = {remainingPlayerGroups}
           myTeamGroups = {myTeamGroups}
-  
-  
         />
       </Aux>
     )
-  }
-  else if(props.draftType==="auction")
-  {
-    return(
-      <div>auction</div>
-    )
-  }
+
 
 
 }

@@ -220,7 +220,7 @@ class DraftMenu extends Component {
                         </select>
                     </div>
                     <div className={[formGroup, budgetShown].join(' ')}>
-                        <label>Starting Budget</label>
+                        <label>Budget</label>
                         <input type="number"
                             id="startingBudget"
                             name="startingBudget"

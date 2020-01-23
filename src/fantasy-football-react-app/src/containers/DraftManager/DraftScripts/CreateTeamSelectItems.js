@@ -21,7 +21,6 @@ export function CreateTeamSelectItems(leagueSize,teamShown,draftSlot){
           {
               teamTogglerOptions.push(<option key={i} value={i}>Team {i}</option>);
           }
-
       }
   }
   return teamTogglerOptions;

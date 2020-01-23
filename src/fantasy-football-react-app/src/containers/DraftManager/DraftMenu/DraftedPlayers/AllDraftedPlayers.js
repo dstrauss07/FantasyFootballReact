@@ -1,6 +1,6 @@
 import React from 'react';
 import Aux from '../../../../hoc/ReactAux';
-import classes from './AllDraftedPlayers.module.css';
+import Classes from './AllDraftedPlayers.module.css';
 // import { numberLiteralTypeAnnotation } from '@babel/types';
 // import ReactDOM from 'react-dom';
 
@@ -23,7 +23,7 @@ const AllDraftedPlayers = (props) => {
     if (currentPick === 1) {
         allPlayerDiv = React.createElement(
             'ul', {
-            className: classes.allPlayersList
+            className: Classes.allPlayersList
         },
             React.createElement('li', { id: 'li1' }, 'No Players Selected Yet'))
         
@@ -64,7 +64,7 @@ const AllDraftedPlayers = (props) => {
     }
         allPlayerDiv = React.createElement(
             'ul', {
-            className: classes.allPlayersList
+            className: Classes.allPlayersList
         },
             React.createElement('li', { id: 'li1' }, lastTenPlayersDrafted))
  
@@ -84,9 +84,7 @@ const AllDraftedPlayers = (props) => {
                     teamSelected = allTeams[j].name;
                 }
             }
-
-            console.log(teamSelected);
-            
+         
             
             let p = <li><span>({pickCalc} )</span> {playerDraftedName} / {lastTenDrafted[i].playerToRank.playerPos} / by {teamSelected}</li>
             
@@ -98,7 +96,7 @@ const AllDraftedPlayers = (props) => {
         }
         allPlayerDiv = React.createElement(
             'ul', {
-            className: classes.allPlayersList
+            className: Classes.allPlayersList
         },
             React.createElement('li', { id: 'li1' }, lastTenPlayersDrafted))
 

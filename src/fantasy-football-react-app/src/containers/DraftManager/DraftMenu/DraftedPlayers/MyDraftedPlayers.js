@@ -169,10 +169,25 @@ const MyDraftedPlayers = (props) => {
         let teamTogglerOptions = [];
         for (let i = 1; i <= props.leagueSettings.leagueSize; i++) {
             if (i === props.teamShown) {
-                teamTogglerOptions.push(<option selected="selected" key={i} value={i}>Team {i}</option>);
+                if(i=== props.leagueSettings.draftSlot){
+                    teamTogglerOptions.push(<option className={Classes.yourTeam} selected="selected" key={i} value={i}>Your Team</option>);
+                }
+                else
+                {
+
+                    teamTogglerOptions.push(<option className={Classes.otherTeam} selected="selected" key={i} value={i}>Team {i}</option>);
+                }
             }
             else {
-                teamTogglerOptions.push(<option key={i} value={i}>Team {i}</option>);
+                if(i=== props.leagueSettings.draftSlot)
+                {
+                    teamTogglerOptions.push(<option className={Classes.yourTeam} key={i} value={i}>Your Team</option>);
+                }
+                else
+                {
+                    teamTogglerOptions.push(<option className={Classes.otherTeam} key={i} value={i}>Team {i}</option>);
+                }
+
             }
         }
         return teamTogglerOptions;
@@ -200,12 +215,15 @@ const MyDraftedPlayers = (props) => {
                             {CreateSelectItems()}
                         </select>
                     </div>
+                    
                     {remainingBudget}
                     <div/>
                 </div>
 
                 <div className={Classes.playerArea}>
+                    <div>
                     <h3 className={Classes.posHead}>QBs</h3>
+                    </div>
                     <div>
                         {qbDiv}
                     </div>

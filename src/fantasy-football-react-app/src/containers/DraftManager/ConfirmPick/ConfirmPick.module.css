@@ -8,3 +8,29 @@
 {
     display:none;
 }
+
+.auctionFormItem
+{
+margin-left:1%;
+}
+.auctionSelects
+{
+    display:grid;
+    grid-template-columns: 1fr 1fr 2fr;  
+}
+.auctionPlayerSelect
+{
+    margin-left:1%;
+}
+.auctionPlayerSelect input
+{
+    width:100px;
+    max-width: 100%;
+}
+
+.confirmBox
+{
+ display:grid;
+ grid-template-columns: 1fr 1fr 1fr;   
+}
+

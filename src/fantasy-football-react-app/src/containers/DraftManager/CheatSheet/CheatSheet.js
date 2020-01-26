@@ -97,8 +97,6 @@ const CheatSheet = (props) => {
                         buttonDisabled={props.buttonDisabled}
                         draftType={props.draftType}
                     />
-                </div>
-                <div>
                     <h4>K</h4>
                     <CheatSheetPlayers
                         playersToRank={props.currentRankings}
@@ -195,8 +193,6 @@ const CheatSheet = (props) => {
                         buttonDisabled={props.buttonDisabled}
                         draftType={props.draftType}
                     />
-                </div>
-                <div>
                     <h4>K</h4>
                     <CheatSheetPlayers
                         playersToRank={props.currentRankings}

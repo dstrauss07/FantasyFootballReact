@@ -10,7 +10,5 @@ var playerToAdd = rankings[i];
 playerToAdd.playerRanking.playerValue = 40-i;
 rankingsToReturn.push(playerToAdd)
 }
-
-console.log(rankingsToReturn);
 return rankingsToReturn;
 }

@@ -70,27 +70,17 @@ const AllDraftedPlayers = (props) => {
  
    }
     else{
-
-
         for(let i =0; i< lastTenDrafted.length; i++){
             let playerDraftedName = lastTenDrafted[i].playerToRank.playerName;
-            let teamSelected;
-            
+            let teamSelected;        
             for(let j = 0; j< allTeams.length; j++){
-
                 let draftedPlayersByTeam = allTeams[j].draftedPlayer;
                 console.log(draftedPlayersByTeam);
                 if(draftedPlayersByTeam.some(element => element.playerToRank.playerName === playerDraftedName)){
                     teamSelected = allTeams[j].name;
                 }
             }
-         
-            
-            let p = <li><span>({pickCalc} )</span> {playerDraftedName} / {lastTenDrafted[i].playerToRank.playerPos} / by {teamSelected}</li>
-            
-            
-            
-            
+            let p = <li><span>({pickCalc} )</span> {playerDraftedName} / {lastTenDrafted[i].playerToRank.playerPos} / by {teamSelected}/ $ {lastTenDrafted[i].winningBid}</li>
             lastTenPlayersDrafted.push(p);      
             pickCalc++;  
         }

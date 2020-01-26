@@ -6,7 +6,6 @@ import {CreateRemainingPlayerGroups} from '../../DraftScripts/CreateRemainingPla
 
 const BidSuggestions = (props) =>
 {
-console.log(props);
 let qbDiv = <div></div>;
 let rbDiv = <div></div>;
 let wrDiv = <div></div>;

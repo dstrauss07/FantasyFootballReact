@@ -9,6 +9,7 @@ const CheatSheetPlayers = (props) => {
     let playerCount;
     let selectedPlayers = props.selectedPlayers;
     let selected = false;
+    let winningBid = null;
 
     if (props.playerPositionFilter === "ALL") {
         playerCount = inheritedPlayers.length;
@@ -27,9 +28,14 @@ const CheatSheetPlayers = (props) => {
         for (var i = 0; i < inheritedPlayers.length; i++) {
             if (selectedPlayers.includes(inheritedPlayers[i])) {
                 selected = true;
+                let winningPlayer = selectedPlayers.filter(sp => sp.playerToRank.playerId ===inheritedPlayers[i].playerToRank.playerId);
+                console.log(winningPlayer);
+                winningBid = winningPlayer[0].winningBid;
+                console.log(winningBid);
             }
             else {
                 selected = false;
+                winningBid= null;
             }
             if (props.playerScoringType === "standard") {
                 playerToAdd =
@@ -44,6 +50,7 @@ const CheatSheetPlayers = (props) => {
                         filtered={props.filtered}
                         buttonDisabled={props.buttonDisabled}
                         draftType={props.draftType}
+                        winningBid={winningBid}
                     />
 
             }
@@ -59,6 +66,7 @@ const CheatSheetPlayers = (props) => {
                     filtered={props.filtered}
                     buttonDisabled={props.buttonDisabled}
                     draftType={props.draftType}
+                    winningBid={winningBid}
                 />
             }
             if (props.playerScoringType === "dynasty") {
@@ -73,6 +81,7 @@ const CheatSheetPlayers = (props) => {
                     filtered={props.filtered}
                     buttonDisabled={props.buttonDisabled}
                     draftType={props.draftType}
+                    winningBid={winningBid}
                 />
             }
             if (inheritedPlayers[i].playerToRank.playerPos === props.playerPositionFilter || props.playerPositionFilter === "ALL") {

@@ -8,6 +8,12 @@ const CheatSheetPlayer = (props) => {
     posRankDiv;
 
     let auctionValueDiv = Classes.auctionValueDiv;
+    let winningBidClass = Classes.hideButton;
+
+    if(props.winningBid !== null && props.winningBid!== undefined)
+    {
+        winningBidClass = Classes.gold;
+    }
     
 
     switch (props.currentPlayer.playerToRank.playerPos) {
@@ -85,6 +91,7 @@ const CheatSheetPlayer = (props) => {
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam} </div>
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
                     <div className={[playerClass, selectedClass, filteredClass,Classes.playerPos].join(' ')}>${props.currentPlayer.playerRanking.playerValue}</div>
+                    <div className={[filteredClass, Classes.playerPos, winningBidClass].join(' ')}>${props.winningBid}</div>
                 </div>
             </div>
             )
@@ -113,6 +120,7 @@ const CheatSheetPlayer = (props) => {
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>${props.currentPlayer.playerRanking.playerValue}</div>
+                <div className={[filteredClass, Classes.playerPos, winningBidClass].join(' ')}>${props.winningBid}</div>
             </div></div>);
     }
    }
@@ -142,6 +150,7 @@ const CheatSheetPlayer = (props) => {
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>${props.currentPlayer.playerRanking.playerValue}</div>
+                <div className={[filteredClass, Classes.playerPos, winningBidClass].join(' ')}>${props.winningBid}</div>
             </div>
         </div>
         );}}}

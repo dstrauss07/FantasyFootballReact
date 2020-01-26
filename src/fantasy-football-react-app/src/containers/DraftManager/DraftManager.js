@@ -163,11 +163,9 @@ class DraftManager extends Component {
         const prevMyTeamLength = this.state.currentDraftSession.myTeam.length;
         let currentListOfPlayers = [...this.state.currentDraftSession.selectedPlayers];
         currentListOfPlayers.push(event);
-        console.log(currentListOfPlayers);
         let newPickNum = this.state.currentDraftSession.currentPick + 1;
         let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
         let newDraftRound = this.DetermineDraftRound(newPickNum, this.state.currentLeagueSettings.leagueSize);
-
         if (this.props.draftType === "snake") {
             let allTeamsUpdated = this.CreateAllTeams(currentListOfPlayers, this.state.currentLeagueSettings.leagueSize);
             let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
@@ -187,7 +185,6 @@ class DraftManager extends Component {
                 })
             }
             else {
-                console.log("snake");
                 this.setState({
                     settingsOpen: false,
                     playerOnAuction:event,
@@ -203,7 +200,6 @@ class DraftManager extends Component {
             }
         }
         else if (this.props.draftType === "auction") {
-            console.log("auction");
                 this.setState({
                     confirmMode: true,
                     settingsOpen: false,
@@ -231,13 +227,14 @@ class DraftManager extends Component {
             let newDraftRound = this.DetermineDraftRound(newPickNum, this.state.currentLeagueSettings.leagueSize);
             if (!reject) {
                 let previousDraftSession = this.state.currentDraftSession;
+                let playerOnAuctionWithBid = this.state.playerOnAuction;
+                playerOnAuctionWithBid.winningBid = this.state.currentBid;
                 let playersSelected = previousDraftSession.selectedPlayers;
-                playersSelected.push(this.state.playerOnAuction);
-                let allAuctionTeamsUpdated = this.state.currentDraftSession.allTeams;
-                allAuctionTeamsUpdated[this.state.teamBidding].draftedPlayer.push(this.state.playerOnAuction);
+                playersSelected.push(playerOnAuctionWithBid);
+                let allAuctionTeamsUpdated = this.state.currentDraftSession.allTeams;              
+                allAuctionTeamsUpdated[this.state.teamBidding].draftedPlayer.push(playerOnAuctionWithBid);
                 allAuctionTeamsUpdated[this.state.teamBidding].budgetRemaining-=this.state.currentBid;
                 let myTeamUpdated = allAuctionTeamsUpdated[this.state.currentLeagueSettings.draftSlot-1];
-                console.log("here");
                 this.setState({
                     currentDraftSession: {
                         selectedPlayers: playersSelected,
@@ -262,8 +259,6 @@ class DraftManager extends Component {
         }
     }
 
-
-
     UpdateBid = (bid) =>{
         this.setState({
             currentBid : parseInt(bid)
@@ -279,7 +274,6 @@ class DraftManager extends Component {
     RevertPick = () => {
         let currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
         if (this.state.draftType === "snake") {
-            console.log("here");
             currentDraftedGroup.pop();
             let newPickNum = this.state.currentDraftSession.currentPick - 1;
             let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
@@ -299,7 +293,6 @@ class DraftManager extends Component {
             });
         }
         else if(this.state.draftType === "auction") {
-            console.log(currentDraftedGroup);
                 let playerToRemove = currentDraftedGroup.pop();
                 let playersSelected = [...this.state.currentDraftSession.selectedPlayers]; 
                 let allTeamsUpdated = this.RemoveAuctionedPlayer(this.state.currentDraftSession.allTeams,playerToRemove);

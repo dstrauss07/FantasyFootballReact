@@ -123,6 +123,7 @@ class DraftManager extends Component {
             confirmClass = Classes.hide;
             mainClass = Classes.show;
         }
+
     }
 
     StartAuctionDraft = () =>{
@@ -171,7 +172,6 @@ class DraftManager extends Component {
             let allTeamsUpdated = this.CreateAllTeams(currentListOfPlayers, this.state.currentLeagueSettings.leagueSize);
             let myTeamUpdated = this.CreateMyTeam(allTeamsUpdated, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
             if (myTeamUpdated.length > prevMyTeamLength) {
-                console.log("here");
                 this.setState({
                     confirmMode: true,
                     settingsOpen: false,
@@ -343,10 +343,19 @@ class DraftManager extends Component {
         let allTeamsUpdate = [];
         for (let i = 0; i < leagueSize; i++) {
             let playNum = i + 1;
-            allTeamsUpdate[i] =
-            {
-                name: 'player' + playNum, draftedPlayer: []
+            if(playNum === this.state.currentLeagueSettings.draftSlot){
+                allTeamsUpdate[i] =
+                {
+                    name: 'Your Team', draftedPlayer: []
+                }
             }
+            else{
+                allTeamsUpdate[i] =
+                {
+                    name: 'Team ' + playNum, draftedPlayer: []
+                }
+            }
+
         }
         if (draftedPlayers.length > 0) {
             for (let i = 0; i < draftedPlayers.length; i++) {
@@ -371,10 +380,19 @@ class DraftManager extends Component {
         let allTeamsUpdate = [];
         for (let i = 0; i < this.state.currentLeagueSettings.leagueSize; i++) {
             let playNum = i + 1;
-            allTeamsUpdate[i] =
-            {
-                name: 'player' + playNum, draftedPlayer: [], budgetRemaining: this.state.currentLeagueSettings.startingBudget
+            if(playNum === this.state.currentLeagueSettings.draftSlot){
+                allTeamsUpdate[i] =
+                {
+                    name: 'Your Team', draftedPlayer: [], budgetRemaining: this.state.currentLeagueSettings.startingBudget
+                }
             }
+            else{
+                allTeamsUpdate[i] =
+                {
+                    name: 'Team ' + playNum, draftedPlayer: [], budgetRemaining: this.state.currentLeagueSettings.startingBudget
+                }
+            }
+
         }
         return allTeamsUpdate;
     }
@@ -456,18 +474,35 @@ class DraftManager extends Component {
             if (updatedLeagueSettings.draftSlot > updatedLeagueSettings.leagueSize) {
                 updatedLeagueSettings.draftSlot = updatedLeagueSettings.leagueSize;
             }
+            // if(this.state.draftType==="auction"){
+            //     if(updatedLeagueSettings.draftSlot !== this.state.currentLeagueSettings.draftSlot || updatedLeagueSettings.leagueSize !== this.state.currentLeagueSettings.leagueSize){
+            //         this.StartAuctionDraft();
+            //     }
+            // }
             this.setState({
                 currentLeagueSettings: updatedLeagueSettings,
                 teamShown: updatedLeagueSettings.draftSlot
             }, () => {
-                let updatedDraftSession = this.state.currentDraftSession;
-                let updatedAllTeams = this.CreateAllTeams(this.state.currentDraftSession.selectedPlayers, this.state.currentLeagueSettings.leagueSize);
-                let myNewTeam = this.CreateMyTeam(updatedAllTeams, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
-                let updatedPlayerRanks = this.SortPlayerRankings(this.state.playerRankings, this.state.currentLeagueSettings.leagueType);
-                updatedDraftSession.allTeams = updatedAllTeams;
-                updatedDraftSession.myPlayers = myNewTeam;
-                updatedDraftSession.roundPick = this.DetermineRoundPick(this.state.currentDraftSession.currentPick, this.state.currentLeagueSettings.leagueSize);
-                updatedDraftSession.draftRound = this.DetermineDraftRound(this.state.currentDraftSession.currentPick, this.state.currentLeagueSettings.leagueSize);
+                let updatedDraftSession;
+                let updatedAllTeams;
+                let myNewTeam;
+                let updatedPlayerRanks;
+                if(this.state.draftType==="snake"){
+                    updatedDraftSession = this.state.currentDraftSession;
+                    updatedAllTeams = this.CreateAllTeams(this.state.currentDraftSession.selectedPlayers, this.state.currentLeagueSettings.leagueSize);
+                    myNewTeam = this.CreateMyTeam(updatedAllTeams, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
+                    updatedPlayerRanks= this.props.playerRankings;
+                }
+                else{
+                    updatedDraftSession = defaultAuctionSession;
+                    updatedAllTeams = this.CreateInitialAuctionTeams();
+                    myNewTeam = updatedAllTeams[this.state.currentLeagueSettings.draftSlot-1];
+                    updatedPlayerRanks = this.SortPlayerRankings(this.state.playerRankings, this.state.currentLeagueSettings.leagueType);
+                    updatedDraftSession.allTeams = updatedAllTeams;
+                    updatedDraftSession.myPlayers = myNewTeam;
+                    updatedDraftSession.roundPick = this.DetermineRoundPick(this.state.currentDraftSession.currentPick, this.state.currentLeagueSettings.leagueSize);
+                    updatedDraftSession.draftRound = this.DetermineDraftRound(this.state.currentDraftSession.currentPick, this.state.currentLeagueSettings.leagueSize);
+                }       
                 this.setState({
                     currentDraftSession: updatedDraftSession,
                     currentRankings: updatedPlayerRanks
@@ -532,6 +567,7 @@ class DraftManager extends Component {
                     this._settingsOpen = value;
                 },
             })
+            this.setState({ state: this.state });
         }
     }
 

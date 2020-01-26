@@ -168,8 +168,10 @@ const MyDraftedPlayers = (props) => {
     let CreateSelectItems = () => {
         let teamTogglerOptions = [];
         for (let i = 1; i <= props.leagueSettings.leagueSize; i++) {
-            if (i === props.teamShown) {
-                if(i=== props.leagueSettings.draftSlot){
+            console.log(props.teamShown);
+            if (i === parseInt(props.teamShown)) {
+                console.log(props.teamShown);
+                if(i=== parseInt(props.leagueSettings.draftSlot)){
                     teamTogglerOptions.push(<option className={Classes.yourTeam} selected="selected" key={i} value={i}>Your Team</option>);
                 }
                 else
@@ -179,7 +181,7 @@ const MyDraftedPlayers = (props) => {
                 }
             }
             else {
-                if(i=== props.leagueSettings.draftSlot)
+                if(i=== parseInt(props.leagueSettings.draftSlot))
                 {
                     teamTogglerOptions.push(<option className={Classes.yourTeam} key={i} value={i}>Your Team</option>);
                 }

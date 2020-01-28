@@ -88,10 +88,7 @@ class DraftManager extends Component {
 
     /* Life Cycle Events */
     componentWillMount = () => {
-        let draftValues = DetermineDraftValues(this.props.playerRankings);
-        this.setState({
-            playerRankings:draftValues
-        })
+
         if (this.props.draftType === "snake") {
             this.StartSnakeDraft();
         }
@@ -127,9 +124,11 @@ class DraftManager extends Component {
     }
 
     StartAuctionDraft = () =>{
+        let playerRankingsWithValues = DetermineDraftValues(this.props.playerRankings,defaultAuctionSettings,this.props.draftType);
         this.setState({
             currentLeagueSettings: defaultAuctionSettings,
-            currentDraftSession: defaultAuctionSession
+            currentDraftSession: defaultAuctionSession,
+            playerRankings:playerRankingsWithValues
         },   () =>{
             let initialAllTeams = this.CreateInitialAuctionTeams();
             let initialMyTeam = initialAllTeams[this.state.currentLeagueSettings.draftSlot-1];
@@ -147,6 +146,7 @@ class DraftManager extends Component {
         } 
     )   
     }
+
 
     StartSnakeDraft = () =>{
         this.setState({

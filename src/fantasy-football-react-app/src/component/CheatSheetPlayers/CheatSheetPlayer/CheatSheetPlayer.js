@@ -90,7 +90,7 @@ const CheatSheetPlayer = (props) => {
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerName].join(' ')}>x{props.currentPlayer.playerToRank.playerName}</div>
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam} </div>
                     <div className={[playerClass, selectedClass, filteredClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
-                    <div className={[playerClass, selectedClass, filteredClass,Classes.playerPos].join(' ')}>${props.currentPlayer.playerRanking.playerValue}</div>
+                    <div className={[playerClass, selectedClass, filteredClass,Classes.playerPos].join(' ')}>${props.currentPlayer.playerValue}</div>
                     <div className={[filteredClass, Classes.playerPos, winningBidClass].join(' ')}>${props.winningBid}</div>
                 </div>
             </div>
@@ -119,7 +119,7 @@ const CheatSheetPlayer = (props) => {
                 <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
-                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>${props.currentPlayer.playerRanking.playerValue}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>${props.currentPlayer.playerValue}</div>
                 <div className={[filteredClass, Classes.playerPos, winningBidClass].join(' ')}>${props.winningBid}</div>
             </div></div>);
     }
@@ -149,7 +149,7 @@ const CheatSheetPlayer = (props) => {
                 <div className={[playerClass, selectedClass, Classes.playerName].join(' ')}>{props.currentPlayer.playerToRank.playerName}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerTeam}</div>
                 <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>{props.currentPlayer.playerToRank.playerPos} {posRankDiv}</div>
-                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>${props.currentPlayer.playerRanking.playerValue}</div>
+                <div className={[playerClass, selectedClass, Classes.playerPos].join(' ')}>${props.currentPlayer.playerValue}</div>
                 <div className={[filteredClass, Classes.playerPos, winningBidClass].join(' ')}>${props.winningBid}</div>
             </div>
         </div>

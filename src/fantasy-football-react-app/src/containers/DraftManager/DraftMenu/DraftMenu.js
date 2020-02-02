@@ -20,7 +20,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                startingBudget: e.target.value
+                startingBudget: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -32,7 +32,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                draftSlot: newDraftSlot
+                draftSlot: parseInt(newDraftSlot)
             }    
             }, () => {
             this.UpdateSettingsAuto();
@@ -43,7 +43,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                leagueSize: e.target.value
+                leagueSize: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -54,7 +54,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                totalStartingQb: e.target.value
+                totalStartingQb: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -62,10 +62,11 @@ class DraftMenu extends Component {
     }
 
     HandleUpdateStartingRbChange = (e) => {
+        console.log(e);
         this.setState({
             leagueSettings:
             {
-                totalStartingRb: e.target.value
+                totalStartingRb: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -76,7 +77,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                totalStartingWr: e.target.value
+                totalStartingWr: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -88,7 +89,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                totalStartingTe: e.target.value
+                totalStartingTe: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -99,7 +100,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                totalStartingFlex: e.target.value
+                totalStartingFlex: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -110,7 +111,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                totalStartingSFlex: e.target.value
+                totalStartingSFlex: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -121,7 +122,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                totalStartingD: e.target.value
+                totalStartingD: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -132,7 +133,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                totalStartingK: e.target.value
+                totalStartingK: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -143,7 +144,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                totalPlayer: e.target.value
+                totalPlayer: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -154,7 +155,7 @@ class DraftMenu extends Component {
         this.setState({
             leagueSettings:
             {
-                leagueType: e.target.value
+                leagueType: parseInt(e.target.value)
             }
         }, () => {
             this.UpdateSettingsAuto();
@@ -173,6 +174,7 @@ class DraftMenu extends Component {
 
     closeSettings = (e) => {
         e.preventDefault();
+        // this.props.clicked(this.state.leagueSettings);
         this.props.toggleSettings();
     }
 

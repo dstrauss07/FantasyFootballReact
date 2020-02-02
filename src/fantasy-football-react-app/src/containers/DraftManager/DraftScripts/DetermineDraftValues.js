@@ -157,8 +157,5 @@ else
 //TODO ADD MORE COMPLEX DRAFT VALUE CONVERSIONS 
 rankingsToReturn = draftValues;
 
-console.log(draftValues);
-
-
 return rankingsToReturn;
 }

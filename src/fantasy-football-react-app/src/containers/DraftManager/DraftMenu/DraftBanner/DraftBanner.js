@@ -33,7 +33,6 @@ const DraftBanner = (props) => {
     }
     else {
 
-        console.log("hello?");
         myTeam = allTeams[draftSlot - 1].draftedPlayer;
         myPlayerCount = myTeam.length;
         qbCount = myTeam.filter(p => p.playerToRank.playerPos === 'QB').length;

@@ -2,7 +2,6 @@ import React from 'react';
 import CheatSheetPlayer from './CheatSheetPlayer/CheatSheetPlayer'
 
 const CheatSheetPlayers = (props) => {
-    // console.log(props.buttonDisabled);
     const inheritedPlayers = props.playersToRank;
     let allPlayers = [];
     let playerToAdd;
@@ -29,9 +28,7 @@ const CheatSheetPlayers = (props) => {
             if (selectedPlayers.includes(inheritedPlayers[i])) {
                 selected = true;
                 let winningPlayer = selectedPlayers.filter(sp => sp.playerToRank.playerId ===inheritedPlayers[i].playerToRank.playerId);
-                console.log(winningPlayer);
                 winningBid = winningPlayer[0].winningBid;
-                console.log(winningBid);
             }
             else {
                 selected = false;

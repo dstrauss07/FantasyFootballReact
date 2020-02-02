@@ -140,11 +140,7 @@ class DraftManager extends Component {
                     draftComplete: false,
                     currentPick: 1,
                     draftRound: 1,
-                    roundPick: 1
-                }
-            })
-        } 
-    )   
+                    roundPick: 1}})})   
     }
 
 
@@ -460,6 +456,7 @@ class DraftManager extends Component {
 
     UpdateLeagueSettingsHandler = (props) => {
         let updatedLeagueSettings = this.state.currentLeagueSettings;
+        let updatedDraftSession, updatedAllTeams,myNewTeam,updatedPlayerRanks;
         for (var key in updatedLeagueSettings) {
             if (props[key] != null) {
                 updatedLeagueSettings[key] = props[key];
@@ -467,41 +464,34 @@ class DraftManager extends Component {
             if (updatedLeagueSettings.draftSlot > updatedLeagueSettings.leagueSize) {
                 updatedLeagueSettings.draftSlot = updatedLeagueSettings.leagueSize;
             }
-            // if(this.state.draftType==="auction"){
-            //     if(updatedLeagueSettings.draftSlot !== this.state.currentLeagueSettings.draftSlot || updatedLeagueSettings.leagueSize !== this.state.currentLeagueSettings.leagueSize){
-            //         this.StartAuctionDraft();
-            //     }
-            // }
-            this.setState({
-                currentLeagueSettings: updatedLeagueSettings,
-                teamShown: updatedLeagueSettings.draftSlot
-            }, () => {
-                let updatedDraftSession;
-                let updatedAllTeams;
-                let myNewTeam;
-                let updatedPlayerRanks;
-                if(this.state.draftType==="snake"){
-                    updatedDraftSession = this.state.currentDraftSession;
-                    updatedAllTeams = this.CreateAllTeams(this.state.currentDraftSession.selectedPlayers, this.state.currentLeagueSettings.leagueSize);
-                    myNewTeam = this.CreateMyTeam(updatedAllTeams, this.state.currentLeagueSettings.draftSlot, this.state.currentLeagueSettings.leagueType);
-                    updatedPlayerRanks= this.props.playerRankings;
-                }
-                else{
-                    updatedDraftSession = defaultAuctionSession;
-                    updatedAllTeams = this.CreateInitialAuctionTeams();
-                    myNewTeam = updatedAllTeams[this.state.currentLeagueSettings.draftSlot-1];
-                    updatedPlayerRanks = this.SortPlayerRankings(this.state.playerRankings, this.state.currentLeagueSettings.leagueType);
-                    updatedDraftSession.allTeams = updatedAllTeams;
-                    updatedDraftSession.myPlayers = myNewTeam;
-                    updatedDraftSession.roundPick = this.DetermineRoundPick(this.state.currentDraftSession.currentPick, this.state.currentLeagueSettings.leagueSize);
-                    updatedDraftSession.draftRound = this.DetermineDraftRound(this.state.currentDraftSession.currentPick, this.state.currentLeagueSettings.leagueSize);
-                }       
+            if(this.state.draftType==="snake"){
+                updatedDraftSession = this.state.currentDraftSession;
+                updatedAllTeams = this.CreateAllTeams(updatedDraftSession.selectedPlayers, updatedLeagueSettings.leagueSize);
+                myNewTeam = this.CreateMyTeam(updatedAllTeams, updatedLeagueSettings.draftSlot, updatedLeagueSettings.leagueType);
+                updatedPlayerRanks= this.props.playerRankings;
                 this.setState({
+                    currentLeagueSettings: updatedLeagueSettings,
+                    teamShown: updatedLeagueSettings.draftSlot,
                     currentDraftSession: updatedDraftSession,
-                    currentRankings: updatedPlayerRanks
-                })
+                    currentRankings: updatedPlayerRanks           
             })
         }
+            else{
+                updatedDraftSession = defaultAuctionSession;
+                updatedAllTeams = this.CreateInitialAuctionTeams();
+                myNewTeam = updatedAllTeams[updatedLeagueSettings.draftSlot-1];
+                console.log(myNewTeam);
+                updatedPlayerRanks = this.SortPlayerRankings(this.state.playerRankings, updatedLeagueSettings.leagueType);
+                updatedDraftSession.allTeams = updatedAllTeams;
+                updatedDraftSession.myTeam = myNewTeam;
+                console.log(myNewTeam);
+                console.log(updatedDraftSession);
+                this.setState({
+                    currentLeagueSettings: updatedLeagueSettings,
+                    teamShown: updatedLeagueSettings.draftSlot,
+                    currentDraftSession: updatedDraftSession,
+                    currentRankings: updatedPlayerRanks      
+            })}}
     }
 
     SortPlayerRankings = (playerRankings, leagueType) => {
@@ -635,13 +625,6 @@ class DraftManager extends Component {
                             />
                         </div>
                         <div>
-                            <AllDraftedPlayers
-                                leagueSettings={this.state.currentLeagueSettings}
-                                draftSession={this.state.currentDraftSession}
-                                draftType={this.state.draftType}
-                            />
-                        </div>
-                        <div>
                             {suggestDiv}
                         </div>
                         <div>
@@ -650,6 +633,13 @@ class DraftManager extends Component {
                             currentRankings={this.state.playerRankings}
                             leagueSettings={this.state.currentLeagueSettings}
                             draftSession={this.state.currentDraftSession}
+                            />
+                        </div>
+                        <div>
+                            <AllDraftedPlayers
+                                leagueSettings={this.state.currentLeagueSettings}
+                                draftSession={this.state.currentDraftSession}
+                                draftType={this.state.draftType}
                             />
                         </div>
                     </div>

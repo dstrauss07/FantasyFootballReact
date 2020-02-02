@@ -1,6 +1,31 @@
+*
+{
+  list-style: none;
+}
+
 .biddingGrid
 {
 display:grid;
 grid-template-columns: 1fr 1fr 1fr;
 background-color: cyan;
+}
+
+.primaryDiv
+{
+background-color:red;
+}
+
+.secondDiv
+{
+background-color:white;
+}
+
+.benchDiv
+{
+  background-color:blue;
+}
+
+.hide
+{
+  display:none
 }

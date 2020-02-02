@@ -7,7 +7,7 @@ max-width:100%;
 .draftedPlayers
 {
   display:grid;
-  grid-template-columns: 13% 18% 18% 40%;
+  grid-template-columns: 20% 20% 40% 20%;
 }
 
 .draftTypeDiv

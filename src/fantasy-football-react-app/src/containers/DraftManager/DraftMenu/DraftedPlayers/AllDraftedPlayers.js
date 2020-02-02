@@ -75,7 +75,6 @@ const AllDraftedPlayers = (props) => {
             let teamSelected;        
             for(let j = 0; j< allTeams.length; j++){
                 let draftedPlayersByTeam = allTeams[j].draftedPlayer;
-                console.log(draftedPlayersByTeam);
                 if(draftedPlayersByTeam.some(element => element.playerToRank.playerName === playerDraftedName)){
                     teamSelected = allTeams[j].name;
                 }

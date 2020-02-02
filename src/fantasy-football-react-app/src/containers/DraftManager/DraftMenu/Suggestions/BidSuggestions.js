@@ -114,11 +114,14 @@ const BidSuggestions = (props) => {
             selectedPlayerName = selectedPlayer.playerToRank.playerName;
             winningBid= selectedPlayer.winningBid;
             } 
-          }
+          }        
         }
         let playerSuggestedBid = GetSuggestedValue(player, i);
-        let p = <li className={Classes.playerLi}>{player}{i} <span className={bidSuggestionSpan}> - ${playerSuggestedBid}  - 
-        {selectedPlayerName} {winningBid}
+        if(winningBid !==undefined && winningBid != "")
+        {
+          playerSuggestedBid=<span className={Classes.winningBid}>{winningBid}</span>
+        }
+        let p = <li className={Classes.playerLi}>{player}{i} <span className={bidSuggestionSpan}> - ${playerSuggestedBid} {selectedPlayerName}
         </span></li>
         playerArray.push(p);
       }

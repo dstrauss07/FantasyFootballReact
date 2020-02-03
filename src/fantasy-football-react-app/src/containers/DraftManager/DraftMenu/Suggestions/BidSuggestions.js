@@ -31,12 +31,9 @@ const BidSuggestions = (props) => {
   let myTeamGroups = [];
   let bidSuggestionSpan;
 
-
-
   if (props.draftType === "snake") {
     myTeamGroups = CreateMyTeamGroups(props.draftSession.myTeam);
     bidSuggestionSpan = Classes.hide;
-
   }
   else {
     if (props.draftSession.myTeam !== null && props.draftSession.myTeam !== undefined) {
@@ -116,13 +113,17 @@ const BidSuggestions = (props) => {
             } 
           }        
         }
+
+
+
+
         let playerSuggestedBid = GetSuggestedValue(player, i);
         if(winningBid !==undefined && winningBid != "")
         {
           playerSuggestedBid=<span className={Classes.winningBid}>{winningBid}</span>
         }
-        let p = <li className={Classes.playerLi}>{player}{i} <span className={bidSuggestionSpan}> - ${playerSuggestedBid} {selectedPlayerName}
-        </span></li>
+        let p = <li className={Classes.playerLi}>{player}{i} <span className={bidSuggestionSpan}> - ${playerSuggestedBid}  </span>{selectedPlayerName}
+       </li>
         playerArray.push(p);
       }
     }

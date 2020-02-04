@@ -67,24 +67,6 @@ const BidSuggestions = (props) => {
     }
   }
 
-  const SortMyTeamGroup = (myTeamGroup) =>{
-    let myTeamGroupToReturn;
-    if(props.leagueSettings.leagueType === "standard")
-    {
-      myTeamGroupToReturn = myTeamGroup.sort(function(a,b){return a.playerRanking.playerRank - b.playerRanking.playerRank})
-    }
-    if(props.leagueSettings.leagueType === "ppr")
-    {
-      myTeamGroupToReturn = myTeamGroup.sort(function(a,b){return a.playerRanking.playerRank - b.playerRanking.playerRank})
-    }
-    if(props.leagueSettings.leagueType === "dynasty")
-    {
-      myTeamGroupToReturn = myTeamGroup.sort(function(a,b){return a.playerRanking.playerRank - b.playerRanking.playerRank})
-    }
-    return myTeamGroupToReturn;
-
-  }
-
 
   const CreatePlayerDiv = (player, startingNum) => {
     let playerArray = [];
@@ -93,9 +75,22 @@ const BidSuggestions = (props) => {
         let selectedPlayer = "";
         let selectedPlayerName = "";
         let winningBid = "";
-        let myTeamGroup = GetMyTeamGroup(player);
-        console.log(player + i);
-        console.log(myTeamGroup);
+        let flexPlayers,
+        sFlexPlayers,
+        benchPlayers;
+        let myTeamGroup;
+
+        if(player==="FLEX"){
+          myTeamGroup = GetFlexPlayers();
+          console.log(myTeamGroup);
+        }
+        else if(player==="SFLEX"){
+          myTeamGroup = GetSFlexPlayers();
+          console.log(myTeamGroup);
+        }
+        else{
+          myTeamGroup = GetMyTeamGroup(player);
+        }
         if(myTeamGroup !== undefined && myTeamGroup !== null)
         {
           if(myTeamGroup.length > 1)
@@ -104,21 +99,18 @@ const BidSuggestions = (props) => {
           }
           if(myTeamGroup.length>0 && i<=myTeamGroup.length)
           {
-            console.log(myTeamGroup);
             selectedPlayer = myTeamGroup[i-1];
-            console.log(selectedPlayer);
             if(selectedPlayer!==undefined && selectedPlayer!==null){
             selectedPlayerName = selectedPlayer.playerToRank.playerName;
             winningBid= selectedPlayer.winningBid;
             } 
-          }        
+          }    
+          console.log(player + startingNum);
+
+
         }
-
-
-
-
         let playerSuggestedBid = GetSuggestedValue(player, i);
-        if(winningBid !==undefined && winningBid != "")
+        if(winningBid !==undefined && winningBid !== "")
         {
           playerSuggestedBid=<span className={Classes.winningBid}>{winningBid}</span>
         }
@@ -134,6 +126,86 @@ const BidSuggestions = (props) => {
     return playerDiv;
   }
 
+  const GetFlexPlayers =()=>{
+    let flexPlayers = [];
+    if(myTeamGroups.myRbs!== undefined && myTeamGroups.myRbs!== null &&  myTeamGroups.myRbs.length > startingRb){
+      let extraRbs = myTeamGroups.myRbs.slice(startingRb);
+      flexPlayers.push(...extraRbs);
+    }
+    if(myTeamGroups.myWrs!== undefined && myTeamGroups.myWrs!== null &&  myTeamGroups.myWrs.length > startingWr){
+      let extraWrs = myTeamGroups.myWrs.slice(startingWr);
+      flexPlayers.push(...extraWrs);
+    }
+    if(myTeamGroups.myTes!== undefined && myTeamGroups.myTes!== null &&  myTeamGroups.myTes.length > startingTe){
+      let extraTes = myTeamGroups.myTes.slice(startingTe);
+      flexPlayers.push(...extraTes);
+    }
+    return flexPlayers;
+  }
+
+  const GetSFlexPlayers =()=>{
+    let sflexPlayers = GetFlexPlayers().slice(startingFlex);
+    if(myTeamGroups.myQbs!== undefined && myTeamGroups.myQbs!== null &&  myTeamGroups.myQbs.length > startingQb){
+      let extraQbs = myTeamGroups.myQbs.slice(startingQb);
+      sflexPlayers.push(...extraQbs);
+    }
+    sflexPlayers = SortMyTeamGroup(sflexPlayers);
+    console.log(sflexPlayers);
+    return sflexPlayers;
+  }
+
+
+  const CreateBenchDiv = (benchTotal) => {
+    let benchArray = [];
+
+    
+    let benchPlayers = GetSFlexPlayers().slice(startingSFlex);
+    console.log(benchPlayers);
+    let benchPlayer = "";
+    let benchPlayerName ="";
+
+    let benchBid;
+    if (benchNum > 6) {
+      benchTotal += 6 - benchNum
+    }
+    for (let j = 1; j <= benchNum; j++) {
+      if (j === 1) {
+        benchBid = parseInt(benchTotal / 3);
+      }
+      else if (j === 2) {
+
+        benchBid = parseInt(benchTotal / 4);
+      }
+      else if (j === 3) {
+
+        benchBid = parseInt(benchTotal / 6);
+      }
+      else if (j > 3 && j < 7) {
+
+        benchBid = parseInt(benchTotal / 12);;
+      }
+      else {
+        benchBid = 1
+      }
+
+      if(benchPlayers !== undefined  && benchPlayers !== null && j<=benchPlayers.length){
+        benchPlayer = benchPlayers[j-1];
+        benchPlayerName = benchPlayer.playerToRank.playerName;
+        benchBid = benchPlayer.winningBid;
+      }
+      else{
+        benchPlayer = "";
+        benchPlayerName = "";
+      }
+
+      let p = <li className={Classes.playerLi}>Bench <span className={bidSuggestionSpan}> - ${benchBid}  </span>{benchPlayerName}
+      </li>
+      benchArray.push(p);
+    }
+    let benchDivToReturn = React.createElement(
+      'ul', { className: Classes.playerList }, React.createElement('li', { id: 'li1' }, benchArray));
+    return benchDivToReturn;
+  }
 
   let totalBidSuggestion = 0;
   const GetSuggestedValue = (playerPos, posNum) => {
@@ -259,38 +331,22 @@ const BidSuggestions = (props) => {
         }
     }
   }
-  const CreateBenchDiv = (benchTotal) => {
-    let benchArray = [];
-    let benchBid;
-    if (benchNum > 6) {
-      benchTotal += 6 - benchNum
+
+  const SortMyTeamGroup = (myTeamGroup) =>{
+    let myTeamGroupToReturn;
+    if(props.leagueSettings.leagueType === "standard")
+    {
+      myTeamGroupToReturn = myTeamGroup.sort(function(a,b){return a.playerRanking.playerRank - b.playerRanking.playerRank})
     }
-    for (let j = 1; j <= benchNum; j++) {
-      if (j === 1) {
-
-        benchBid = parseInt(benchTotal / 3);
-      }
-      else if (j === 2) {
-
-        benchBid = parseInt(benchTotal / 4);
-      }
-      else if (j === 3) {
-
-        benchBid = parseInt(benchTotal / 6);
-      }
-      else if (j > 3 && j < 7) {
-
-        benchBid = parseInt(benchTotal / 12);;
-      }
-      else {
-        benchBid = 1
-      }
-      let p = <li className={Classes.playerLi}>Bench <span className={bidSuggestionSpan}>- ${benchBid} </span></li>
-      benchArray.push(p);
+    if(props.leagueSettings.leagueType === "ppr")
+    {
+      myTeamGroupToReturn = myTeamGroup.sort(function(a,b){return a.playerRanking.playerRank - b.playerRanking.playerRank})
     }
-    let benchDivToReturn = React.createElement(
-      'ul', { className: Classes.playerList }, React.createElement('li', { id: 'li1' }, benchArray));
-    return benchDivToReturn;
+    if(props.leagueSettings.leagueType === "dynasty")
+    {
+      myTeamGroupToReturn = myTeamGroup.sort(function(a,b){return a.playerRanking.playerRank - b.playerRanking.playerRank})
+    }
+    return myTeamGroupToReturn;
   }
 
   if (props.leagueSettings.totalStartingQb > 0) {
@@ -317,7 +373,6 @@ const BidSuggestions = (props) => {
   if (props.leagueSettings.totalStartingSFlex > 0) {
     sflexDiv = CreatePlayerDiv("SFLEX", props.leagueSettings.totalStartingSFlex);
   }
-
   if (benchNum > 0) {
     benchDiv = CreateBenchDiv(remainingBudget * .15);
   }

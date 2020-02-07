@@ -185,6 +185,7 @@ class LoginManager extends Component {
                 <button onClick={() => this.setState({ loginMode: "login" })}>Login</button>
                 <button onClick={() => this.setState({ loginMode: "register" })}>Register</button>
                 {loginReturnDiv}
+                {/* <br/> */}
             </Aux>
         )
     }

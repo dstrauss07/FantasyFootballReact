@@ -6,34 +6,35 @@ import Classes from './RankingManager.module.css';
 import RankingMenu from './RankingMenu/RankingMenu';
 // import { debuggerStatement } from '@babel/types';
 
-const scoringTypes = ["standard", "ppr", "dynasty"];
-const positionFilters = ["ALL", "QB", "RB", "WR", "TE", "DST", "K"]
-const rankUri = 'https://localhost:44385/api/PlayerRanking/'
 
 class RankingManager extends Component {
-
+    scoringTypes = ["standard", "ppr", "dynasty"];
+    positionFilters = ["ALL", "QB", "RB", "WR", "TE", "DST", "K"]
     
     constructor(props) {
         super(props);
         this.state = {
-        scoringType: scoringTypes[0],
-        positionFilter: positionFilters[0],
+        scoringType: this.scoringTypes[0],
+        positionFilter: this.positionFilters[0],
         isChanged: false,
     };
+
+    console.log(props);
 
 }
 
     saveRankingsHandler = () => {
-
+        console.log(this.props);
         let playerRankingsToUpdate = [];
         let currentPlayerRanking;
         let playerRank;
-        if (this.props.currentUser != null) {
+        if (this.props.loggedInUser != null) {
+            console.log("hello");
             for (playerRank in this.props.playerRankings) {
                 currentPlayerRanking = this.props.playerRankings[playerRank];
                 playerRankingsToUpdate.push(currentPlayerRanking);
             }
-            axios.patch(rankUri, playerRankingsToUpdate)
+            axios.patch(this.props.rankUri, playerRankingsToUpdate)
                 .then(response => {
 
                 })
@@ -49,10 +50,10 @@ class RankingManager extends Component {
 
 
     scoringChangeHandler = (scoretype) => {
-        this.setState({ scoringType: scoringTypes[scoretype] })
+        this.setState({ scoringType: this.scoringTypes[scoretype] })
     }
     posChangeHandler = (posfiltertype) => {
-        this.setState({ positionFilter: positionFilters[posfiltertype] })
+        this.setState({ positionFilter: this.positionFilters[posfiltertype] })
     }
 
 
@@ -513,8 +514,6 @@ class RankingManager extends Component {
 
     render() {
 
-        console.log(this.props);
-
         if (this.props.isLoading) {
             console.log("loading");
             return (
@@ -523,7 +522,6 @@ class RankingManager extends Component {
         }
 
         if (!this.props.isLoading) {
-            console.log("loaded");
             return (
                 <Aux>
 

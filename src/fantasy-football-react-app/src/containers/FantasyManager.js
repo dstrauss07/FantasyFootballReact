@@ -7,64 +7,53 @@ import DraftManager from './DraftManager/DraftManager';
 import axios from 'axios';
 
 
-const fantasyModes = ["Ranking", "Draft", "Auction", "Login"];
-const rankUri = 'https://localhost:44385/api/PlayerRanking/';
-
 class FantasyManager extends Component {
 
+    rankUri = 'https://localhost:44385/api/PlayerRanking/';
+    fantasyModes = ["Ranking", "Draft", "Auction", "Login"];
 
-
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-        mode: fantasyModes[0],
-        loginId: null,
-        playerRankings: null,
-        loggedIn: false,
-        isLoading: true,
-        defaultId: 2025
+            mode: this.fantasyModes[0],
+            loginId: null,
+            playerRankings: null,
+            loggedIn: false,
+            isLoading: true,
+            defaultId: 2025
+        }
+        this.pullRankingsFromApi();
     }
-    this.pullRankingsFromApi();
-}
 
     pullRankingsFromApi = () => {
-        if (this.state.loginId != null) {
-            axios.get(rankUri + this.state.loginId.testUserProfileId)
+        if (!this.state.loginId) {
+            console.log("not logged In")
+            axios.get(this.rankUri + this.state.defaultId)
                 .then(response => {
                     console.log(response);
-                    this.setState((state, props)=>{
-                        return{
+                    this.setState((state, props) => {
+                        return {
                             playerRankings: response.data,
                             isLoading: false
-                        }
-                    })
-                })
+                        }})})
         }
         else {
-            axios.get(rankUri + this.state.defaultId)
+            console.log("logged in");
+            axios.get(this.rankUri + this.state.loginId.testUserProfileId)
                 .then(response => {
                     console.log(response);
-                    this.setState((state, props)=>{
-                        return{
+                    this.setState((state, props) => {
+                        return {
                             playerRankings: response.data,
                             isLoading: false
-                        }
-                    })
-                })
-        }
+                        }})})}
     }
 
-
-
-    CurrentModeChangeHandler = (modeSetNumber) => {
-        console.log("CurrentModeChangeHandler");
-        this.setState({ mode: fantasyModes[modeSetNumber] })
+    currentModeChangeHandler = (modeSetNumber) => {
+        this.setState({ mode: this.fantasyModes[modeSetNumber] })
     }
 
-
-
-    HandleLoggedInToggler = () => {
-        console.log("handleLoggedIn");
+    loginToggler = () => {
         if (this.state.loggedIn) {
             this.setState({
                 loggedIn: false,
@@ -73,40 +62,45 @@ class FantasyManager extends Component {
         }
         else {
             this.setState({ loggedIn: true })
-            this.pullRankingsFromApi()
+            this.pullRankingsFromApi();
         }
     }
-        SetLoginId = (currentLogin) =>
+
+    setLoginId = (currentLogin) =>{
+        console.log(currentLogin);
         this.setState({ loginId: currentLogin });
+
+    }
 
     render() {
         const currentMode = this.state.mode;
-        if (currentMode === fantasyModes[0]) {
+        if (currentMode === this.fantasyModes[0]) {
             return (
                 <Aux>
                     <ControlMenu
                         currentMode={currentMode}
-                        clickOptions={this.CurrentModeChangeHandler}
+                        clickOptions={this.currentModeChangeHandler}
                         currentUser={this.state.loginId}
-                        loggedInHandler={this.HandleLoggedInToggler}
+                        loggedInHandler={this.loginToggler}
                     />
                     <RankingManager
                         loggedInUser={this.state.loginId}
                         playerRankings={this.state.playerRankings}
                         loggedIn={this.state.loggedIn}
-                        isLoading={this.state.isLoading} 
-                        goToLogin={this.CurrentModeChangeHandler}/>
+                        isLoading={this.state.isLoading}
+                        goToLogin={this.currentModeChangeHandler}
+                        rankUri= {this.rankUri} />
                 </Aux>
             )
         }
-        if (currentMode === fantasyModes[1]) {
+        if (currentMode === this.fantasyModes[1]) {
             return (
                 <Aux>
                     <ControlMenu
                         currentMode={currentMode}
-                        clickOptions={this.CurrentModeChangeHandler}
+                        clickOptions={this.currentModeChangeHandler}
                         currentUser={this.state.loginId}
-                        loggedInHandler={this.HandleLoggedInToggler}
+                        loggedInHandler={this.loginToggler}
                     />
                     <DraftManager
                         loggedInUser={this.state.loginId}
@@ -117,14 +111,14 @@ class FantasyManager extends Component {
                 </Aux>
             )
         }
-        if (currentMode === fantasyModes[2]) {
+        if (currentMode === this.fantasyModes[2]) {
             return (
                 <Aux>
                     <ControlMenu
                         currentMode={currentMode}
-                        clickOptions={this.CurrentModeChangeHandler}
+                        clickOptions={this.currentModeChangeHandler}
                         currentUser={this.state.loginId}
-                        loggedInHandler={this.HandleLoggedInToggler}
+                        loggedInHandler={this.loginToggler}
                     />
                     <DraftManager
                         loggedInUser={this.state.loginId}
@@ -135,20 +129,20 @@ class FantasyManager extends Component {
                 </Aux>
             )
         }
-        if (currentMode === fantasyModes[3]) {
+        if (currentMode === this.fantasyModes[3]) {
             return (
                 <Aux>
                     <ControlMenu
                         currentMode={currentMode}
-                        clickOptions={this.CurrentModeChangeHandler}
+                        clickOptions={this.currentModeChangeHandler}
                         currentUser={this.state.loginId}
-                        loggedInHandler={this.HandleLoggedInToggler}
+                        loggedInHandler={this.loginToggler}
                     />
                     <LoginManager
-                        clickLogin={this.SetLoginId}
-                        loggedInHandler={this.HandleLoggedInToggler}
-                        changeMode={this.CurrentModeChangeHandler} 
-                        />
+                        clickLogin={this.setLoginId}
+                        loggedInHandler={this.loginToggler}
+                        changeMode={this.currentModeChangeHandler}
+                    />
                 </Aux>
             )
         }

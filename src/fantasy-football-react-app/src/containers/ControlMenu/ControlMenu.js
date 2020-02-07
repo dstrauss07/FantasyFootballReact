@@ -9,7 +9,6 @@ const ControlMenu = (props) => {
 
     if(props.currentUser != null)
     {
-        console.log("logged in");
         loginClass = Classes.hide;
         logoutClass = Classes.show;
         userName=  props.currentUser.name;
@@ -35,7 +34,7 @@ const ControlMenu = (props) => {
             </div>
             <div className={Classes.modeButtons}>
                 <button className={Classes.modeButton} onClick={()=>props.clickOptions(0)}>Rankings</button>
-                <button className={Classes.modeButton} onClick={()=>props.clickOptions(1)}>Draft</button>
+                <button className={Classes.modeButton} onClick={()=>props.clickOptions(1)}>Snake</button>
                 <button className={Classes.modeButton} onClick={()=>props.clickOptions(2)}>Auction</button>
             </div>
             </div>

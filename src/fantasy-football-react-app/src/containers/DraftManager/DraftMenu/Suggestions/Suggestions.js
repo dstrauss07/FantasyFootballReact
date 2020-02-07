@@ -10,7 +10,6 @@ const Suggestions = (props) => {
     let draftRound = props.draftSession.draftRound;
     let myTeamGroups = CreateMyTeamGroups(props.draftSession.myTeam);
     let remainingPlayers = CreateRemainingPlayerGroups( props.currentRankings,props.draftSession.selectedPlayers);
-
   
     if (draftRound < 2) {
       draftDiv = <div>Draft the Best Player Available</div>
@@ -26,6 +25,7 @@ const Suggestions = (props) => {
         draftDiv = <div>Draft the Best Player</div>
       }
     }
+
   
     return (
       <Aux>
@@ -40,6 +40,7 @@ const Suggestions = (props) => {
           playersRemaining={remainingPlayers[0]}
           remainingGroups = {remainingPlayers[1]}
           myTeamGroups = {myTeamGroups}
+          buttonDisabled={props.buttonDisabled}
         />
       </Aux>
     )

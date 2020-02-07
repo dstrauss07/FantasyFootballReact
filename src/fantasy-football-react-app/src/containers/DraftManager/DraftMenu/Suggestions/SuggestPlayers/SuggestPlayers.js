@@ -72,11 +72,36 @@ const SuggestPlayers = (props) => {
   }
 
 
+  if(props.buttonDisabled){
+    return (
+      <Aux>
+        <div className={Classes.suggestPlayerDiv}>
+          <div>
+            <button>{suggestPlayer1.playerToRank.playerName}</button>
+            {suggestText1}
+          </div>
+          <div>
+          <button>{suggestPlayer2.playerToRank.playerName}</button>
+          {suggestText2}
+          </div>
+          <div>
+          <button>{suggestPlayer3.playerToRank.playerName}</button>
+          {suggestText3}
+          </div>
+  
+        </div>
+  
+      </Aux>
+    )
+  }
+  else{
 
+  }
   return (
     <Aux>
       <div className={Classes.suggestPlayerDiv}>
         <div>
+
           <button onClick={() => { props.clicked(suggestPlayer1) }}>{suggestPlayer1.playerToRank.playerName}</button>
           {suggestText1}
         </div>

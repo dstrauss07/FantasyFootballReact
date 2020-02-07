@@ -156,14 +156,10 @@ const BidSuggestions = (props) => {
 
 
   const CreateBenchDiv = (benchTotal) => {
-    let benchArray = [];
-
-    
+    let benchArray = [];   
     let benchPlayers = GetSFlexPlayers().slice(startingSFlex);
-    console.log(benchPlayers);
     let benchPlayer = "";
     let benchPlayerName ="";
-
     let benchBid;
     if (benchNum > 6) {
       benchTotal += 6 - benchNum
@@ -204,6 +200,7 @@ const BidSuggestions = (props) => {
     }
     let benchDivToReturn = React.createElement(
       'ul', { className: Classes.playerList }, React.createElement('li', { id: 'li1' }, benchArray));
+
     return benchDivToReturn;
   }
 
@@ -375,6 +372,7 @@ const BidSuggestions = (props) => {
   }
   if (benchNum > 0) {
     benchDiv = CreateBenchDiv(remainingBudget * .15);
+    console.log(benchDiv);
   }
 
   return (

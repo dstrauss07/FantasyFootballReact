@@ -12,33 +12,25 @@ const rankUri = 'https://localhost:44385/api/PlayerRanking/'
 
 class RankingManager extends Component {
 
-    state = {
+    
+    constructor(props) {
+        super(props);
+        this.state = {
         scoringType: scoringTypes[0],
         positionFilter: positionFilters[0],
-        playerRankings: this.props.playerRankings,
-        isLoading: this.props.isLoading,
         isChanged: false,
-        currentUser: this.props.loggedInUser,
     };
 
-
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            playerRankings: nextProps.playerRankings,
-            currentUser: nextProps.loggedInUser,
-            isLoading: nextProps.isLoading
-        });
-    }
+}
 
     saveRankingsHandler = () => {
 
         let playerRankingsToUpdate = [];
         let currentPlayerRanking;
         let playerRank;
-        if (this.state.currentUser != null) {
-            for (playerRank in this.state.playerRankings) {
-                currentPlayerRanking = this.state.playerRankings[playerRank];
+        if (this.props.currentUser != null) {
+            for (playerRank in this.props.playerRankings) {
+                currentPlayerRanking = this.props.playerRankings[playerRank];
                 playerRankingsToUpdate.push(currentPlayerRanking);
             }
             axios.patch(rankUri, playerRankingsToUpdate)
@@ -65,13 +57,13 @@ class RankingManager extends Component {
 
 
     movePlayerClickedHandler = (playerId, dir, top, bottom) => {
-        let playerToChange = this.state.playerRankings.filter(player => player.playerToRank.playerId === playerId);
+        let playerToChange = this.props.playerRankings.filter(player => player.playerToRank.playerId === playerId);
         let initialRanks;
         let otherPlayerToChange;
         let otherPlayersToChange;
         let otherPlayersRanks;
-        let allPlayers = this.state.playerRankings;
-        let allPlayersInPos = this.state.playerRankings.filter(player => player.playerToRank.playerPos === this.state.positionFilter);
+        let allPlayers = this.props.playerRankings;
+        let allPlayersInPos = this.props.playerRankings.filter(player => player.playerToRank.playerPos === this.state.positionFilter);
         switch (this.state.scoringType) {
             case "standard":
                 initialRanks = [playerToChange[0].playerRanking.playerRank, playerToChange[0].playerRanking.posRank];
@@ -521,13 +513,17 @@ class RankingManager extends Component {
 
     render() {
 
-        if (this.state.isLoading) {
+        console.log(this.props);
+
+        if (this.props.isLoading) {
+            console.log("loading");
             return (
                 <h3>Loading...</h3>
             )
         }
 
-        if (!this.state.isLoading) {
+        if (!this.props.isLoading) {
+            console.log("loaded");
             return (
                 <Aux>
 
@@ -549,7 +545,7 @@ class RankingManager extends Component {
                         <hr className={Classes.divider}></hr>
                         <div className={Classes.playerRankingArea}>
                             <Players
-                                playersToRank={this.state.playerRankings}
+                                playersToRank={this.props.playerRankings}
                                 playerScoringType={this.state.scoringType}
                                 playerPositionFilter={this.state.positionFilter}
                                 movePlayerClicked={this.movePlayerClickedHandler}

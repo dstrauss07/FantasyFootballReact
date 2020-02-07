@@ -9,10 +9,8 @@ let loginReturnDiv;
 const loginUri = 'https://localhost:44385/api/ProfileUser/'
 
 class LoginManager extends Component {
-
-
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.UserLoginHandler = this.UserLoginHandler.bind(this);
         this.state = {
             loginMode: "login",
@@ -34,9 +32,11 @@ class LoginManager extends Component {
                 let data = response.data;
                 if (response.data !== "") {
                     if (response.data.userPassword === this.state.UserPassword) {
-                        this.setState({
-                            UserId: data.testUserProfileId,
-                            UserName: data.name,
+                        this.setState((state,props)=>{
+                            return{
+                                UserId: data.testUserProfileId,
+                                UserName: data.name
+                            }
                         })
                         this.props.clickLogin(data);
                         this.props.loggedInHandler();
@@ -48,7 +48,7 @@ class LoginManager extends Component {
                 }
                 else {
                     alert("email not found");
-                    this.setState({ loginMode: "register" })
+                    this.setState((state,props)=>{ return{loginMode: "register" }})
                 }
 
             })
@@ -65,9 +65,12 @@ class LoginManager extends Component {
                     console.log(data)
                     if (response.data !== "") {
                         if (response.data.userPassword === this.state.UserPassword) {
-                            this.setState({
-                                UserId: data.testUserProfileId,
-                                UserName: data.name,
+                            this.setState((state,props)=>{
+                                return{
+                                    UserId: data.testUserProfileId,
+                                    UserName: data.name,
+                                }
+
                             })
                             this.props.clickLogin(data);
                             this.props.loggedInHandler();
@@ -79,7 +82,7 @@ class LoginManager extends Component {
                     }
                     else {
                         alert("something went wrong!");
-                        this.setState({ loginMode: "register" })
+                        this.setState((state,props)=>{return{ loginMode: "register" }})
                     }
                 })
         }
@@ -113,7 +116,7 @@ class LoginManager extends Component {
     render() {
         if (this.state.loginMode === "login") {
             loginReturnDiv = <div className={Classes.loginBox}><div>
-                <h3 className={Classes.red}>Login!</h3>
+                <h3 className={Classes.red}>Login</h3>
                 <form className={Classes.loginForm}>
                     <label htmlFor="UserEmail">Email Address: </label>
                     <input type="email"

@@ -3,14 +3,24 @@ import Player from './Player/Player'
 
 const players = (props) => {
 
+    console.log(props);
+
     const inheritedPlayers = props.playersToRank;
     let allPlayers = [];
     let playerToAdd;
     let playerCount;
 
+    
+
     if(props.playerPositionFilter === "ALL")
     {
-        playerCount = inheritedPlayers.length;
+        if(props.playersToRank){
+            playerCount = props.playersToRank.length;
+        }
+        else{
+            playerCount = 0;
+        }
+
     }
 
     else

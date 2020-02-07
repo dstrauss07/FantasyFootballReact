@@ -14,88 +14,72 @@ import AuctionSuggestions from './DraftMenu/Suggestions/AuctionSuggestions';
 import BidSuggestions from './DraftMenu/Suggestions/BidSuggestions';
 
 
-const leagueTypes = ["standard", "ppr", "dynasty"]
-//Defaults
-const defaultDraftSettings = {
-    leagueSize: 12,
-    draftSlot: 3,
-    totalStartingQb: 1,
-    totalStartingRb: 1,
-    totalStartingWr: 1,
-    totalStartingTe: 1,
-    totalStartingFlex: 1,
-    totalStartingSFlex: 0,
-    totalStartingD: 1,
-    totalStartingK: 1,
-    totalPlayer: 10,
-    leagueType: leagueTypes[0]
-}
-const defaultDraftSession = {
-    selectedPlayers: [],
-    allTeams: [],
-    myTeam: [],
-    draftComplete: false,
-    currentPick: 1,
-    draftRound: 1,
-    roundPick: 1
-}
-const defaultAuctionSession = {
-    selectedPlayers: [],
-    allTeams: [],
-    myTeam: [],
-    draftComplete: false,
-    currentPick: 1,
-    draftRound: 1,
-    roundPick: 1,
-    remainingBudget: 200
-}
-const defaultAuctionSettings = {
-    startingBudget: 200,
-    leagueSize: 12,
-    draftSlot: 3,
-    totalStartingQb: 1,
-    totalStartingRb: 2,
-    totalStartingWr: 3,
-    totalStartingTe: 1,
-    totalStartingFlex: 1,
-    totalStartingSFlex: 0,
-    totalStartingD: 1,
-    totalStartingK: 1,
-    totalPlayer: 16,
-    leagueType: leagueTypes[0]
-}
-let confirmClass = Classes.hide;
-let mainClass = Classes.show;
 
 class DraftManager extends Component {
 
-    state = {
-        playerRankings: this.props.playerRankings,
-        isLoading: this.props.isLoading,
-        currentUser: this.props.loggedInUser,
-        currentLeagueSettings: defaultDraftSettings,
-        currentDraftSession: null,
-        settingsOpen: true,
-        sessionStarted: false,
-        playersFiltered: false,
-        teamShown: defaultDraftSettings.draftSlot,
-        draftType: this.props.draftType,
-        confirmMode: false,
-        playerOnAuction:null,
-        currentBid:1,
-        teamBidding:0
+    leagueTypes = ["standard", "ppr", "dynasty"]
+    //Defaults
+    defaultDraftSettings = {
+        leagueSize: 12,
+        draftSlot: 3,
+        totalStartingQb: 1,
+        totalStartingRb: 1,
+        totalStartingWr: 1,
+        totalStartingTe: 1,
+        totalStartingFlex: 1,
+        totalStartingSFlex: 0,
+        totalStartingD: 1,
+        totalStartingK: 1,
+        totalPlayer: 10,
+        leagueType: this.leagueTypes[0]
     }
+    defaultDraftSession = {
+        selectedPlayers: [],
+        allTeams: [],
+        myTeam: [],
+        draftComplete: false,
+        currentPick: 1,
+        draftRound: 1,
+        roundPick: 1
+    }
+    defaultAuctionSession = {
+        selectedPlayers: [],
+        allTeams: [],
+        myTeam: [],
+        draftComplete: false,
+        currentPick: 1,
+        draftRound: 1,
+        roundPick: 1,
+        remainingBudget: 200
+    }
+    defaultAuctionSettings = {
+        startingBudget: 200,
+        leagueSize: 12,
+        draftSlot: 3,
+        totalStartingQb: 1,
+        totalStartingRb: 2,
+        totalStartingWr: 3,
+        totalStartingTe: 1,
+        totalStartingFlex: 1,
+        totalStartingSFlex: 0,
+        totalStartingD: 1,
+        totalStartingK: 1,
+        totalPlayer: 16,
+        leagueType: this.leagueTypes[0]
+    }
+    confirmClass = Classes.hide;
+    mainClass = Classes.show;
 
-    /* Life Cycle Events */
-    componentWillMount = () => {
-
+    constructor(props){
+        super(props);
         if (this.props.draftType === "snake") {
             this.StartSnakeDraft();
-        }
+    }
         else if (this.props.draftType === "auction") {
             this.StartAuctionDraft();
-        }
+        }       
     }
+
 
     componentWillReceiveProps = (newProps) => {
         if (newProps.draftType !== this.props.draftType) {
@@ -104,7 +88,8 @@ class DraftManager extends Component {
             })
         }
         if (newProps.draftType === "snake") {
-            this.StartSnakeDraft()
+            console.log("start snake");
+            this.StartSnakeDraft();
         }
         else if (newProps.draftType === "auction") {
             this.StartAuctionDraft();
@@ -113,47 +98,52 @@ class DraftManager extends Component {
 
     componentWillUpdate = (nextProps, nextState) => {
         if (nextState.confirmMode) {
-            mainClass = Classes.hide;
-            confirmClass = Classes.show;
+            this.mainClass = Classes.hide;
+            this.confirmClass = Classes.show;
         }
         else {
-            confirmClass = Classes.hide;
-            mainClass = Classes.show;
+            this.confirmClass = Classes.hide;
+            this.mainClass = Classes.show;
         }
 
     }
 
     StartAuctionDraft = () =>{
-        let playerRankingsWithValues = DetermineDraftValues(this.props.playerRankings,defaultAuctionSettings,this.props.draftType);
-        this.setState({
-            currentLeagueSettings: defaultAuctionSettings,
-            currentDraftSession: defaultAuctionSession,
-            playerRankings:playerRankingsWithValues
-        },   () =>{
-            let initialAllTeams = this.CreateInitialAuctionTeams();
-            let initialMyTeam = initialAllTeams[this.state.currentLeagueSettings.draftSlot-1];
-            this.setState({
-                currentDraftSession:{
-                    selectedPlayers: [],
-                    allTeams: initialAllTeams,
-                    myTeam: initialMyTeam,
-                    draftComplete: false,
-                    currentPick: 1,
-                    draftRound: 1,
-                    roundPick: 1}})})   
-    }
-
+        let playerRankingsWithValues = DetermineDraftValues(this.props.playerRankings,this.defaultAuctionSettings,this.props.draftType);
+        let initialAuctionSession = this.defaultAuctionSession;
+        let initialAllTeams = this.CreateInitialAuctionTeams(this.defaultAuctionSettings);
+        let initialMyTeam = initialAllTeams[this.defaultAuctionSettings.draftSlot-1];
+        initialAuctionSession.myTeam = initialMyTeam;
+        initialAuctionSession.allTeams = initialAllTeams;
+        this.state = {
+            currentLeagueSettings: this.defaultAuctionSettings,
+            currentDraftSession: initialAuctionSession,
+            settingsOpen: true,
+            playersFiltered: false,
+            teamShown: this.defaultAuctionSettings.draftSlot,
+            confirmMode: false,
+            playerOnAuction:null,
+            currentBid:1,
+            teamBidding:0,
+            playerRankingsWithValues:playerRankingsWithValues
+        }
+    }      
+    
 
     StartSnakeDraft = () =>{
-        this.setState({
-            currentLeagueSettings: defaultDraftSettings,
-            currentDraftSession: defaultDraftSession,
-        })
+        this.state = {
+            currentLeagueSettings: this.defaultDraftSettings,
+            currentDraftSession: this.defaultDraftSession,
+            settingsOpen: true,
+            playersFiltered: false,
+            teamShown: this.defaultDraftSettings.draftSlot,
+            confirmMode: false,
+            playerOnAuction:null,
+            currentBid:1,
+            teamBidding:0
+        }
     }
-
-
     //PLAYER SELECTION//
-
 
     PlayerSelected = (event) => {
         const prevMyTeamLength = this.state.currentDraftSession.myTeam.length;
@@ -205,8 +195,8 @@ class DraftManager extends Component {
     }
 
     ConfirmDraftPick = (reject) => {
-        mainClass = Classes.show;
-        confirmClass = Classes.hide;
+        this.mainClass = Classes.show;
+        this.confirmClass = Classes.hide;
         if (this.props.draftType === "snake") {
             if (reject) {
                 this.setState({ confirmMode: false },
@@ -269,7 +259,7 @@ class DraftManager extends Component {
 
     RevertPick = () => {
         let currentDraftedGroup = this.state.currentDraftSession.selectedPlayers;
-        if (this.state.draftType === "snake") {
+        if (this.props.draftType === "snake") {
             currentDraftedGroup.pop();
             let newPickNum = this.state.currentDraftSession.currentPick - 1;
             let newRoundPick = this.DetermineRoundPick(newPickNum, this.state.currentLeagueSettings.leagueSize);
@@ -288,7 +278,7 @@ class DraftManager extends Component {
                 }
             });
         }
-        else if(this.state.draftType === "auction") {
+        else if(this.props.draftType === "auction") {
                 let playerToRemove = currentDraftedGroup.pop();
                 let playersSelected = [...this.state.currentDraftSession.selectedPlayers]; 
                 let allTeamsUpdated = this.RemoveAuctionedPlayer(this.state.currentDraftSession.allTeams,playerToRemove);
@@ -365,20 +355,20 @@ class DraftManager extends Component {
         return allTeamsUpdate;
     }
 
-    CreateInitialAuctionTeams = () => {
+    CreateInitialAuctionTeams = (auctionSettings) => {
         let allTeamsUpdate = [];
-        for (let i = 0; i < this.state.currentLeagueSettings.leagueSize; i++) {
+        for (let i = 0; i < auctionSettings.leagueSize; i++) {
             let playNum = i + 1;
-            if(playNum === this.state.currentLeagueSettings.draftSlot){
+            if(playNum === auctionSettings.draftSlot){
                 allTeamsUpdate[i] =
                 {
-                    name: 'Your Team', draftedPlayer: [], budgetRemaining: this.state.currentLeagueSettings.startingBudget
+                    name: 'Your Team', draftedPlayer: [], budgetRemaining: auctionSettings.startingBudget
                 }
             }
             else{
                 allTeamsUpdate[i] =
                 {
-                    name: 'Team ' + playNum, draftedPlayer: [], budgetRemaining: this.state.currentLeagueSettings.startingBudget
+                    name: 'Team ' + playNum, draftedPlayer: [], budgetRemaining: auctionSettings.startingBudget
                 }
             }
 
@@ -388,7 +378,7 @@ class DraftManager extends Component {
 
     CreateMyTeam = (allTeams, draftSlot, leagueType) => {
         let returnMyTeam = allTeams[draftSlot - 1].draftedPlayer;
-        if (leagueType === leagueTypes[0]) {
+        if (leagueType === this.leagueTypes[0]) {
             returnMyTeam.sort(function (a, b) {
                 if (a.playerRanking.playerRank > b.playerRanking.playerRank) {
                     return 1;
@@ -400,7 +390,7 @@ class DraftManager extends Component {
             });
             return returnMyTeam;
         }
-        if (this.state.currentLeagueSettings.leagueType === leagueTypes[1]) {
+        if (this.state.currentLeagueSettings.leagueType === this.leagueTypes[1]) {
             returnMyTeam.sort(function (a, b) {
                 if (a.playerRanking.pprRank > b.playerRanking.pprRank) {
                     return 1;
@@ -412,7 +402,7 @@ class DraftManager extends Component {
             });
             return returnMyTeam;
         }
-        if (this.state.currentLeagueSettings.leagueType === leagueTypes[2]) {
+        if (this.state.currentLeagueSettings.leagueType === this.leagueTypes[2]) {
             returnMyTeam.sort(function (a, b) {
                 if (a.playerRanking.dynastyRank > b.playerRanking.dynastyRank) {
                     return 1;
@@ -464,7 +454,7 @@ class DraftManager extends Component {
             if (updatedLeagueSettings.draftSlot > updatedLeagueSettings.leagueSize) {
                 updatedLeagueSettings.draftSlot = updatedLeagueSettings.leagueSize;
             }
-            if(this.state.draftType==="snake"){
+            if(this.props.draftType==="snake"){
                 updatedDraftSession = this.state.currentDraftSession;
                 updatedAllTeams = this.CreateAllTeams(updatedDraftSession.selectedPlayers, updatedLeagueSettings.leagueSize);
                 myNewTeam = this.CreateMyTeam(updatedAllTeams, updatedLeagueSettings.draftSlot, updatedLeagueSettings.leagueType);
@@ -477,15 +467,12 @@ class DraftManager extends Component {
             })
         }
             else{
-                updatedDraftSession = defaultAuctionSession;
+                updatedDraftSession = this.defaultAuctionSession;
                 updatedAllTeams = this.CreateInitialAuctionTeams();
                 myNewTeam = updatedAllTeams[updatedLeagueSettings.draftSlot-1];
-                console.log(myNewTeam);
-                updatedPlayerRanks = this.SortPlayerRankings(this.state.playerRankings, updatedLeagueSettings.leagueType);
+                updatedPlayerRanks = this.SortPlayerRankings(this.props.playerRankings, updatedLeagueSettings.leagueType);
                 updatedDraftSession.allTeams = updatedAllTeams;
                 updatedDraftSession.myTeam = myNewTeam;
-                console.log(myNewTeam);
-                console.log(updatedDraftSession);
                 this.setState({
                     currentLeagueSettings: updatedLeagueSettings,
                     teamShown: updatedLeagueSettings.draftSlot,
@@ -565,21 +552,21 @@ class DraftManager extends Component {
         if(this.props.draftType==="snake"){
             suggestDiv =                           
               <Suggestions
-                draftType={this.state.draftType}
-                currentRankings={this.state.playerRankings}
+                draftType={this.props.draftType}
+                currentRankings={this.props.playerRankings}
                 leagueSettings={this.state.currentLeagueSettings}
                 draftSession={this.state.currentDraftSession}
                 playerClicked={this.PlayerSelected}
+                buttonDisabled={this.state.confirmMode}
             /> 
         }
         else{
             suggestDiv = <AuctionSuggestions
-            draftType={this.state.draftType}
-            currentRankings={this.state.playerRankings}
+            draftType={this.props.draftType}
+            currentRankings={this.props.playerRankings}
             leagueSettings={this.state.currentLeagueSettings}
             draftSession={this.state.currentDraftSession}
             playerClicked={this.PlayerSelected}
-            draftType={this.state.draftType}
             />
         }
         return (
@@ -593,7 +580,7 @@ class DraftManager extends Component {
                         settingsOpen={this.state.settingsOpen}
                         toggleSettings={this.ToggleSettingsPanel}
                         draftSession={this.state.currentDraftSession}
-                        draftType={this.state.draftType} />
+                        draftType={this.props.draftType} />
                     <div className={Classes.settingsBar}>
                         <div>
                             <DraftMenu
@@ -602,7 +589,7 @@ class DraftManager extends Component {
                                 clicked={this.UpdateLeagueSettingsHandler}
                                 leagueSettings={this.state.currentLeagueSettings}
                                 draftSession={this.state.currentDraftSession}
-                                draftType={this.state.draftType}
+                                draftType={this.props.draftType}
                             />
                         </div>
                         <div>
@@ -620,7 +607,7 @@ class DraftManager extends Component {
                                 revertPick={this.RevertPick}
                                 teamShown={this.state.teamShown}
                                 onDropdownSelected={this.MyDraftedPlayersDropdown}
-                                draftType={this.state.draftType}
+                                draftType={this.props.draftType}
                                 confirmMode = {this.state.confirmMode}
                             />
                         </div>
@@ -629,8 +616,8 @@ class DraftManager extends Component {
                         </div>
                         <div>
                             <BidSuggestions 
-                            draftType={this.state.draftType}
-                            currentRankings={this.state.playerRankings}
+                            draftType={this.props.draftType}
+                            currentRankings={this.props.playerRankings}
                             leagueSettings={this.state.currentLeagueSettings}
                             draftSession={this.state.currentDraftSession}
                             />
@@ -639,11 +626,11 @@ class DraftManager extends Component {
                             <AllDraftedPlayers
                                 leagueSettings={this.state.currentLeagueSettings}
                                 draftSession={this.state.currentDraftSession}
-                                draftType={this.state.draftType}
+                                draftType={this.props.draftType}
                             />
                         </div>
                     </div>
-                    <div className={confirmClass}>
+                    <div className={this.confirmClass}>
                         <div className={Classes.confirmPickClass}>
                         <ConfirmPick
                             draftSession={this.state.currentDraftSession}
@@ -652,7 +639,7 @@ class DraftManager extends Component {
                             confirmClick={this.ConfirmDraftPick}
                             rejectClick={this.RejectDraftPick}
                             playerOnAuction={this.state.playerOnAuction}
-                            draftType={this.state.draftType}
+                            draftType={this.props.draftType}
                             UpdateTeam = {this.UpdateTeam}
                             UpdateBid = {this.UpdateBid}
                         />
@@ -660,8 +647,8 @@ class DraftManager extends Component {
                         </div>
 
                         <CheatSheet
-                            draftType={this.state.draftType}
-                            currentRankings={this.state.playerRankings}
+                            draftType={this.props.draftType}
+                            currentRankings={this.props.playerRankings}
                             scoringType={this.state.currentLeagueSettings.leagueType}
                             draftSession={this.state.currentDraftSession}
                             playerClicked={this.PlayerSelected}
@@ -671,10 +658,10 @@ class DraftManager extends Component {
                             revertPick={this.RevertPick}
                         />
                     </div>
-                    <div className={mainClass}>
+                    <div className={this.mainClass}>
                         <CheatSheet
-                            draftType={this.state.draftType}
-                            currentRankings={this.state.playerRankings}
+                            draftType={this.props.draftType}
+                            currentRankings={this.props.playerRankings}
                             scoringType={this.state.currentLeagueSettings.leagueType}
                             draftSession={this.state.currentDraftSession}
                             playerClicked={this.PlayerSelected}

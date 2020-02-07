@@ -14,7 +14,9 @@ class FantasyManager extends Component {
 
 
 
-    state = {
+    constructor(props){
+        super(props);
+        this.state = {
         mode: fantasyModes[0],
         loginId: null,
         playerRankings: null,
@@ -22,30 +24,31 @@ class FantasyManager extends Component {
         isLoading: true,
         defaultId: 2025
     }
-
-
-    componentDidMount = () => {
-        this.pullRankingsFromApi();
-    }
+    this.pullRankingsFromApi();
+}
 
     pullRankingsFromApi = () => {
         if (this.state.loginId != null) {
             axios.get(rankUri + this.state.loginId.testUserProfileId)
                 .then(response => {
-                    this.setState({
-                        playerRankings: response.data,
-                        isLoading: false
+                    console.log(response);
+                    this.setState((state, props)=>{
+                        return{
+                            playerRankings: response.data,
+                            isLoading: false
+                        }
                     })
                 })
-
-            console.log(this.state.playerRankings);
         }
         else {
             axios.get(rankUri + this.state.defaultId)
                 .then(response => {
-                    this.setState({
-                        playerRankings: response.data,
-                        isLoading: false
+                    console.log(response);
+                    this.setState((state, props)=>{
+                        return{
+                            playerRankings: response.data,
+                            isLoading: false
+                        }
                     })
                 })
         }
@@ -54,14 +57,15 @@ class FantasyManager extends Component {
 
 
     CurrentModeChangeHandler = (modeSetNumber) => {
+        console.log("CurrentModeChangeHandler");
         this.setState({ mode: fantasyModes[modeSetNumber] })
     }
 
 
 
     HandleLoggedInToggler = () => {
+        console.log("handleLoggedIn");
         if (this.state.loggedIn) {
-            console.log('loggin out');
             this.setState({
                 loggedIn: false,
                 loginId: null
@@ -72,19 +76,11 @@ class FantasyManager extends Component {
             this.pullRankingsFromApi()
         }
     }
-
         SetLoginId = (currentLogin) =>
         this.setState({ loginId: currentLogin });
 
-
-
-
     render() {
-
         const currentMode = this.state.mode;
-
-
-
         if (currentMode === fantasyModes[0]) {
             return (
                 <Aux>
